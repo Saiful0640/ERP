@@ -1,0 +1,79 @@
+<div class="card">
+  <div class="card-header bg-light text-center p-0">
+      <h4>Employee Enrollment</h4>
+  </div>
+  <div class="card-body ">
+    <div class="container">
+      <form [formGroup]="assignCriteriaForm">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-5 mt-3">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4 text-right">{{fstlabelName}}</label>
+                  <div class="col-md-8">
+                    <ng-select formControlName="parentID" [items]="parentDetailsItems" bindLabel="detailsCaption" bindValue="id" (change)="onSelectCriteria(f['parentID'].value)"  placeholder="--Select--"></ng-select>
+                  </div>
+              </div>
+              <div class="form-group row" *ngIf="sndlableName !=null">
+                <label class="col-form-label col-md-4 text-right">{{sndlableName}}</label>
+                <div class="col-md-8">
+                  <ng-select formControlName="underCriteriaID" [items]="subDetailsItems" bindLabel="detailsCaption" bindValue="id" (change)="onSelectSubCriteria(f['underCriteriaID'].value)"  placeholder="--Select--"></ng-select>
+                </div>
+            </div>
+            <div class="form-group row" *ngIf="thrdlableName !=null">
+              <label class="col-form-label col-md-4 text-right">{{thrdlableName}}</label>
+              <div class="col-md-8">
+                <ng-select formControlName="detailsID" [items]="superSubDetailsItems" bindLabel="detailsCaption" bindValue="id" (change)="onSelectSupSubCriteria(f['detailsID'].value)"  placeholder="--Select--"></ng-select>
+              </div>
+          </div>
+
+            <div class="form-group row ">
+              <label class="col-form-label  col-md-4 text-right">  <i class="text-danger">*</i>Employee</label>
+              <div class="col-md-8">
+                <app-personal-info-select-list [memberId]="f['memberID'].value"   (onChange)="onSelectMemberInfo($event)"></app-personal-info-select-list>
+              </div>
+          </div>
+        <div class="form-group row">
+          <label for="status" class="col-form-label  col-md-4 text-right">Is Active</label>
+          <div class="col-md-8 mt-2">
+            <div class="custom-control custom-checkbox custom-control-inline">
+              <input formControlName="status" type="checkbox"  class="custom-control-input row" id="status" >
+              <label class="custom-control-label" for="status"></label>
+            </div>
+          </div>
+        </div>
+              </div>
+              <div class="col-md-7">
+                <div class="card mt-3">
+                <table class="table table-bordered text-center">
+                  <thead>
+                    <tr>
+                      <th>Service Name</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let serviceArr of assignServiceArry.controls;let i=index" [formGroup]="serviceArr">
+                      <td><input formControlName="serviceName" disabled class="form-control" ></td>
+                      <td><input formControlName="amount"  class="form-control" ></td>
+                    </tr>
+                  </tbody>
+                </table>   
+               </div>
+                  <div class="col-md-6 row center" >
+                    <button (click)="reset()" class="btn btn-primary float-right mx-1">Reset</button>
+                    <button (click)="onSubmit()"  class="btn btn-success float-right mx-1">{{btnStatus}}</button>
+                    <button (click)="onShowAssigned(assignTem)"  class="btn btn-info float-right mx-1">Show</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>
+<ng-template #assignTem>
+ <app-assign-member-list (selectEvent)="onSelectAssignList($event)"></app-assign-member-list>
+</ng-template>

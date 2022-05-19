@@ -1,0 +1,65 @@
+<div class="card">
+  <div class=" card-header bg-light text-center">
+    <h4>{{title}}</h4>
+  </div>
+  <div class=" card-body">
+    <form [formGroup]="hrRptForm">
+      <div class="col-md-5 center">
+        <div class="form-group row">
+          <label class="col-form-labvel col-md-4 text-md-right">Report Type</label>
+          <div class="col-md-8">
+            <ng-select formControlName="reportId" [items]="reports" bindLabel="reportName" bindValue="reportId"  id="reportId"
+              [ngClass]="{'isInvalid':isInvalid('reportId')}"  placeholder="Select Report Type"></ng-select>
+            <div *ngIf="!isInvalid('reportId')" class="text-danger">
+              <span>Report Type is Required</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-md-4 text-md-right">Period Name</label>
+          <div class="col-md-8">
+            <!-- <ng-select formControlName="yearId" [items]="years" bindLabel="yearName" bindValue="id" (change)="onSelectYear($event)" placeholder="Select Year"></ng-select> -->
+            <app-period-select-list [periodId]="periodId" [moduleID]="moduleId" (onChange)="onSelectPeriod($event)">
+            </app-period-select-list>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-md-4 text-md-right">Group Type</label>
+          <div class="col-md-8">
+            <app-group-select-list [groupId]="f['groupID'].value" (onChange)="f['groupID'].setValue($event.id)"
+              (onChange)="onSelectGroup($event)"></app-group-select-list>
+
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-md-4 text-md-right">Section Name</label>
+          <div class="col-md-8">
+            <app-section-select-list [sectionId]="f['SectionID'].value" (onChange)="f['SectionID'].setValue($event.id)">
+            </app-section-select-list>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-md-4 text-md-right">Emp Code </label>
+          <div class="col-md-8">
+            <!-- <app-member-select-list [moduleId]="moduleID" (onChange)="f['memberCode'].setValue($event.memberCode)" [memberCode]="formVal.memberCode"></app-member-select-list> -->
+            <ng-select formControlName="memberCode" [items]="employees" bindLabel="memberName" bindValue="memberCode"
+              placeholder="Select Member Code" (change)="selectEmployee($event)"></ng-select>
+          </div>
+        </div>
+        <div *ngIf="this.pageId==116 ||108" class="form-group row">
+          <label class="col-form-label col-md-4 text-md-right">Department</label>
+          <div class="col-sm-8">
+            <app-department-select-list  [setDeptId]="f['departmentId'].value" (onChange)="selectDept($event)"></app-department-select-list>
+          </div>
+        </div>
+        <div *ngIf="this.pageId==116" class="form-group row">
+          <label class="col-form-label col-md-4 text-md-right">Designation</label>
+          <div class="col-sm-8">
+            <app-designation-select-list [designationId]="f['designationId'].value"></app-designation-select-list>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,149 @@
+<div class="card">
+    <div class="card-header">
+        <h4 class="text-center mb-0">{{title}}</h4>
+    </div>
+    <div class="card-body pt-0">
+        <form [formGroup]="paymentForm">
+            <div class="card p-0">
+                <div class="card-body p-0">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3 text-right font-weight-bold"> <i class="text-danger">*</i> Voucher
+                  Type</label>
+                                <div class="col-md-9">
+                                    <app-voucher-type-select-list [voucherTypeID]="f['voucherType'].value" [isInValid]="true" [transType]="voucherName" (onChange)="onSelectVoucherType($event)">
+                                    </app-voucher-type-select-list>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3 text-right font-weight-bold">Account Name</label>
+                                <div class="col-md-9">
+                                    <ng-select formControlName="accountId" [items]="accountCharModel" bindLabel="accountName" bindValue="accountId" (change)="onSelectAccountName($event)" placeholder="Select Account Name" *ngIf="f['voucherType'].value=='CP'"></ng-select>
+                                    <app-bank-select-list [bankID]="f['accountId'].value" (onChange)="onChangeAccountBankId($event)" *ngIf="f['voucherType'].value=='BP'"></app-bank-select-list>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3 text-right font-weight-bold">Balance</label>
+                                <div class="col-md-9">
+                                    <input formControlName="presentBalance" tabindex="-1" class="form-control" placeholder="Balance  No">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3 text-right font-weight-bold">Ref No</label>
+                                <div class="col-md-9">
+                                    <input formControlName="refNo" tabindex="-1" class="form-control" placeholder="Enter Reference No">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3 text-right font-weight-bold"> <i class="text-danger">*</i> Voucher
+                  Date</label>
+                                <div class="col-md-9">
+                                    <app-date-control [tabIndexIs]="false" [setNgbDate]="f['voucherDateNgb'].value" [ngClass]="{'is-invalid':( f['voucherDate'].touched || f['voucherDate'].dirty || isSubmit) && f['voucherDate'].invalid}" (getLocalDate)="f['voucherDate'].setValue($event);onSelectedVocherNo()"
+                                        (getNgbDate)="f['voucherDateNgb'].setValue($event)"></app-date-control>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3 text-right font-weight-bold"> <i class="text-danger">*</i> Voucher
+                  No</label>
+                                <div class="col-md-9">
+                                    <input formControlName="voucherNo" hidden placeholder="Voucher No" class=" form-control" disabled>
+                                    <input [value]="formatVoucherNo" placeholder="RL No" class=" form-control" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3 text-right font-weight-bold">Cheque No</label>
+                                <div class="col-md-9">
+                                    <ng-select formControlName="chequeNo" [items]="chequeNoShowModel" bindLabel="chequeNo" bindValue="chequeNo" placeholder="Select Cheque No"></ng-select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3 text-right font-weight-bold">Payment Date</label>
+                                <div class="col-md-9">
+                                    <app-date-control [tabIndexIs]="false" [setNgbDate]="f['chequeDateNgb'].value" (getLocalDate)="f['chequeDate'].setValue($event);" (getNgbDate)="f['chequeDateNgb'].setValue($event)">
+                                    </app-date-control>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card p-0">
+                <div class="card-body p-0 ">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3 text-right font-weight-bold">Pay To</label>
+                                <div class="col-md-9">
+                                    <app-personal-info-select-list [memberId]="f.memberIDOrEmpCode.value" (onChange)="onSelectMemberInfo($event)"></app-personal-info-select-list>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3 text-right font-weight-bold  font-weight-bold">Start Period</label>
+                                <div class="col-md-9">
+                                    <app-period-select-list [periodId]="f['periodID'].value" [moduleID]="moduleId" (onChange)="onSelectPeriod($event)"></app-period-select-list>
+                                </div>
+                            </div>
+                            <div class=" row">
+                                <label class="col-form-label col-md-3 text-right font-weight-bold">Service Name</label>
+                                <div class="col-md-9 row">
+                                    <div class="col-md-5">
+                                        <app-service-head-select-list [moduleId]="moduleId" [serviceId]="f['serviceID'].value" (onChange)="onSelectServiceHead($event)"></app-service-head-select-list>
+                                    </div>
+                                    <div class="col-md-7 row">
+                                        <label for="totalAmount" class="col-form-label col-md-6 text-right font-weight-bold">Total Amount</label>
+                                        <div class="col-md-6">
+                                            <input formControlName="totalAmount" (change)="getShowableAmount()" type="number" class=" form-control" placeholder="0.00">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group p-0 row">
+                                <label class="col-form-label col-md-3 text-right font-weight-bold  font-weight-bold">Installment Amount</label>
+                                <div class="col-md-3">
+                                    <input formControlName="installAmount" (change)="getShowableAmount()" class="form-control" type="number" placeholder="Number Of Installment">
+                                </div>
+                            </div>
+                            <div class="form-group  row">
+                                <label class="col-form-label col-md-3 text-right font-weight-bold  font-weight-bold">Narration</label>
+                                <div class="col-md-9">
+                                    <textarea formControlName="narration" class="form-control" placeholder="Enter Narration"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 ">
+                            <div class="row">
+                                <table class="table table-bordered text-center px-5">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:40%">Period</th>
+                                            <th style="width:20%">Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let periodForm of paymentArrayForm.controls;let i=index" [formGroup]="periodForm">
+                                            <td style="width:40%">{{periodForm.value.periodName}}</td>
+                                            <td style="width:20%">{{periodForm.value.amount}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="card-footer py-0 px-0" style="background: rgb(218, 253, 255);">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row col-md-7 pull-right  " style="margin: 0 auto;">
+                <button (click)="saveTransaction()" class="btn btn-success float-right mx-1">{{btnStatus}}</button>
+                <button (click)="reset()" class="btn btn-primary float-right mx-1" tabindex="-1">Reset</button>
+                <button (click)="createNewItem(transList)" class="btn btn-info ">Show</button>
+            </div>
+        </form>
+    </div>
+</div>
+<ng-template #transList>
+  <app-transaction-list-show-temp [transType]="transType"  (selectEvent)="getTransactionListByTransID($event)"></app-transaction-list-show-temp>
+</ng-template>

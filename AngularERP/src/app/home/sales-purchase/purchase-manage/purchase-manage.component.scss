@@ -1,0 +1,73 @@
+
+    h3{
+      color: rgb(255, 255, 255);
+      font-size: medium;
+      margin-top: 8%;
+      cursor: pointer;
+    }
+    h4{
+      color: rgb(0, 0, 0);
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 5%;
+    }
+
+
+    .productType{
+      background: transparent;
+       height: 135px;
+        margin-right: 2px;
+        border-radius: 15px;
+    }
+    .productType1{
+      background: #008080; height: 135px;  margin-right: 5px; border-radius: 15px;
+      cursor: pointer;
+
+    }
+    .productType2{
+      background: #077dcc; height: 135px;  margin-left: 5px; border-radius: 15px;
+      cursor: pointer;
+
+    }
+    .productType1:hover{
+      background:rgb(3, 100, 55);
+      box-shadow: 2px 3px 10px 2px;
+      transition: 0.3s;
+      cursor: pointer;
+
+    }
+    h4:hover{
+      color: rgb(255, 254, 254);
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 5%;
+    }
+    .productType2:hover{
+      background: rgb(3, 100, 55);
+      box-shadow: 2px 3px 10px 2px;
+      transition: 0.3s;
+      cursor: pointer;
+      color: rgb(255, 255, 255)!important;
+
+    }
+    .data-table {
+      overflow-y: auto;
+  }
+
+  .data-table{
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  .category-wise thead tr th{
+    background: rgb(3, 100, 55);
+    color: #ddd;
+  }
+  .selected{
+    background: rgb(0, 147, 201);
+    color:#fff;
+  }
+  .card-body{
+    text-align: center;
+    vertical-align: baseline;
+    width: 100%;
+  }

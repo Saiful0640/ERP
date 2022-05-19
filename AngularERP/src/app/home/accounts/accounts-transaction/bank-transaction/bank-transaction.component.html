@@ -1,0 +1,176 @@
+<div class="card">
+    <div class=" py-0">
+        <h4 class="text-center mb-0">Bank Transaction</h4>
+    </div>
+    <div class="card-body p-3">
+        <form [formGroup]="bankTransactionForm">
+            <div class="row col-md-10 center">
+                <div class="col-md-6 ">
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3"><i class="text-danger">*</i>  Voucher Type</label>
+                        <div class="col-md-9">
+                          <!-- <app-voucher-type-select-list [voucherTypeID]="f['voucherType'].value" [isInValid]="true" [ngClass]="{'is-invalid':( f['voucherType'].touched || f['voucherType'].dirty || isSubmit) && f['voucherType'].invalid}" [transType]="voucherName"
+                          (onChange)="onSelectVoucherType($event)" (onBlurClick)="onSelectedVocherNoByVoucherType()" [elementId]="'ngSelectVoucherType'"></app-voucher-type-select-list> -->
+                          <ng-select formControlName="voucherType" (change)="onSelectedVocherNo(f.voucherDate.value)">
+                            <ng-option [value]="'BankPayment'">Bank Payment</ng-option>
+                            <ng-option [value]="'BankReceive'">Bank Receive</ng-option>
+                        </ng-select>
+                            <div *ngIf="f['voucherType'].invalid && ( f['voucherType'].touched || f['voucherType'].dirty || isSubmit)" class="text-danger">
+                                <i *ngIf="f['voucherType'].errors.required" class="text-danger">Voucher Type required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3"><i class="text-danger">*</i>Account Name</label>
+                        <div class="col-md-9">
+                            <app-bank-select-list [bankID]="f['partyId'].value" [elementId]="'accName'"  (onChange)="onChangeAccountBankId($event)"></app-bank-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3">Balance</label>
+                        <div class="col-md-9">
+                            <input formControlName="presentBalance" tabindex="-1" class="form-control" placeholder="Balance  No" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3">Ref No</label>
+                        <div class="col-md-9">
+                            <input formControlName="refNo" tabindex="-1" class="form-control" placeholder="Enter Reference No">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3"><i class="text-danger">*</i>Voucher Date</label>
+                        <div class="col-md-9">
+                            <app-date-control [tabIndexIs]="false" [setNgbDate]="f['voucherDateNgb'].value" (getYyyymmdd)="onSelectVoucherDate($event)"  [focusId]="'vtdate'"  (getNgbDate)="f['voucherDateNgb'].setValue($event);onSelectedVocherNo(f.voucherDate.value)" [showCurrentDate]="true" [ngClass]="{'is-invalid':( f['voucherDate'].touched || f['voucherDate'].dirty || isSubmit) && f['voucherDate'].invalid}"></app-date-control>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3"> Voucher No</label>
+                        <div class="col-md-9">
+                            <input formControlName="voucherNo" hidden placeholder="Voucher No" class=" form-control" disabled>
+                            <input [value]="formatVoucherNo" placeholder="Voucher No" class=" form-control" disabled>
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3">Cheque No</label>
+                        <div class="col-md-9">
+                            <ng-select formControlName="chequeNo" [id]="'chequeNo'" (change)="onChequeNoSelect($event)" [items]="chequeNoShowModel" bindLabel="chequeNo" bindValue="chequeNo" *ngIf="f['voucherType'].value=='BankPayment'" placeholder="Select Cheque No"></ng-select>
+                            <input formControlName="chequeNo" class="form-control" type="text" placeholder="Enter Cheque No" *ngIf="f['voucherType'].value=='Bank Receive'">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3">Cheque Date</label>
+                        <div class="col-md-9">
+                            <app-date-control [tabIndexIs]="false" [setNgbDate]="f['chequeDateNgb'].value" (getYyyymmdd)="f['chequeDate'].setValue($event);" (getNgbDate)="f['chequeDateNgb'].setValue($event)" [showCurrentDate]="true" [ngClass]="{'is-invalid':( f['chequeDate'].touched || f['chequeDate'].dirty || isSubmit) && f['chequeDate'].invalid}"></app-date-control>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10 center">
+                <div class="card transTable">
+                    <div class="card-body p-0">
+                        <div class="data-table m-0">
+                            <table class="table table-bordered  text-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th style="width:60px">SL No</th>
+                                        <th style="width:340px">Account Name</th>
+                                        <th style="width:100px">Amount</th>
+                                        <th style="width:200px">Subledger</th>
+                                        <th style="width:200px">CostCenter</th>
+                                        <th style="width:80px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let bankTransArray of _bankTransactionForm.controls;let i=index" [formGroup]="bankTransArray">
+                                        <td style="width:60px">{{i+1}}</td>
+                                        <td style="width:340px">
+                                            <app-ledger-select-list [isInvalid]="true" [idTabIndex]="'accountHead'+i" [ledgerID]="bankTransArray.value.accountId" (onChange)="onChangeAccountId($event,i)" [ngClass]="{'is-invalid':( _bankTransactionForm.controls[i].get('accountId').touched || _bankTransactionForm.controls[i].get('accountId').dirty || isSubmit) && _bankTransactionForm.controls[i].get('accountId').invalid}"></app-ledger-select-list>
+                                        </td>
+                                    
+                                        <td style="width:100px"><input (keyup)="getTotalAmount()" (keydown)="onEnterKeyPress($event,i)" formControlName="amount" [ngClass]="{'is-invalid':( _bankTransactionForm.controls[i].get('amount').touched || _bankTransactionForm.controls[i].get('amount').dirty || isSubmit) && _bankTransactionForm.controls[i].get('amount').invalid}"
+                                          class="form-control" [id]="'amount'+i" placeholder="0.00" type="number" style="text-align: right;"></td>
+                                          <td style="width:200px">
+                                            <div class="input-group">
+                                                <ng-select formControlName="subledgerId" name="subledger" [items]="bankTransArray.value.subItem" bindLabel="subledgerName" bindValue="subledgerId"  (change)="onSelectSubledger($event,i)" placeholder="Select Subledger" tabindex="-1" [ngStyle]="{'width':'170px'}">
+                                                </ng-select>
+                                                <div class="input-group-append">
+                                                    <button (click)="createSubNewItem(subldgerModal,i)" [id]="'subPlus'+i" class="input-group-text btn btn-info">
+                                       <span class="fa fa-plus" style="cursor: pointer;"></span>
+                                         </button>
+                                                </div>
+                                            </div>
+                                            <ng-template #subldgerModal>
+                                                <app-subledger-template (selectEvent)="subledgerItem($event,i)" (selectKeyboardEvent)="onSubledgerPlusClick($event)" [modalItem]="bankTransArray.value.subItem" [transID]="f['transId'].value" [totalAmount]="totalAmount" [accountId]="bankTransArray.value.accountId" [accountName]="accountName"
+                                                    ></app-subledger-template>
+                                                   <!--  [totalAmount]="bankTransArray.value.amount" -->
+                                            </ng-template>
+                                        </td>
+                                        <td style="width:200px">
+                                            <div class="input-group">
+                                                <ng-select formControlName="detailsId" name="costCenter" [items]="bankTransArray.value.costCenItem" bindLabel="detailsCaption" tabindex="-1" bindValue="detailsId" (change)="onSelectCostCenter($event,i)" [ngStyle]="{'width':'170px'}" placeholder="Select CostCenter">
+                                                </ng-select>
+                                                <div class="input-group-append">
+                                                    <button (click)="createCostNewItem(costCenterModal,i)" [id]="'costPlus'+i" class="input-group-text btn btn-info">
+                                         <span class="fa fa-plus" style="cursor: pointer;"></span>
+                                           </button>
+                                                </div>
+                                            </div>
+                                            <ng-template #costCenterModal>
+                                                <app-costcenter-template (selectEvent)="costCenterItem($event,i)" (selectKeyboardEvent)="onCostCenterPlusClick($event)" [moduleId]="moduleId" [modalItem]="bankTransArray.value.costCenItem" [transID]="f['transId'].value" [accountID]="bankTransArray.value.accountId"
+                                                    [isCostCenter]="bankTransArray.value.isCostCenter" [accountName]="accountName" [totalAmount]="bankTransArray.value.amount"></app-costcenter-template>
+                                            </ng-template>
+                                        </td>
+                                        <td style="width:80px">
+                                            <button (click)="addRow()" [id]="'addItem'+i" *ngIf="_bankTransactionForm.controls.length==(i+1)" class="btn btn-sm btn-success"><span class="fa fa-plus"></span></button>
+                                            <button (click)="removeRow(i)" class="btn btn-sm btn-danger" tabindex="-1"><span class="fa fa-times"></span></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer p-0" style="background: rgb(73, 204, 221);color: rgb(17, 3, 67);">
+                        <div class="row mx-3">
+                            <div class="col-md-2 mx-4"></div>
+                            <div class="col-md-4">
+                                <div class="row form-group">
+                                    <label for="totalAmount" class=" col-form-label col-md-6 text-right font-weight-bold ">Total Amount</label>
+                                    <div class="col-md-5">
+                                        <input formControlName="totalAmount" tabindex="-1" class=" form-control" placeholder="0.00" disabled style="text-align: left;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row col-md-10 center ">
+                <div class="form-group col-md-8 row">
+                    <label for="note" class="col-2 font-weight-bold">Narration</label>
+                    <div class="col-10">
+                        <textarea formControlName="narration" class=" form-control" placeholder="Enter Narration"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-4 row ">
+                    <div class="demo-inline-spacing">
+                      <button [ladda]="isSaving" (click)="saveTransaction()" class="btn btn-success" [id]="'btnSale'" (focus)="onFocusBtn($event)" (blur)="onBlurSaleBtn($event)">{{btnStatus}}</button>
+                        <!-- <button (click)="confirmSave(saveModal)" [id]="'btnSave'" class="btn btn-success ">{{btnStatus}}</button> -->
+                        <button (click)="reset()" class="btn btn-primary " tabindex="-1">Reset</button>
+                        <button (click)="createNewItem(transList)" class="btn btn-info ">Show</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<ng-template #transList>
+    <app-transaction-list-show-temp [transType]="transType" (selectEvent)="getTransactionListByTransID($event)"></app-transaction-list-show-temp>
+
+</ng-template>
+<ng-template #saveModal>
+    <app-conformation-messages [saveOrUpdate]="btnStatus" (onConfirmation)="saveTransaction($event)"></app-conformation-messages>
+</ng-template>

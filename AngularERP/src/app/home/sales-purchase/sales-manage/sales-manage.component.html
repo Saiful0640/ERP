@@ -1,0 +1,219 @@
+<div class="card">
+    <div class="card-header text-center bg-light p-1">
+        <h4>Sales Manage</h4>
+    </div>
+       <div class="row">
+        <div class="form-group col-md-4">
+          <div class="row p-0 m-0">
+              <label class="col-2">From</label>
+              <div class="col-9">
+                  <app-date-control>
+                  </app-date-control>
+              </div>
+          </div>
+      </div>
+      <div class="form-group col-md-4">
+        <div class="row p-0 m-0">
+            <label class="col-2">To</label>
+            <div class="col-9">
+                <app-date-control>
+                </app-date-control>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group col-md-4">
+      <div class="row p-0 m-0">
+          <label class="col-2">Type</label>
+          <div class="col-9">
+<app-voucher-type-select-list  [voucherTypeID]="f['voucherType'].value" [isInValid]="true" [ngClass]="{'is-invalid':( f['voucherType'].touched || f['voucherType'].dirty || isSubmit) && f['voucherType'].invalid}" [transType]="voucherName" (onChange)="f['voucherType'].setValue($event.prefixCode);" (onBlurClick)="onSelectedVocherNo()"></app-voucher-type-select-list>
+          </div>
+      </div>
+  </div>
+    </div>
+
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-8">
+                <div class="card" style="display: block;">
+
+            <div class="card-header bg-light p-0 pl-3">
+                        <div class="form-group row mb-0">
+                            <label for="searchKey" class="form-label col-2 pt-2">Search</label>
+                            <div class="col-10">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-success"><span class="fa fa-search"></span></button>
+                                        <button class="btn btn-light" (click)="onToggleAdvanceFilter()">Advance Search<span
+                        class="fa font-weight-bold mt-1 ml-2"
+                        [ngClass]="{'fa-chevron-up':showAdvanceFilter, 'fa-chevron-down':!showAdvanceFilter}"></span>
+                    </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="showAdvanceFilter" class="card-body advance-search pt-3">
+                        <div class="row">
+                            <div class="col-md-6" [ngClass]="{'show':showAdvanceFilter, 'hide':!showAdvanceFilter}">
+                                <div class="form-group row">
+                                    <label for="category" class="form-label col-12">Category</label>
+                                    <div class="col-12">
+                                        <ng-select [items]="" placeholder="Select Category"></ng-select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="salesPerson" class="form-label col-12">Sales Person</label>
+                                    <div class="col-12">
+                                        <ng-select [items]="" placeholder="Select Sales Person"></ng-select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="salesDate" class="form-label col-12">Date</label>
+                                    <hr>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-md-6 pr-0">
+                                                <label for="fromDate" class="col-12">From</label>
+                                                <div class="col-12 pl-0 ">
+                                                    <app-date-control></app-date-control>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 pr-0">
+                                                <label for="toDate" class="col-12 pr-0">To</label>
+                                                <div class="col-12 pl-0">
+                                                    <app-date-control></app-date-control>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" [ngClass]="{'show':showAdvanceFilter, 'hide':!showAdvanceFilter}">
+                                <div class="form-group row">
+                                    <label for="customer" class="form-label col-12">Customer</label>
+                                    <div class="col-12">
+                                        <ng-select [items]="" placeholder="Select Customer"></ng-select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="status" class="form-label col-12">Status</label>
+                                    <div class="col-12">
+                                        <ng-select [items]="" placeholder="Select Status"></ng-select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="status" class="form-label col-12">Show room</label>
+                                    <div class="col-12">
+                                        <ng-select [items]="" placeholder="Select Status"></ng-select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="custom-control custom-checkbox row ml-3">
+                                        <input type="checkbox" class="custom-control-input row" id="dueInvoice">
+                                        <label class="custom-control-label text-big" for="dueInvoice">
+                      Show Only due Invoice
+                    </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="display: block;">
+                    <div (click)="onToggleColumnList()" class="card-header p-2 pr-3 bg-light">
+                        <span class="font-weight-bold">Configure Column</span>
+                        <span class="fa pull-right pt-1" [ngClass]="{'fa-chevron-up':showColumnList, 'fa-chevron-down':!showColumnList}"></span>
+                    </div>
+                    <div *ngIf="showColumnList" class="card-body column-list p-0">
+                        <ul class="list-group">
+                            <li class="list-group-item col-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="category" checked>
+                                    <label class="custom-control-label" for="category">Category</label>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="quantity">
+                                    <label class="custom-control-label" for="quantity">Quantity</label>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="netAmount" checked>
+                                    <label class="custom-control-label" for="netAmount">Net Amount</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="data-table mt-0">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Net_Amount</th>
+                            <th>Action</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <ng-select class="position-absolute" [items]="actionTypes" bindLabel="typeName" bindValue="id" placeholder="Select Action"></ng-select>
+                            </td>
+                            <td>
+                                <button class="btn btn-success">Submit</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer p-0">
+        <div class="data-table">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>No of Sales</th>
+                        <th>Total Sale</th>
+                        <th>Paid Amount</th>
+                        <th>Due</th>
+                        <th>Less</th>
+                        <th>Discount</th>
+                        <th>VAT</th>
+                        <th>Net_Sales</th>
+                        <th>Profit(%)</th>
+                        <th>Profit Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

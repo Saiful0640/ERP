@@ -1,0 +1,14 @@
+<div class="input-group">
+    <ng-select [(ngModel)]="ledgerID" name="ledgerID" (change)="onSelect($event)"  [items]="ledgerModel" bindLabel="formateAccountName" (keydown)="onKeyDownPress($event)" bindValue="accountId" [id]="idTabIndex" appendTo="body" [ngStyle]="{'width.px':widthVal}" [ngClass]="{'is-invalid':isInvalid}"
+        placeholder="Select Account Name" autofocus>
+    </ng-select>
+    <div *ngIf="isSearchBtnHide==false" class="input-group-append">
+        <button (click)="this.modalService.open(searchModal,  {size: 'lg', windowClass: 'modal-xl'})" class="input-group-text btn btn-primary" tabindex="-1" type="button">
+        <span class="fas fa-search" style="cursor: pointer;" ></span>
+      </button>
+    </div>
+</div>
+
+<ng-template #searchModal>
+    <app-ledger-list-for-search-in-transaction (selectEvent)="onSearchBtnClick($event)"></app-ledger-list-for-search-in-transaction>
+</ng-template>

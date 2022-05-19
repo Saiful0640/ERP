@@ -1,0 +1,38 @@
+<div class="card">
+  <div class="card-header py-2">
+    <h4 class="text-center mb-0">Assign Module</h4>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-8 m-auto">
+        <form>
+          <div class="form-group row mb-2">
+            <label for="userTypeID" class="col-md-4">Company</label>
+            <div class="col-md-8">
+              <app-company-select-list (onChange)="getAssignedModules($event)"></app-company-select-list>
+            </div>
+          </div>
+          <div *ngIf="modules.length>0" class="modules">
+            <div class="list-group list-group-root well" style="max-height: 500px; overflow-y: scroll;">
+              <ul *ngFor="let module of modules; let i=index"
+                class="m-0 pl-0">
+                <li class="list-group-item module-list py-1 pl-1">
+                  <div class="custom-control custom-checkbox d-inline ml-1">
+                    <input [value]="'moduleCheck'+i" (change)="onChangeEvent($event.target.checked, module.id)" type="checkbox"  class="custom-control-input"
+                      [id]="'moduleCheck'+i">
+                    <label class="custom-control-label"
+                      [for]="'moduleCheck'+i">{{module.name}}</label>
+                  </div>
+                </li>
+              </ul>
+
+            </div>
+          </div>
+          <div class="row mt-3 pr-5">
+            <button (click)="onSubmit()" class="btn btn-primary ml-auto">Assign</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

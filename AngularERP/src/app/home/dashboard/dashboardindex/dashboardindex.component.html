@@ -1,0 +1,435 @@
+<div class="card">
+  <span style="margin-top: 6px; background-color: rgb(3, 100, 55)!important;font-size: 16px; font-weight: bold;" class="badge badge-pill badge-primary px-1">Account Dashboard</span>
+  <div class="card-body" style="align-items: center;">
+    <div class="row" style="margin: auto;">
+      <div class="col-12">
+        <div class="row" *ngFor="let item of lstdashboard">
+          <div class="col-md-3 productType"  (click)="viewPopUp(getDashboardDetails)"(click)="GetDashboardDetails()">
+            <h3 >Total Cash & Bank</h3>
+            <h4>{{item.cashandBank}}</h4>
+          </div>
+          <div class="col-md-3 productType1"(click)="viewPopUp(getDashboardDetails)" (click)="GetDashboardDetails2()" >
+            <h3 >Total Receivable Amount</h3>
+            <h4>{{item.rceiveablele}}</h4>
+
+          </div>
+          <div class="col-md-3 productType2" (click)="viewPopUp(getDashboardDetails)"(click)="GetDashboardDetails3()"  >
+            <h3 >Total Payable Amount</h3>
+            <h4>{{item.payable}}</h4>
+
+          </div>
+          <div class="productType3" style="width:300px;"(click)="viewPopUp(getDashboardDetails)" (click)="GetDashboardDetails4()">
+            <h3 >Profit Position</h3>
+            <h4>{{item.profit}}</h4>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+      <div class="col-6">
+        <div class="row">
+          <div class="col-9" style="background-color: white;">
+            <canvas id="canvas"  >{{chart}} </canvas>
+          </div>
+          <div class="col-3" style="margin-top: 20px;">
+            <div class="row"style="margin-bottom: 10px;">
+              <div class="col-1" style="height: 15px;width: 15px;background-color: #8e5ea2; ">
+              </div>
+                <div class="col-9" style="height: 15px; color: #8e5ea2; font-size: large;font-weight: bold; text-align: center;">
+                  Receivable
+                </div>
+            </div>
+            <div class="row"style="margin-bottom: 10px;">
+              <div class="col-1" style="height: 15px;width: 15px;background-color: #f86c6b;">
+              </div>
+                <div class="col-9" style="height: 15px; color: #f86c6b; font-size: large;font-weight: bold; text-align: center;">
+                  Payable
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 10px;">
+              <div class="col-1" style="height: 15px;width: 15px;background-color: #077dcc; ">
+              </div>
+                <div class="col-9" style="height: 15px; color: #077dcc; font-size: large;font-weight: bold; text-align: center;">
+                  Cash&Bank
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="row">
+            <canvas id="horizontalBar-char"  >{{horizontalbar}} </canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body p-1 pr-2">
+    <div class="row">
+      <div class="col-md-8 m-auto">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <div class="ml-auto">
+                <app-date-control (getYyyymmdd)="startDate=$event;  onChangeDate(datetimechange)"></app-date-control>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <div class="mr-auto">
+                <app-date-control (getYyyymmdd)="endDate=$event;  onChangeDate(datetimechange)"></app-date-control>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span style="margin-top: 6px; background-color: rgb(3, 100, 55)!important;font-size: 16px; font-weight: bold;" class="badge badge-pill badge-primary px-1">Sales Dashboard</span>
+  <div class="card-body" style="align-items: center">
+    <div class="row" style="margin: auto">
+      <div class="col-12">
+        <div class="row" *ngFor="let item of salesdashboard">
+          <div class="col-md-3 productType">
+            <!-- <h3 >Total Bank And Cash</h3> -->
+            <!-- <h4>{{item.cashandBank}}</h4> -->
+          </div>
+          <div class="col-md-3 productType1" (click)="GetDashboardDetails()">
+            <h3>Total Sales</h3>
+            <h4>{{ item.netSales }}</h4>
+          </div>
+          <div class="col-md-3 productType2" (click)="GetDashboardDetails()">
+            <h3>Total Collection</h3>
+            <h4>{{ item.collection }}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col-5" style="background-color: white">
+      <canvas id="doughnut-chart">{{ Charts }} </canvas>
+    </div>
+    <div class="col-3">
+      <div class="data-table">
+        <table class="table table-bordered table-striped table-hover mb-0">
+          <thead>
+            <tr>
+              <td>#SN</td>
+              <td>Name</td>
+              <td>Amount</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of lstdashboardbycity; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.amount }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 15px">
+    <div class="col-md-8 m-auto">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <div class="ml-auto">
+              <app-date-control
+                (getYyyymmdd)="startDate = $event; onChangeDate1(datetimechangesales)"
+              ></app-date-control>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <div class="mr-auto">
+              <app-date-control
+                (getYyyymmdd)="endDate = $event; onChangeDate1(datetimechangesales)"
+              ></app-date-control>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <span style="margin-top: 6px ;margin-bottom: 5px; background-color: rgb(3, 100, 55)!important;font-size: 16px; font-weight: bold;" class="badge badge-pill badge-primary px-1">Project Dashboard</span>
+  <div class="col-10" style="margin: auto; text-align: center;">
+    <div class="row" *ngFor="let item of lstprojectdashtest">
+      <div class="col-md-1">
+
+      </div>
+      <div class="col-md-3 productType" style="margin-right: 10px;"  (click)="projectPopUp(getProjectDetails)"(click)="getProjectDashboard2()">
+        <h3 >Total Sold</h3>
+        <h4>{{item.totalSold}}</h4>
+      </div>
+      <div class="col-md-3 productType1" style="margin-right: 10px;" (click)="projectPopUp(getProjectDetails)" (click)="getProjectDashboard3()" >
+        <h3 >Sale On Progress</h3>
+        <h4>{{item.saleOnProgress}}</h4>
+
+      </div>
+      <div class="col-md-3 productType2" (click)="projectPopUp(getProjectDetails)"(click)="getProjectDashboard4()"  >
+        <h3 >Total UnSold</h3>
+        <h4>{{item.totalUnSold}}</h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #getDashboardDetails>
+  <div class="modalss">
+    <div class="card border-0 p-0">
+      <div class="card-header px-4 py-2">
+          <h4 class="my-auto text-center">
+              <span>{{dashbordmodalname}}</span>
+              <button (click)="modalService.dismissAll()" class="float-right btn btn-sm btn-danger">
+          <span class="text-white font-weight-bold display-6">X</span>
+        </button></h4>
+
+      </div>
+      <div class="card-body">
+          <div class="row">
+              <div class="data-table" style="min-height: 250px;">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <td>#SN</td>
+                      <td >Group Name</td>
+                      <td>Account Name</td>
+                      <td >Amount</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of listofdetails;let i=index">
+                      <td>{{i+1}}</td>
+                      <td>{{item.groupName }}</td>
+                      <td>{{item.accountName}}</td>
+                      <td>{{item.amount }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+      </div>
+  </div>
+  </div>
+
+</ng-template>
+<ng-template #datetimechange>
+  <div class="modalss" style="width: 1100px!important; margin-left: -100px!important;">
+    <div class="card"style="width:1100px!important;">
+      <div class="card-header px-4 py-2">
+          <h4 class="my-auto text-center">
+              <span>Result</span>
+              <button (click)="modalService.dismissAll()" class="float-right btn btn-sm btn-danger">
+          <span class="text-white font-weight-bold display-6">X</span>
+        </button></h4>
+
+      </div>
+      <div class="card-body"style="width: 1100px!important;">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="data-table">
+              <table class="table table-bordered table-striped table-hover mb-0">
+                <thead>
+                  <tr>
+                    <td>#SN</td>
+                    <td>Month</td>
+                    <td class="text-right">Assets</td>
+                    <td class="text-right">Liebility</td>
+                    <td class="text-right">Difference</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="loadingAssestsRpt">
+                    <td colspan="5" class="text-center">
+                      <img src="../../../../assets/img/loading.gif" width="40" height="40" /> Loading...
+                    </td>
+                  </tr>
+                  <tr *ngIf="!loadingAssestsRpt && assetsVsliabilityReports.length==0">
+                    <td colspan="5" class="text-center">
+                      No data found
+                    </td>
+                  </tr>
+                  <tr *ngFor="let item of assetsVsliabilityReports;let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{item.value.months | date:'MMM yyyy'}}</td>
+                    <td class="text-right text-success">{{item.value.assetsAmount | number:'0.2-2'}}</td>
+                    <td class="text-right text-danger">{{item.value.liabilityAmount | number:'0.2-2'}}</td>
+                    <td class="text-right">{{item.value.assetsAmount-item.value.liabilityAmount | number:'0.2-2'}}</td>
+                  </tr>
+                  <tr *ngIf="assetsVsliabilityReports.length>0">
+                    <td colspan="2" class="text-right">Total</td>
+                    <td class="text-right text-success">{{sumOfReport.assets | number:'0.2-2'}}</td>
+                    <td class="text-right text-danger">{{sumOfReport.liability | number:'0.2-2'}}</td>
+                    <td class="text-right">{{sumOfReport.diffOfAssetsLiability | number:'0.2-2'}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="data-table">
+              <table class="table table-bordered table-hover mb-0">
+                <thead>
+                  <tr>
+                    <td>#SN</td>
+                    <td>Month</td>
+                    <td class="text-right">Expendeture</td>
+                    <td class="text-right">Income</td>
+                    <td class="text-right">Difference</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="loadingIncomeRpt">
+                    <td colspan="5" class="text-center">
+                      <img src="../../../../assets/img/loading.gif" width="40" height="40" /> Loading...
+                    </td>
+                  </tr>
+                  <tr *ngIf="!loadingIncomeRpt && incomeVSexpendetureReports.length==0">
+                    <td colspan="5" class="text-center">
+                      No data found
+                    </td>
+                  </tr>
+                  <tr *ngFor="let item of incomeVSexpendetureReports;let i=index; let sum;">
+                    <td>{{i+1}}</td>
+                    <td>{{item.value.months | date:'MMM yyyy'}}</td>
+                    <td class="text-right text-danger">{{ item.value.expendetureAmount | number:'0.2-2'}}</td>
+                    <td class="text-right text-success">{{item.value.incomeAmount  | number:'0.2-2'}}</td>
+                    <td class="text-right">{{item.value.incomeAmount-item.value.expendetureAmount | number:'0.2-2'}}</td>
+                  </tr>
+                  <tr *ngIf="incomeVSexpendetureReports.length>0">
+                    <td colspan="2" class="text-right">Total</td>
+                    <td class="text-right text-danger">{{sumOfReport.expendeture | number:'0.2-2'}}</td>
+                    <td class="text-right text-success">{{sumOfReport.income | number:'0.2-2'}}</td>
+                    <td class="text-right">{{sumOfReport.diffOfIncomeExpendeture | number:'0.2-2'}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  </div>
+</ng-template>
+<ng-template #datetimechangesales>
+  <div class="modalss" style="width: 1100px!important; margin-left: -100px!important;">
+    <div class="card"style="width:1100px!important;">
+      <div class="card-header px-4 py-2">
+          <h4 class="my-auto text-center">
+              <span>Sales By Month And Category</span>
+              <button (click)="modalService.dismissAll()" class="float-right btn btn-sm btn-danger">
+          <span class="text-white font-weight-bold display-6">X</span>
+        </button></h4>
+
+      </div>
+      <div class="card-body"style="width: 1100px!important;">
+        <div class="row">
+          <div class="col-md-7">
+        <h2>Sales By Month</h2>
+            <div class="data-table">
+              <table class="table table-bordered table-striped table-hover mb-0">
+                <thead>
+                  <tr>
+                    <td>#SN</td>
+                    <td>Month</td>
+                    <td>Sales</td>
+                    <td>Collection</td>
+                    <td>Defference</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of lstdashboarddetails; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.months }}</td>
+                    <td>{{ item.sales }}</td>
+                    <td>{{ item.collections }}</td>
+                    <td>{{ item.differec }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-md-5">
+        <h2>Sales By Category</h2>
+            <div class="data-table">
+              <table class="table table-bordered table-striped table-hover mb-0">
+                <thead>
+                  <tr>
+                    <td>#SN</td>
+                    <td>Category Name</td>
+                    <td>Sales Amount</td>
+                    <td>Sales Quantity</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of lstdashboardcategory; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.categoryName }}</td>
+                    <td>{{ item.salesAmount }}</td>
+                    <td>{{ item.salesQuantity }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  </div>
+</ng-template>
+<ng-template #getProjectDetails>
+  <div class="modalss" style="width: 1100px!important; margin-left: -100px!important;">
+    <div class="card"style="width:1100px!important;">
+      <div class="card-header px-4 py-2">
+          <h4 class="my-auto text-center">
+              <span>Project List</span>
+              <button (click)="modalService.dismissAll()" class="float-right btn btn-sm btn-danger">
+          <span class="text-white font-weight-bold display-6">X</span>
+        </button></h4>
+
+      </div>
+      <div class="card-body"style="width: 1100px!important;">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="data-table">
+              <table class="table table-bordered table-striped table-hover mb-0">
+                <thead>
+                  <tr>
+                    <td>#SN</td>
+                    <td>Project</td>
+                    <td>Floor</td>
+                    <td>Unit</td>
+                    <td>Account Name</td>
+                    <td>Address</td>
+                    <td>Mobile No</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of lstprojectdashboard; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.project }}</td>
+                    <td>{{ item.floor }}</td>
+                    <td>{{ item.unit }}</td>
+                    <td>{{ item.accountName }}</td>
+                    <td>{{ item.address }}</td>
+                    <td>{{ item.mobileNo }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  </div>
+</ng-template>
+
+

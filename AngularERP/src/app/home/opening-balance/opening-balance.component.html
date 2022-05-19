@@ -1,0 +1,98 @@
+
+  <div class="card" >
+  <div class="card-header bg-light">
+    <h2 style="text-align: center; ">{{title}} Opening Balance</h2>
+  </div>
+  <div class="card-body py-0">
+  <form [formGroup]="openingBalanceForm">
+ <div class="form-group">
+  <div class="input-group row">
+    <div class="col-md-3 ">
+      <div>
+        <label class="font-weight-bold text-center">{{lblname}}</label>
+        <div>
+          <ng-select formControlName="buildingId" [items]="criterias" bindLabel="detailsCaption" bindValue="detailsID" (change)="getSubCriteria(f['buildingId'].value)" placeholder="Select "></ng-select>
+        </div>
+      </div>
+
+  </div>
+<div class="col-md-3 ">
+<div >
+  <label class="font-weight-bold text-center">{{lblSnd}}</label>
+  <div>
+    <ng-select formControlName="detailsID" [items]="subCriterias" bindLabel="detailsCaption" bindValue="detailsID" (change)="onSelectSubCriteria(f['detailsID'].value)" placeholder="Select "></ng-select>
+  </div>
+</div>
+</div>
+
+<div class="col-md-2">
+  <div>
+    <label class="font-weight-bold">Period</label>
+    <div>
+      <app-period-select-list [periodId]="f['periodID'].value" [moduleID]="moduleId" (onChange)="onSelectPeriod($event)"></app-period-select-list>
+    </div>
+  </div>
+  </div>
+
+<div class="col-md-2">
+  <div >
+    <label class="font-weight-bold">Head</label>
+    <div>
+      <ng-select formControlName="accountId" [items]="servicesByType" bindLabel="serviceName" bindValue="id" placeholder="Select "></ng-select>
+    </div>
+  </div>
+ </div>
+ <div class="col-md-2 ">
+  <div>
+    <label ></label>
+    <div>
+      <button (click)="createNewView(PreBillModal)" class="btn btn-sm btn-success mx-5 mt-1">Show</button>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</div>
+
+</form>
+<table class="table table-bordered table-striped text-center" >
+  <thead>
+      <tr>
+        <th style="width: 100px;">#SL no.</th>
+        <th style="width: 100px;">Code</th>
+        <th style="width: 100px;">Name</th>
+        <th style="width: 100px;">Amount</th>
+        <th style="width: 100px;">Total Installment</th>
+        <th style="width: 100px;">Monthly Installment</th>
+        <th style="width: 100px;"> <input type="checkbox" name="isAllChecked" (change)="oncheckedall($event.target.checked)"></th>
+
+      </tr>
+    </thead>
+  <tbody>
+    <tr *ngFor="let opnbalance of openingBalanceArray
+    .controls;let i=index" [formGroup]="opnbalance">
+      <td style="width:100px;">{{i+1}}</td>
+      <td style="width: 100px;"> {{opnbalance.value.memberCode}}</td>
+      <td style="width: 100px;"> {{opnbalance.value.memberName}}</td>
+      <td style="width:100px;"><input formControlName="amount" class="form-control" placeholder="0.00"> </td>
+      <td style="width:100px"><input formControlName="installmentQty"  class="form-control" placeholder="0.00">
+      </td>
+      <td style="width:100px"><input  formControlName="installmentAmt" class="form-control" placeholder="0.00"> </td>
+      <td style="width:100px;text-align: center;">
+        <input type="checkbox" name="isChecked" formControlName="isChecked" [checked]="opnbalance.value.isChecked" (change)="getOnSelectedChecked($event.target.checked,i)">
+          <!-- <button class="text-white bg-danger font-weight-bold" type="button"><span class="fa fa-window-close"></span></button> -->
+      </td>
+   </tr>
+  </tbody>
+</table>
+ <div class="row demo-inline-spacing pull-right mt-2" style="margin: 0 auto;">
+   <button (click)="reset()" class="btn btn-primary mx-2" type="button"> Refresh</button>
+  <button (click)="savebalance()" class="btn btn-success mx-2" type="button">{{btnStatus}}</button>
+</div>
+</div>
+</div>
+
+<ng-template #PreBillModal>
+  <app-opening-balance-list-temp [periodId]="f['periodID'].value" (selectEvent)="onSelectOpeningBalanceList($event)"></app-opening-balance-list-temp>
+</ng-template>

@@ -1,0 +1,170 @@
+<div class="card">
+    <div class="card-header py-2">
+        <h4 class="text-center mb-0">Cash Transaction</h4>
+    </div>
+    <div class="card-body p-3">
+        <form [formGroup]="cashTransactionForm">
+            <div class="row col-md-10 center">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 "><i class="text-danger">*</i>Voucher Type</label>
+                        <div class="col-md-9">
+                            <!-- <app-voucher-type-select-list [voucherTypeID]="f['voucherType'].value" [isInValid]="true" [ngClass]="{'is-invalid':( f['voucherType'].touched || f['voucherType'].dirty || isSubmit) && f['voucherType'].invalid}" [transType]="voucherName" (onChange)="onSelectVoucherType($event)"
+                                (onBlurClick)="onSelectedVocherNoByVoucherType()" [elementId]="'ngSelectVoucherType'"></app-voucher-type-select-list> -->
+                                <ng-select formControlName="voucherType" (change)="onSelectedVocherNo(f.voucherDate.value)">
+                                    <ng-option [value]="'CashPayment'">Cash Payment</ng-option>
+                                    <ng-option [value]="'CashReceive'">Cash Receive</ng-option>
+                                </ng-select>
+                            <div *ngIf="f['voucherType'].invalid && ( f['voucherType'].touched || f['voucherType'].dirty || isSubmit)" class="text-danger">
+                                <i *ngIf="f['voucherType'].errors.required" class="text-danger">Voucher Type is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 "><i class="text-danger">*</i>Account Name</label>
+                        <div class="col-md-9">
+                            <!-- <ng-select formControlName="partyId" [items]="accountCharModel" bindLabel="accountName" bindValue="accountId" (change)="onSelectAccountName($event)" placeholder="Select Account Name" [ngClass]="{'is-invalid':( f['partyId'].touched || f['partyId'].dirty || isSubmit) && f['partyId'].invalid}"
+                                [id]="'accName'"></ng-select> -->
+
+                                <input type="text" formControlName="accountName" class="form-control" disabled>
+                            <div *ngIf="f['partyId'].invalid && ( f['partyId'].touched || f['partyId'].dirty || isSubmit)" class="text-danger">
+                                <i *ngIf="f['partyId'].errors.required" class="text-danger">Account Name is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 ">Balance</label>
+                        <div class="col-md-9">
+                            <input formControlName="presentBalance" tabindex="-1" class="form-control" placeholder="Balance" disabled>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 "><i class="text-danger">*</i>Voucher Date</label>
+                        <div class="col-md-9">
+                            <app-date-control [tabIndexIs]="true" [setNgbDate]="f['voucherDateNgb'].value" [focusId]="'vtdate'" (getYyyymmdd)="onSelectVoucherDate($event)" (getNgbDate)="f['voucherDateNgb'].setValue($event);onSelectedVocherNo(f.voucherDate.value)" [showCurrentDate]="true" [ngClass]="{'is-invalid':( f['voucherDate'].touched || f['voucherDate'].dirty || isSubmit) && f['voucherDate'].invalid}"></app-date-control>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 "> Voucher No</label>
+                        <div class="col-md-9">
+                            <input formControlName="voucherNo" hidden placeholder="Voucher No" class=" form-control" disabled>
+                            <input [value]="formatVoucherNo" placeholder="Voucher No" class=" form-control" disabled>
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 ">Ref No</label>
+                        <div class="col-md-9">
+                            <input formControlName="refNo" tabindex="-1" [id]="'ref'" class="form-control" placeholder="Enter Reference No">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10 center">
+                <div class="card transTable">
+                    <div class="card-body p-0">
+                        <div class="data-table m-0">
+                            <table class="table table-bordered text-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th style="width:60px">SL No</th>
+                                        <th style="width:340px">Account Name</th>
+                                        <th style="width:100px">Amount</th>
+                                        <th style="width:200px">Subledger</th>
+                                        <th style="width:200px">CostCenter</th>
+                                        <th style="width:80px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let cashTransArray of _cashTransactionForm.controls;let i=index" [formGroup]="cashTransArray">
+                                        <td style="width:60px">{{i+1}}</td>
+                                        <td style="width:340px">
+                                            <app-ledger-select-list [isInvalid]="true" [idTabIndex]="'accountHead'+i" [ledgerID]="cashTransArray.value.accountId" (onChange)="onChangeAccountId($event,i)" [ngClass]="{'is-invalid':( _cashTransactionForm.controls[i].get('accountId').touched || _cashTransactionForm.controls[i].get('accountId').dirty || isSubmit) && _cashTransactionForm.controls[i].get('accountId').invalid}"></app-ledger-select-list>
+                                        </td>                                       
+                                        <td style="width:100px"><input (keyup)="getTotalAmount()" (keydown)="onEnterKeyPress($event,i)" formControlName="amount" [ngClass]="{'is-invalid':( _cashTransactionForm.controls[i].get('amount').touched || _cashTransactionForm.controls[i].get('amount').dirty || isSubmit) && _cashTransactionForm.controls[i].get('amount').invalid}"
+                                                class="form-control" [id]="'amount'+i" placeholder="0.00" type="number" style="text-align: right;"></td>
+                                                <td style="width:200px">
+                                                    <div class="input-group">
+                                                        <ng-select formControlName="subledgerId" name="subledger" [items]="cashTransArray.value.subItem" bindLabel="subledgerName" bindValue="subledgerId" (change)="onSelectSubledger($event,i)" placeholder="Select Subledger" tabindex="-1" [ngStyle]="{'width':'170px'}">
+                                                        </ng-select>
+                                                        <div class="input-group-append">
+                                                            <button (click)="createSubNewItem(subldgerModal,i)" [id]="'subPlus'+i" class="input-group-text btn btn-info">
+                                                 <span class="fa fa-plus" style="cursor: pointer;"></span>
+                                                   </button>
+                                                        </div>
+                                                    </div>
+                                                    <ng-template #subldgerModal>
+                                                        <app-subledger-template (selectEvent)="subledgerItem($event,i)" [totalAmount]="cashTransArray.value.amount"  [modalItem]="cashTransArray.value.subItem" [transID]="f['transId'].value" [accountId]="cashTransArray.value.accountId" [accountName]="accountName"></app-subledger-template>
+                                                        <!-- [totalAmount]="cashTransArray.value.amount" -->
+                                                    </ng-template>
+                                                </td>
+                                        <td style="width:200px">
+                                            <div class="input-group">
+                                                <ng-select formControlName="detailsId" name="costCenter" [items]="cashTransArray.value.costCenItem" bindLabel="detailsCaption" bindValue="detailsId" tabindex="-1" (change)="onSelectCostCenter($event,i)" placeholder="Select CostCenter" [ngStyle]="{'width':'170px'}">
+                                                </ng-select>
+                                                <div class="input-group-append">
+                                                    <button (click)="createCostNewItem(costCenterModal,i)" [id]="'costPlus'+i" class="input-group-text btn btn-info">
+                                            <span class="fa fa-plus" style="cursor: pointer;"></span>
+                                         </button>
+                                                </div>
+                                            </div>
+                                            <ng-template #costCenterModal>
+                                                <app-costcenter-template (selectEvent)="costCenterItem($event,i)"  [moduleId]="moduleId" [modalItem]="cashTransArray.value.costCenItem" [transID]="f['transId'].value" [accountID]="cashTransArray.value.accountId"
+                                                    [isCostCenter]="cashTransArray.value.isCostCenter" [accountName]="accountName" [totalAmount]="cashTransArray.value.amount"></app-costcenter-template>
+                                            </ng-template>
+                                        </td>
+                                        <td style="width:80px">
+                                            <button (click)="addRow()" [id]="'addItem'+i" *ngIf="_cashTransactionForm.controls.length==(i+1)" class="btn btn-sm btn-success"><span class="fa fa-plus"></span></button>
+                                            <button (click)="removeRow(i)" class="btn btn-sm btn-danger" tabindex="-1"><span class="fa fa-times"></span></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer p-0" style="background: rgb(73, 204, 221);color: rgb(17, 3, 67);">
+                        <div class="row mx-3">
+                            <div class="col-md-2 mx-4"></div>
+                            <div class="col-md-4">
+                                <div class="row form-group">
+                                    <label for="totalAmount" class="col-form-label col-md-6 text-right font-weight-bold">Total Amount</label>
+                                    <div class="col-md-5">
+                                        <input formControlName="totalAmount" tabindex="-1" class=" form-control" style="text-align: right;" placeholder="0.00" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row col-md-10 center">
+                <div class="form-group col-md-8 row">
+                    <label for="note" class="col-md-2  font-weight-bold ">Narration</label>
+                    <div class="col-md-10">
+                        <textarea formControlName="narration" class="form-control" placeholder="Enter Narration" [id]="'narration'"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-4 row ">
+                    <div class="demo-inline-spacing">
+                        <button [ladda]="isSaving" (click)="saveTransaction()" class="btn  btn-success" [id]="'btnSale'"  (blur)="onBlurSaleBtn($event)">{{btnStatus}}</button>
+                        <button (click)="reset()" class="btn btn-primary " tabindex="-1">Reset</button>
+                        <button (click)="createNewItem(transList)" class="btn btn-info ">Show</button>
+                    </div>
+                    <!-- <div class="custom-control custom-checkbox mx-1 mt-2  demo-inline-spacing">
+                        <input type="checkbox" class="custom-control-input " tabindex="-1" id="isPrint" checked>
+                        <label class=" badge badge-info custom-control-label " for="isPrint">
+               Is Print
+               </label>
+                    </div> -->
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+<ng-template #transList>
+    <app-transaction-list-show-temp [transType]="transType" (selectEvent)="getTransactionListByTransID($event)"></app-transaction-list-show-temp>
+</ng-template>

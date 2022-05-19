@@ -1,0 +1,52 @@
+
+<div class="card " style="height: 500px;background: rgb(173, 198, 243);">
+  <div class="card-header">
+    <h4 style="color: rgb(54, 141, 241)" class="text-center">
+      Opening Balance  List
+      <span (click)="cancel()" class="text-danger fas fa-window-close float-right"></span>
+    </h4>
+  </div>
+  <div class="card-body p-0" >  
+    <div class="input-group row">
+      <label for="memberName" class="col-md-4 text-right font-weight-bold">Search  </label>
+      <div class="col-md-6">
+      <input (keyup)="filteropeningBalanceList($event.target.value)"
+      name="memberName"
+      type="text"
+      class="form-control"
+    placeholder=" Search Member Name ">
+  </div>
+    </div>
+    <div class="card">
+  <!-- <div class="card-body p-0">
+    <div class="data-table m-0" style="min-height: 250px; background: #efe;"> -->
+      <table class="table table-bordered text-center">
+        <thead>
+          <tr >
+            <th style="width: 5%;">SL</th>
+            <th style="width: 20%;">Code</th>
+            <th style="width: 30%;">Name</th>   
+            <th style="width: 20%;">Installment Amount</th>                 
+            <th style="width: 20%;">Total Amount</th>
+            <th style="width:5%;"></th>                  
+          </tr>
+        </thead>
+        <tbody>
+          <tr  *ngFor="let preBills of filteropeningBalances;let i=index"> 
+              <td style="width: 5%;">{{i+1}}</td>
+              <td style="width: 20%;" >{{preBills.memberCode}}</td> 
+             <td style="width: 30%;">{{preBills.memberName}}</td>     
+             <td style="width: 20%;">{{preBills.installmentAmt}}</td>              
+             <td style="width: 20%;">{{preBills.amount}}</td>
+             <td style="width: 5%;">
+              <button (click)="onSelect(preBills)" class="btn btn-sm btn-success" tabindex="-1"><span class="fas fa-edit"></span></button>
+            </td>
+          </tr>
+        </tbody>                     
+      </table>
+</div>
+</div>
+</div>
+
+
+

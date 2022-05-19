@@ -1,0 +1,172 @@
+<div class="card">
+    <div class=" py-0 p-0">
+        <h3 class="text-center mb-0">Journal Entry</h3>
+    </div>
+    <div class="card-body p-2">
+        <form [formGroup]="journalForm">
+            <div class="row col-md-10 center">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 "><i class="text-danger">*</i>Voucher Type</label>
+                        <div class="col-md-9">
+                            <ng-select formControlName="voucherType" (change)="onSelectedVocherNo(f.voucherDate.value)">
+                                <ng-option [value]="'JournalEntry'">Journal Entry</ng-option>                               
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 ">Ref No</label>
+                        <div class="col-md-9">
+                            <input formControlName="refNo" tabindex="-1" class="form-control" placeholder="Enter Reference No">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 "><i class="text-danger">*</i>Voucher Date</label>
+                        <div class="col-md-9">
+                            <app-date-control [tabIndexIs]="false" [setNgbDate]="f['voucherDateNgb'].value" [ngClass]="{'is-invalid':( f['voucherDate'].touched || f['voucherDate'].dirty || isSubmit) && f['voucherDate'].invalid}" (getYyyymmdd)="f['voucherDate'].setValue($event)"
+                                (getNgbDate)="f['voucherDateNgb'].setValue($event);onSelectedVocherNo(f.voucherDate.value)"></app-date-control>
+                            <div *ngIf="f['voucherDate'].invalid && ( f['voucherDate'].touched || f['voucherDate'].dirty || isSubmit)" class="text-danger">
+                                <i *ngIf="f['voucherDate'].errors.required" class="text-danger">Voucher Type required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 ">  Voucher No</label>
+                        <div class="col-md-9">
+                            <input formControlName="voucherNo" hidden  class=" form-control" disabled>
+                            <input formControlName="formateVoucherNo"   class=" form-control" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10 center">
+                <div class="card transTable">
+                    <div class="card-body p-0">
+                        <div class="data-table m-0">
+                            <table class="table  text-center table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="width:50px">SL#</th>
+                                        <th style="width:340px">Account Name</th>
+                                        <th style="width:70px">Debit</th>
+                                        <th style="width:70px">Credit</th>
+                                        <th style="width:200px">Subledger</th>
+                                        <th style="width:200px">CostCenter</th>
+                                        <!-- <th>ChequeNo</th> -->
+                                        <th style="width:70px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let jarnalArry of _journalForm.controls;let i=index" [formGroup]="jarnalArry">
+                                        <td style="width:50px">{{i+1}}</td>
+                                        <td style="width:340px">
+                                            <app-ledger-select-list [isInvalid]="true" [idTabIndex]="'accountHead'+i" [ledgerID]="jarnalArry.value.accountId" (onChange)="onChangeAccountId($event,i)" ></app-ledger-select-list>
+                                        </td>
+                                        <td style="width:70px;">
+                                            <input (keyup)="debitAmountControl(i,'debit'+i)" (keydown)="onEnterKeyPress($event,i)" formControlName="debit" [ngClass]="{'is-invalid':( _journalForm.controls[i].get('debit').touched || _journalForm.controls[i].get('debit').dirty || isSubmit) && _journalForm.controls[i].get('debit').invalid}"
+                                                class="form-control" [id]="'debit'+i" placeholder="0.00" type="number" style="text-align: right;">
+                                        </td>
+                                        <td style="width:70px">
+                                            <input (keyup)="debitAmountControl(i,'credit'+i)" (keydown)="onEnterKeyPress($event,i)" formControlName="credit" [ngClass]="{'is-invalid':( _journalForm.controls[i].get('credit').touched || _journalForm.controls[i].get('credit').dirty || isSubmit) && _journalForm.controls[i].get('credit').invalid}"
+                                                class="form-control" [id]="'credit'+i" placeholder="0.00" type="number" style="text-align: right;">
+                                        </td>
+                                        <td style="width:200px">
+                                            <div class="input-group">
+                                                <ng-select formControlName="subledgerId" name="subledger" [items]="jarnalArry.value.subItem" bindLabel="subledgerName" bindValue="subledgerId" tabindex="-1" (change)="onSelectSubledger($event,i)" placeholder="Select Subledger" [ngStyle]="{'width':'170px'}">
+                                                </ng-select>
+                                                <div class="input-group-append">
+                                                    <button (click)="createSubNewItem(subldgerModal,i)" [id]="'subPlus'+i" class="input-group-text btn btn-info">
+                                               <span class="fa fa-plus" style="cursor: pointer;"></span>
+                                                 </button>
+                                                </div>
+                                            </div>
+                                            <ng-template #subldgerModal>
+                                                <app-subledger-template (selectEvent)="subledgerItem($event,i)" (selectKeyboardEvent)="onSubledgerPlusClick($event)" [modalItem]="jarnalArry.value.subItem" [transID]="f['transId'].value" [accountId]="jarnalArry.value.accountId" [accountName]="accountName"
+                                                    [totalAmount]="getJournalVal(i,'debit')>0?getJournalVal(i,'debit'):getJournalVal(i,'credit')"></app-subledger-template>
+                                            </ng-template>
+
+                                        </td>
+                                        <td style="width:200px">
+                                            <div class="input-group">
+                                                <ng-select formControlName="detailsId" name="costCenter" [items]="jarnalArry.value.costCenItem" bindLabel="detailsCaption" bindValue="detailsId" tabindex="-1" (change)="onSelectCostCenter($event,i)" [ngStyle]="{'width':'170px'}" placeholder="Select CostCenter">
+                                                </ng-select>
+                                                <div class="input-group-append">
+                                                    <button (click)="createCostNewItem(costCenterModal,i)" [id]="'costPlus'+i" class="input-group-text btn btn-info">
+                                           <span class="fa fa-plus" style="cursor: pointer;"></span>
+                                             </button>
+                                                </div>   
+                                             </div>
+
+                                            <ng-template #costCenterModal>
+                                                <app-costcenter-template (selectEvent)="costCenterItem($event,i)" (selectKeyboardEvent)="onCostCenterPlusClick($event)" [moduleId]="moduleId" [modalItem]="jarnalArry.value.costCenItem" [transID]="f['transId'].value" [accountID]="jarnalArry.value.accountId"
+                                                    [isCostCenter]="jarnalArry.value.isCostCenter" [accountName]="accountName" [totalAmount]="getJournalVal(i,'debit')>0?getJournalVal(i,'debit'):getJournalVal(i,'credit')"></app-costcenter-template>
+                                            </ng-template>
+                                        </td>
+                                        <td style="width:70px">
+                                            <button (click)="addRow()" [id]="'addItem'+i" *ngIf="_journalForm.controls.length==(i+1)" class="btn btn-sm btn-success"><span class="fa fa-plus"></span></button>
+                                            <button tabindex="-1" (click)="removeRow(i)" class="btn btn-sm btn-danger"><span class="fa fa-times"></span></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer p-0" style="background: rgb(73, 204, 221);color: rgb(17, 3, 67);">
+                        <div class="row mx-3">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-4 mx-5">
+                                <div class="row form-group no-gutters">
+                                    <label for="totalAmount" class="col-form-label col-md-3 ">Total</label>
+                                    <div class="col-md-3">
+                                        <input formControlName="totalAmount" tabindex="-1" class=" form-control" placeholder="0.00" style="text-align: left;" disabled>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input [value]="totalCredit" tabindex="-1" class=" form-control" placeholder="0.00" style="text-align: left;" disabled>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row  col-md-10 center p-0">
+                <div class="form-group col-md-6 row">
+                    <label class="col-2  font-weight-bold ">Narration</label>
+                    <div class="col-10">
+                        <textarea formControlName="narration" class=" form-control" placeholder="Enter Narration"></textarea>
+                    </div>
+                </div>
+                <div class="form-group col-md-3 row">
+                    <label class="col-4  font-weight-bold">Cheq. No</label>
+                    <div class="col-8">
+                        <ng-select formControlName="chequeNo" [items]="chequeNoShowModel" bindLabel="chequeNo" (change)="onChequeNoSelect($event)" bindValue="chequeNo" placeholder="Select Cheque No"></ng-select>
+                    </div>
+                </div>
+                <div class="form-group  col-md-3 row">
+                    <label class="col-4  font-weight-bold">Chq.Date</label>
+                    <div class="col-8">
+                        <app-date-control [tabIndexIs]="false" [setNgbDate]="f['chequeDateNgb'].value" (getYyyymmdd)="f['chequeDate'].setValue($event);" (getNgbDate)="f['chequeDateNgb'].setValue($event)"></app-date-control>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-3 pull-right mx-5" style="margin: 0 auto;">
+                <button [ladda]="isSaveClick" [id]="'btnSave'" (click)="saveTransaction()" class="btn btn-success ">{{btnStatus}}</button>
+                <button (click)="reset()" class="btn btn-primary " tabindex="-1">Reset</button>
+                <button (click)="createNewItem(transList)" class="btn btn-info ">Show</button>
+            </div>
+        </form>
+    </div>
+</div>
+<ng-template #saveModal>
+    <app-conformation-messages [saveOrUpdate]="btnStatus" (onConfirmation)="saveTransaction($event)"></app-conformation-messages>
+
+</ng-template>
+<ng-template #transList>
+    <app-transaction-list-show-temp [transType]="transType" (selectEvent)="getJournalListByTransID($event)"></app-transaction-list-show-temp>
+
+</ng-template>

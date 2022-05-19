@@ -1,0 +1,77 @@
+<div class="card ">
+    <div class="card-header text-center">
+        <h4>Subledger</h4>
+    </div>
+    <div class="card-body">
+        <div class="container">
+            <div class="col-md-7 center ">
+                <form [formGroup]="subLedgerForm">
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 "><i class="text-danger" >*</i> Account Name</label>
+                        <div class="col-md-9">
+                            <app-account-name-select-list [ngClass]="{'is-invalid':( f['accountId'].touched || f['accountId'].dirty || isSubmit) && f['accountId'].invalid}" [accountNameID]="f['accountId'].value" (onChange)="f['accountId'].setValue($event.accountId)"></app-account-name-select-list>
+                            <div *ngIf="f['accountId'].invalid && ( f['accountId'].touched || f['accountId'].dirty || isSubmit)" class="text-danger">
+                                <i *ngIf="f['accountId'].errors.required" class="text-danger">Account Name is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  Tania Start-->
+                    <div *ngIf="">
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-3 ">Amount</label>
+                            <div class="col-md-4">
+                                <input type="number" placeholder="0.00">
+                            </div>
+                            <label class="col-form-label col-md-2 ">Create Date</label>
+                            <div class="col-md-3">
+                                <app-date-control></app-date-control>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-3 ">Investment Rate</label>
+                            <div class="col-md-4">
+                                <input type="number" placeholder="0.00">
+                            </div>
+                            <label class="col-form-label col-md-2 ">Maturity Date</label>
+                            <div class="col-md-3">
+                                <app-date-control></app-date-control>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  Tania End-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 "><i class="text-danger" >*</i> Subledger</label>
+                        <div class="col-md-9">
+                            <input [ngClass]="{'is-invalid':( f['subledgerName'].touched || f['subledgerName'].dirty || isSubmit) && f['subledgerName'].invalid}" formControlName="subledgerName" class="form-control" placeholder="Subledger Name">
+                            <div *ngIf="f['subledgerName'].invalid && ( f['subledgerName'].touched || f['subledgerName'].dirty || isSubmit)" class="text-danger">
+                                <i *ngIf="f['subledgerName'].errors.required" class="text-danger">Subledger is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 ">Alias Name</label>
+                        <div class="col-md-9">
+                            <input formControlName="aliasName" class="form-control" placeholder="Alias Name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 ">Opening Balance</label>
+                        <div class="col-md-3">
+                            <input formControlName="openingBalance" class="form-control " placeholder='0.00' type="number">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row demo-inline-spacing pull-right pr-5" style="margin: 0 auto;">
+        <button [ladda]="isSave" (click)="onSubmit()" class="btn btn-success float-right mx-1"><span class="fas fa-save"></span> {{btnStatus}}</button>
+        <button (click)="reset()" class="btn btn-primary float-right mx-1"><span class="fas fa-remove"></span> Reset</button>
+        <button (click)="modalServOpen(accGroupListModal)" class="btn btn-info float-right mx-1"> Show</button>
+    </div>
+</div>
+
+<ng-template #accGroupListModal tabindex="-1">
+    <app-subledger-list-temp [accountId]="f['accountId'].value" (selectEvent)="getSubledgerByID($event)"></app-subledger-list-temp>
+</ng-template>

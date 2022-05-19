@@ -1,0 +1,44 @@
+table th,td{
+    vertical-align: middle;
+  }
+  td{
+    padding: 0;
+    padding-top: 0 !important;
+  }
+  td .form-control{
+    margin: 0;
+    border: 0;
+    padding: 1px;
+    font-size: 14px;
+    text-align: center;
+    background: #eee;
+    border-radius: 0;
+    border: 1px solid #fff;
+  }
+  
+  td .form-control:focus{
+    background: #ddffdd;
+    border: 1px dotted #555;
+  }
+  input[type=number]::-webkit-inner-spin-button, 
+  input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+  }
+  tbody {
+    display:block;
+    height:300px;
+    overflow:scroll;
+    background: #efe;
+  }
+  thead, tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+  }
+  thead {
+    width: calc( 100% - 5px)
+  }
+  table {
+    widows: 100%;
+  }

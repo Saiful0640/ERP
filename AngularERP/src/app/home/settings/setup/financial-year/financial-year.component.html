@@ -1,0 +1,94 @@
+<div class="card md-4">
+  <div class="card-header py-2">
+    <h4 class="text-center mb-0">Financial Year Setup</h4>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <form [formGroup]="financialForm">
+          <div class="form-group row">
+            <label class="col-form-label col-md-3">Year Name </label>
+            <div class="col-md-6">
+              <input formControlName="yearName"
+                [ngClass]="{'is-invalid':( f['yearName'].touched || f['yearName'].dirty || isSubmit) && f['yearName'].invalid}"
+                type="text" class="form-control" placeholder="Year Name">
+              <div *ngIf="f['yearName'].invalid && ( f['yearName'].touched || f['yearName'].dirty || isSubmit)"
+                class="text-danger">
+                <i *ngIf="f['yearName'].errors.required" class="text-danger">Year Name is required</i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-md-3">Start Date <i class="text-danger">*</i></label>
+            <div class="col-md-6">
+              <div class="input-group ">
+                <app-date-control 
+                  [ngClass]="{'is-invalid':( f['sfYear'].touched || f['sfYear'].dirty || isSubmit) && f['sfYear'].invalid}"
+                  (getYyyymmdd)="f['sfYear'].setValue($event)" (getNgbDate)="f['startDateNgb'].setValue($event)"
+                  [setNgbDate]="f['startDateNgb'].value"></app-date-control>
+                <div *ngIf="f['sfYear'].invalid && ( f['sfYear'].touched || f['sfYear'].dirty || isSubmit)"
+                  class="text-danger">
+                  <i *ngIf="f['sfYear'].errors.required" class="text-danger">Start Date is required</i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-md-3">End Date <i class="text-danger">*</i></label>
+            <div class="col-md-6">
+              <div class=" input-group ">
+                <app-date-control
+                  [ngClass]="{'is-invalid':( f['efYear'].touched || f['efYear'].dirty || isSubmit) && f['efYear'].invalid}"
+                  (getYyyymmdd)="f['efYear'].setValue($event)" (getNgbDate)="f['endDateNgb'].setValue($event)"
+                  [setNgbDate]="f['endDateNgb'].value"></app-date-control>
+                <div *ngIf="f['efYear'].invalid && ( f['efYear'].touched || f['efYear'].dirty || isSubmit)"
+                  class="text-danger">
+                  <i *ngIf="f['efYear'].errors.required" class="text-danger">End Date is required</i>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-9">
+              <div class="row">
+                <div class="ml-auto mr-2">
+                  <button (click)="reset()" class="btn btn-info">Reset</button>
+                <button (click)="saveFinancialYear()" class="btn btn-success">{{btnStatus}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-6">
+        <div class="data-table mb-0">
+          <table class="table table-hover table-striped mb-0 table-bordered">
+            <thead>
+              <tr>
+                <th>#SN</th>
+                <th>Year Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="financialModal.length==0">
+                <td colspan="13" class="font-italic text-center">No item available</td>
+              </tr>
+              <tr *ngFor="let yr of financialModal;let i=index">
+                <td>{{i+1}}</td>
+                <td>{{yr.yearName}}</td>
+                <td>{{dateFormate.getYyyymmddToDate(yr.sfYear) | date:'dd/MM/yyyy'}}</td>
+                <td>{{dateFormate.getYyyymmddToDate(yr.efYear) | date:'dd/MM/yyyy'}}</td>
+                <!-- <td>{{dateFormate.getYyyymmddToDate(yr.efYear) | date:'dd/MM/yyyy'}}</td> -->
+                <td><button (click)="getYearByID(yr.id)" class="btn btn-sm btn-primary"><span class="fas fa-edit"></span></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

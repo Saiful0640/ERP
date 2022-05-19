@@ -1,0 +1,31 @@
+export class MemberPersonalInfo {
+   id : number;
+   memberCode :string ;
+   memberName :string ;
+   fathersName :string ;
+   mothersName :string ;
+   spousName :string ;
+   dateOfBirth : string ;
+   genderID : number ;
+   bloodGroupID : number ;
+   religionID : number ;
+   maritialStatusID : number ;
+   mobileNo : string ;
+   email : string ;
+  // countryID : number ;
+   nationalityID :string ;
+  // location : number;
+   thanaID : number ;
+   permanentThanaID : number;
+   postOffice : number ;
+   presentAddress :string ;
+   permanentAddress :string ;
+   compId : number ;
+   comType : number ;
+   //branchID : number ;
+   userID : number ;
+   remarks : string ;
+   picture : string;
+   //lastEducation:string;
+   //position:string;
+}

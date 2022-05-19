@@ -1,0 +1,98 @@
+<div class="card">
+    <div class="card-header text-center ">
+        <h4 style="color: rgb(26, 128, 245)" class="text-center">{{title}} Manual Bill Process
+        </h4>
+    </div>
+    <div class="card-body ">
+        <form [formGroup]="billCollectionForm">
+            <div class="card ">
+                <div class="card-body p-1 row no-gutters">
+                    <div class="col-md-2 row no-gutters">
+                        <label class="col-form-label col-md-3">{{lblname}}</label>
+                        <div class="col-md-8">
+                            <ng-select formControlName="buildingId" [items]="criterias" bindLabel="detailsCaption" bindValue="detailsID" (change)="getSubCriteria(f['buildingId'].value)" placeholder="Select "></ng-select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 row no-gutters">
+                        <label class="col-form-label col-md-2 text-right">{{lblname2}}</label>
+                        <div class="col-md-10">
+                            <ng-select formControlName="detailsID" [items]="subCriterias" bindLabel="detailsCaption" bindValue="detailsID" (change)="onSelectSubCriteria(f['detailsID'].value)" placeholder="Select "></ng-select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 row no-gutters">
+                        <label class="col-form-label col-md-2 text-right">Service</label>
+                        <div class="col-md-10">
+                            <ng-select formControlName="accountId" [items]="servicesByType" bindLabel="serviceName" bindValue="id" (change)="onSelectServiceName(f['accountId'].value)"  placeholder="Select "></ng-select>
+                        </div>
+                    </div>
+                    <div class="col-md-2  row no-gutters">
+                        <label class="col-form-label col-md-3 text-right">Period</label>
+                        <div class="col-md-9">
+                            <app-period-select-list [periodId]="f['periodID'].value" [moduleID]="moduleId" (onChange)="onSelectPeriod($event)"></app-period-select-list>
+                        </div>
+                    </div>
+                    <div class="col-md-2 demo-inline-spacing  " style="margin: 0 auto;">
+
+                        <button (click)="createNewView(PreBillModal)" class="btn btn-sm btn-success mx-5 mt-1">Show</button>
+                    </div>
+                    <!-- </div> -->
+                </div>
+            </div>
+
+            <div class="card mt-3">
+                <div class="card-body p-0">
+                    <div class="data-table m-0 p-0">
+                        <table class="table text-center  mb-0 table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width:5%">SL</th>
+                                    <th style="width:10%">Code</th>
+                                    <th style="width:10%">Name</th>
+                                    <th style="width:10%">Flat Name</th>
+                                    <th style="width:10%" *ngIf="moduleId==41">Meter No</th>
+                                    <th style="width:10%" *ngIf="moduleId==41">Previous Rating</th>
+                                    <th style="width:10%" *ngIf="moduleId==41">Present Rating</th>
+                                    <th style="width:10%" *ngIf="moduleId==41">Consumed Unit</th>
+                                    <th style="width:10%" *ngIf="moduleId==41">Unit Price</th>
+                                    <th style="width:10%">Amount</th>
+                                    <th style="width:5%"><input type="checkbox" name="isAllChecked" [checked]="1" (change)="oncheckedall($event.target.checked)"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- <tr>
+                                <td colspan="7" class="text-center"><i>No Data found</i></td>
+                            </tr> -->
+                                <tr *ngFor="let billArr of billCollectionArray.controls;let i=index" [formGroup]="billArr">
+                                    <td style="width:5%">{{i+1}}</td>
+                                    <td style="width:10% ">{{billArr.value.memberCode}}</td>
+                                    <td style="width:10% "> {{billArr.value.memberName}}</td>
+                                    <td style="width:10% "> {{billArr.value.detailsCaption}}</td>
+                                    <td style="width:10% " *ngIf="moduleId==41"> {{billArr.value.meterNo}}</td>
+                                    <td style="width:10% " *ngIf="moduleId==41"> {{billArr.value.serialNo}}</td>
+                                    <td style="width:10% " *ngIf="moduleId==41">
+                                        <input (keyup)="calculateConsumeRate(i)" formControlName="readingQty" class="form-control" placeholder="0.00">
+                                     </td>
+                                    <td style="width:10% " *ngIf="moduleId==41"> <input formControlName="consumeRate"  class="form-control" placeholder="0.00" disabled>
+                                       </td>
+                                    <td style="width:10% " *ngIf="moduleId==41"> <input  formControlName="unitPrice" (keyup)="calculateTotalAmount(i)" class="form-control" placeholder="0.00" ></td>
+                                    <td style="width:10% "><input formControlName="amount" class="form-control" placeholder="0.00"> </td>
+                                    <td style="width:5%">
+                                        <input type="checkbox" name="isChecked" formControlName="isChecked" [checked]="billArr.value.isChecked" (change)="getOnSelectedChecked($event.target.checked,i)">
+                                        <!-- <button class="text-white bg-danger font-weight-bold" type="button"><span class="fa fa-window-close"></span></button> -->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row demo-inline-spacing pull-right mt-2" style="margin: 0 auto;">
+                        <button (click)="reset()" class="btn btn-primary mx-2" type="button"> Refresh</button>
+                        <button (click)="saveBillPre()" class="btn btn-success mx-2" type="button">{{btnStatus}}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<ng-template #PreBillModal>
+    <app-center-prepared-bill-list [type]="type" [periodId]="f['periodID'].value" (selectEvent)="getListForEditBill($event)"></app-center-prepared-bill-list>
+</ng-template>

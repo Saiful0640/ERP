@@ -1,0 +1,14 @@
+// :host /deep/ .noUi-vertical {
+//     height: 400px;
+//     margin: 0 auto 30px;
+//   }
+.selected-row {
+    background: rgb(220, 252, 249);
+    button {
+        background: rgb(8, 122, 2);
+    }
+}
+.data-table
+{
+    overflow-y:auto;
+}

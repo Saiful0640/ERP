@@ -1,0 +1,371 @@
+<div class="card" id="orderSPage">
+    <div class=" card-header py-1">
+        <h4 class="text-center mb-0">Delivery Order</h4>
+    </div>
+    <div class="card-body pt-0">
+        <form [formGroup]="deliveryOrderForm">
+            <div class="row border px-2 pt-2 mb-3">
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <div class="row  col-md-12">
+                            <div class="col-sm-11">
+                                <!-- <app-customer-select-list-for-order [CustomerType]="1" [elementId]="'ngSelectParty'" [IsInvalid]="!this.formVal.partyId" [IsDisabled]="currentStatus>=0" [customerId]="formVal.partyId" (onChange)="onSelectCustomer($event)" (onSelectAddress)="selectAddress($event) ">
+                                </app-customer-select-list-for-order> -->
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="custom-control custom-checkbox  row">
+                                    <input type="checkbox" class="custom-control-input row" id="all">
+                                    <label class=" custom-control-label " for="all"> All</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <input formControlName="orderNo" type="text" readonly class="form-control" id="orderNo" placeholder="Order No..">
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-md-2">
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <app-date-control [setNgbDate]="f['orderDateNgb'].value" (getLocalDate)="deliveryOrderForm.patchValue({orderDate:$event})" (getNgbDate)="deliveryOrderForm.patchValue({orderDateNgb:$event})"></app-date-control>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+                <div class=" col-md-2">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <input formControlName="refNo" [readOnly]="currentStatus>=0" type="text" class="form-control" id="refNo" placeholder="Refarence No...">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <label *ngIf="(formVal.orderType==7 && currentStatus>0) || currentStatus<=0" for="saleRadio" class="radio-inline mx-2">
+                      <input formControlName="orderType" (change)="getNextOrderNo()" type="radio" [value]="7" id="saleRadio"
+                              class="input-check"> <span>Sale</span>
+                       </label>
+
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group row">
+                        <div class="row  col-md-12">
+                            <div class="col-sm-12">
+                                <input formControlName="commitionType" type="text" readonly class="form-control" id="commitionType" placeholder="Commition Type">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <input formControlName="territory" type="text" readonly class="form-control" id="territory" placeholder="Territory">
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-md-4">
+                    <div class="row  col-md-12">
+                        <div class="col-sm-10">
+                            <input formControlName="tso" type="text" readonly class="form-control" id="tSO" placeholder="TSO">
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="custom-control custom-checkbox  row">
+                                <input type="checkbox" class="custom-control-input row" id="alltso">
+                                <label class=" custom-control-label " for="alltso"> All</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-md-2">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <input disabled formControlName="cBalence" type="number" class="form-control" id="cBalence" placeholder="Credit Balence">
+                        </div>
+                    </div>
+                </div>
+                 <div class=" col-md-2">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <input disabled formControlName="cLimit" type="number" class="form-control" id="cLimit" placeholder="Credit Limit">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+              <hr class="py-0 my-0 hr-line">
+              <h5 class="col-md-12 text-center position-relative mb-0 font-weight-bold section-title">
+                  <span class="badge badge-pill badge-primary px-3">Product</span>
+              </h5>
+
+              <div class="row section-3 py-0">
+                  <div class="col-12 col-md-4">
+                      <div class="form-group row">
+                          <label for="product" class="col-md-3">Product</label>
+                          <div class="col-md-9">
+                              <!-- <app-invoice-product-select-list [billNatureId]="billNatureId" [productId]="product.productId" (onChange)="onChangeProduct($event)" [width]="'240px'" [productTabId]="'product'">
+                              </app-invoice-product-select-list> -->
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-12 col-md-5">
+                      <div class="form-group row">
+                          <label for="productDesc" class="col-md-3">Description</label>
+                          <div class="col-md-9">
+                              <textarea formControlName="description" class="form-control" placeholder="Product Description" rows="1" id="productDesc" disabled></textarea>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-4 col-md-3">
+                      <div class="form-group row">
+                          <label for="qty" class="col-4 col-md-4">Qty</label>
+                          <div class="col-md-8">
+                              <input (keyup)="calculation()" formControlName="qty" type="number" placeholder="Qty" class="form-control" id="qty">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="row section-3 py-0">
+                  <div class="col-4 col-md-4">
+                      <div class="form-group row">
+                          <label for="price" class="col-md-3">Price</label>
+                          <div class="col-md-8">
+                              <input formControlName="costPrice" (keyup)="calculation()" type="number" placeholder="Price" class="form-control" id="price">
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-4 col-md-5">
+                      <div class="form-group row">
+                          <label for="discount" class="col-md-3">Discount(%)</label>
+                          <div class="col-md-9">
+                              <input (keyup)="calculation()" formControlName="discountRate" type="number" placeholder="Discount Rate" class="form-control" id="discount">
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-4 col-md-3">
+                      <div class="form-group row">
+                          <label for="vat" class="col-12 col-md-4">Vat(%)</label>
+                          <div class=" col-12 col-md-8">
+                              <input (keyup)="calculation()" formControlName="vatRate" type="number" class="form-control" placeholder="Vat" id="vat">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="row section-4 py-0">
+                  <div class="col-6 col-md-4">
+                      <div class="form-group row">
+                          <label for="total" class="col-5 col-md-3">Total Amt</label>
+                          <div class="col-7 col-md-8">
+                              <input formControlName="totalAmount" type="number" placeholder="Total Amt" class="form-control" readonly>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-6 col-md-5">
+                      <div class="form-group row">
+                          <label for="netamt" class="col-6 col-md-3">Net Amt</label>
+                          <div class="col-6 col-md-9">
+                              <input formControlName="productNetAmount" type="number" placeholder="Net Amt" class="form-control" readonly>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-12 col-md-3 row">
+                      <div >
+                          <button type="button" class="btn btn-success btn-sm">+</button>
+                          <button type="button" (click)="addProduct()" class="btn btn-primary btn-sm">Add Product</button>
+                          <button type="button" (click)="clear()" class="btn btn-info btn-sm">Clear</button>
+                      </div>
+                  </div>
+              </div>
+
+              <hr class="py-0 my-0 hr-line">
+              <h5 class="col-md-12 text-center position-relative mb-0 font-weight-bold section-title">
+                  <span class="badge badge-pill badge-primary px-3">Accounts & Payment</span>
+              </h5>
+
+            <!-- <div class="row col-md-12">
+                    <div class="col-md-6">
+                        <div>
+                          <div  class="data-table">
+                              <table class="table table-bordered mb-0">
+                                  <thead>
+                                      <tr>
+                                          <th>#SN</th>
+                                          <th>Product</th>
+                                          <th class="text-right">Qty</th>
+                                          <th class="text-right">TotalAmount</th>
+                                          <th class="text-right">NetAmount</th>
+                                          <th>Action</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <tr *ngFor="let addedProduct of productsFormArr.controls;let i=index" [formGroup]="addedProduct">
+                                          <td>{{i+1}}</td>
+                                          <td>{{addedProduct.value.productDescription}}</td>
+                                          <td class="text-right">{{addedProduct.value.uniqueQty}}</td>
+                                          <td class="text-right">{{addedProduct.value.total | number:'1.2-2'}}</td>
+                                          <td class="text-right">{{addedProduct.value.netAmount | number:'1.2-2'}}</td>
+                                           <td>
+                                              <span (click)="editProduct(addedProduct.value.productId,i)" class="fa fa-edit text-success"></span>
+                                              <span (click)="remove(i)" class="fa fa-times text-danger"></span>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td class="text-right"></td>
+                                          <td class="text-right">Total</td>
+                                          <td class="text-right">{{finalTotalQty}}</td>
+                                          <td class="text-right">{{finalTotalAmount}}</td>
+                                          <td class="text-right">{{finalNetAmount}}</td>
+                                          <td></td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+
+                          <div class="form-group row text-left">
+                              <div class="col-md-3">
+                                  <div>
+                                      <span>Party Name :</span>
+                                  </div>
+                              </div>
+                              <div class="col-md-9">
+                                  <div>
+                                      <input formControlName="billTo" type="text" [id]="'billTo'" (keydown)="onEnterOrTabKeyDown($event,'billAddress')" class="form-control" placeholder="Party Name">
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-group row text-left">
+                              <div class="col-md-3">
+                                  <div>
+                                      <span>Delivery Address :</span>
+                                  </div>
+                              </div>
+                              <div class="col-md-9">
+                                  <div>
+                                      <input formControlName="billAddress" (keydown)="onEnterOrTabKeyDown($event,'billContactNo')" [id]="'billAddress'" type="text" class="form-control" placeholder="Delivery Address">
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-group row text-left">
+                              <div class="col-md-3">
+                                  <div>
+                                      <span>Contact No :</span>
+                                  </div>
+                              </div>
+                              <div class="col-md-9">
+                                  <div>
+                                      <input formControlName="billContactNo" (keydown)="onEnterOrTabKeyDown($event,'narration')" type="text" class="form-control" id="billContactNo" placeholder="Contact No">
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-group row text-left">
+                              <div class="col-md-3">
+                                  <div>
+                                      <span>Narration :</span>
+                                  </div>
+                              </div>
+                              <div class="col-md-9">
+                                  <div>
+                                      <textarea formControlName="narration" type="text" rows="1" class="form-control" (keydown)="onBlurNarration($event)" [id]="'narration'" placeholder="Narration"></textarea>
+                                      <textarea  formControlName="checkedNarration" type="text" rows="1" class="form-control" id="checkedNarration" placeholder="Checked Narration"></textarea>
+                                      <textarea  formControlName="verifiedNarration" type="text" rows="1" class="form-control" id="verifiedNarration" placeholder="Verified Narration"></textarea>
+                                      <textarea  formControlName="managementNarration" type="text" rows="1" class="form-control" id="approveNarration" placeholder="Management Narration"></textarea>
+                                  </div>
+                              </div>
+                          </div>
+                    </div>
+
+                    <div class="col-md-6">
+                          <div class="form-group row mb-0">
+                              <label for="otherAddition" class="col-form-label col-md-5 border ml-3 p-1 text-center">Misc. Add</label>
+                              <div class="col-md-5 px-0 border">
+                                  <input formControlName="otherAddition" (keyup)="updateNetPayable()" (keydown)="onEnterOrTabKeyDown($event,'otherDeduction')" type="number" class="form-control text-right" [id]="'otherAddition'" placeholder="0.00">
+                              </div>
+                          </div>
+                          <div class="form-group row mb-0">
+                              <label for="otherDeduction" class="col-form-label col-md-5 border ml-3 p-1 text-center">Misc. Deduct</label>
+                              <div class="col-md-5 px-0 border">
+                                  <input formControlName="otherDeduction" (keyup)="updateNetPayable()" (keydown)="onEnterOrTabKeyDown($event,'paidAmount')" type="number" class="form-control text-right" id="otherDeduction" placeholder="0.00">
+                              </div>
+                          </div>
+                          <div class="form-group row mb-0">
+                              <label for="paidAmount" class="col-form-label col-md-5 border ml-3 p-1 text-center">Paid Amount</label>
+                              <div class="col-md-5 px-0 border">
+                                  <input formControlName="paidAmount" (keyup)="updateNetPayable()" type="number" class="form-control text-right" (keydown)="onBlurPaidAmount($event)" id="paidAmount" placeholder="0.00">
+                              </div>
+                          </div>
+                          <div class="form-group row ">
+                              <label for="netPayable" class="col-form-label col-md-5 border ml-3 p-1 text-center">Net Payable</label>
+                              <div class="col-md-5 text-right font-weight-bold py-2 border">
+                                  {{formVal.netPayable | number:'2.2-2'}}
+                              </div>
+                          </div>
+
+                          <div class="form-group row mb-0">
+                              <label for="payType" class="col-form-label col-md-3 border ml-3 p-1">Pay Type</label>
+                              <div class="col-md-8 px-0 border">
+                                  <ng-select formControlName="paymentType" placeholder="Select Pay Type" (change)="onSelectPaymentType($event)">
+                                      <ng-option [value]="'Cash'">Cash</ng-option>
+                                      <ng-option [value]="'Bank'">Bank</ng-option>
+                                      <ng-option [value]="'Others'">Others</ng-option>
+                                  </ng-select>
+                              </div>
+                          </div>
+                          <div class="form-group row mb-0" *ngIf="formVal.paymentType=='Bank'">
+                              <label for="banks" class="col-form-label col-md-3 border ml-3 p-1">Bank Name</label>
+                              <div class="col-md-8 px-0 border">
+                                  <app-bank-select-list [bankID]="f['bankId'].value" [elementId]="'accName'" (onChange)="onChangeAccountBankId($event)"></app-bank-select-list>
+                              </div>
+                          </div>
+                          <div class="form-group row mb-0">
+                              <label for="dftAmt" class="col-form-label col-md-3 border ml-3 p-1">Deposite</label>
+                              <div class="col-md-8 px-0 border">
+                                  <input formControlName="deposite" placeholder="0.00" class=" form-control ">
+                              </div>
+                          </div>
+                    </div>
+
+                <div *ngIf="currentStatus==0" class="form-group row text-success text-big">
+                    <label for="balance" class="col-md-5 border ml-3 p-1">Balance</label>
+                    <div class="col-md-5 text-right font-weight-bold border p-1">
+                        {{formVal.balance | number:'2.2-2'}}
+                    </div>
+                </div>
+                <div *ngIf="currentStatus==0" class="form-group row mb-3 text-danger text-big">
+                    <label for="creditLimit" class="col-md-5 border ml-3 p-1">Credit Limit</label>
+                    <div class="col-md-5 text-right font-weight-bold p-1 border">
+                        {{formVal.creditLimit | number:'2.2-2'}}
+                    </div>
+                </div>
+            </div> -->
+            <div class="row">
+                <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                    <button (click)="reset()" type="clear" class="btn  btn-info mr-4"> Reset</button>
+                    <button [ladda]="isConfirm" (click)="confirmSave(saveModal)" type="button" [id]="'btnSave'" class="btn  btn-primary" >{{btnStatus}}</button>
+
+                      <Button *ngIf="currentStatus<=0" [ladda]="isSubmitted" (click)="saveOrder()" type="" [id]="'prepare'" class="btn  btn-success" [disabled]="currentStatus==0"> <span>{{currentStatus==0?'Prepared':'Prepare'}}</span></Button>
+
+
+          <Button *ngIf="currentStatus!=4 && userApproveLevel.canApprove" [ladda]="isSubmitted" (click)="saveOrder()" type="" [id]="'approve'" class="btn  btn-success" [disabled]="currentStatus==3"> <span>{{currentStatus==3?'Approved':'Approve'}}</span></Button>
+
+          <Button *ngIf="currentStatus==3  && userApproveLevel.canApprove || currentStatus==4  && userApproveLevel.canApprove" [ladda]="isSubmitted" (click)="saveOrder()" type="" [id]="'reject'" class="btn  btn-danger" [disabled]="currentStatus==4">  <span>{{currentStatus==4?'Rejected':'Reject'}}</span></Button>
+
+
+          <Button *ngIf="currentStatus<=1 && userApproveLevel.canVerify" [ladda]="isSubmitted" (click)="saveOrder()" type="" [id]="'veryfy'" class="btn  btn-success" [disabled]="currentStatus==1">    <span>{{currentStatus==1?'Verified':'Verify'}}</span></Button>
+
+
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
+  <ng-template #saveModal>
+  <app-conformation-messages [saveOrUpdate]="btnStatus" (onConfirmation)="confirmSaveOrder($event)"></app-conformation-messages>
+  </ng-template>

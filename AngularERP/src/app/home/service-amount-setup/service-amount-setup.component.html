@@ -1,0 +1,73 @@
+<div class="card">
+    <div class="card-header bg-light text-center p-0">
+        <h4>Payroll Amount Assign</h4>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="serviceAmountForm">
+            <div class="container p-0">
+                <div class="row p-0" >
+                    <div class="col-md-4 ">
+                        <div class="card mt-3">
+                          <div class="form-group row">
+                            <label class="col-form-label col-md-4 text-right">{{fstlabelName}}</label>
+                            <div class="col-md-8">
+                              <ng-select formControlName="parentID" [items]="parentDetailsItems" bindLabel="detailsCaption" bindValue="id" (change)="onSelectCriteria(f['parentID'].value)"  placeholder="--Select--"></ng-select>
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="sndlableName!=null" >
+                          <label class="col-form-label col-md-4 text-right">{{sndlableName}}</label>
+                          <div class="col-md-8">
+                            <ng-select formControlName="underCriteriaID" [items]="subDetailsItems" bindLabel="detailsCaption" bindValue="id" (change)="onSelectSubCriteria(f['underCriteriaID'].value)"  placeholder="--Select--"></ng-select>
+                          </div>
+                      </div>
+                      <div class="form-group row" *ngIf="thrdlableName!=null">
+                        <label class="col-form-label col-md-4 text-right">{{thrdlableName}}</label>
+                        <div class="col-md-8">
+                          <ng-select formControlName="detailsID" [items]="superSubDetailsItems" bindLabel="detailsCaption" bindValue="id" (change)="onSelectSupSubCriteria(f['detailsID'].value)"  placeholder="--Select--"></ng-select>
+                        </div>
+                    </div>                       
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card mt-3">
+                            <table class="table table-bordered text-center">
+                                <thead>
+                                    <tr>
+                                        <th style="width:70px">SL No</th>
+                                        <th style="width:200px">Service Name</th>
+                                        <th style="width:100px">Process Type</th>
+                                        <th style="width:100px">Amount</th>
+                                        <th style="width:70px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let serviceAmtForm of _serviceAmountForm.controls;let i=index" [formGroup]="serviceAmtForm">
+                                        <td style="width:70px">{{i+1}}</td>
+                                        <td style="width:200px">
+                                            <app-service-head-select-list [serviceId]="serviceAmtForm.value.serviceID" [moduleId]="moduleId" (onChange)="onSelectServiceHead($event,i)"></app-service-head-select-list>
+                                        </td>
+                                        <td style="width:100px">
+                                            <ng-select formControlName="processType" [items]="serviceBillProcessTypes" bindLabel="processTypeName" bindValue="id" (change)="onVisibleAmount(serviceAmtForm.value.processType)" placeholder="Select Process Type"></ng-select>
+                                        </td>
+                                        <td style="width:100px" *ngIf="isAmountVisible !=1"><input formControlName="amount" class="form-control" type="number" placeholder="0.00"></td>
+                                        <td style="width:100px" *ngIf="isAmountVisible ==1"><input formControlName="amount" class="form-control" type="number" placeholder="0.00" disabled></td>
+                                        <td style="width:70px">
+                                            <button (click)="addRow()" *ngIf="_serviceAmountForm.controls.length==(i+1)" class="btn btn-sm btn-success"><span class="fa fa-plus"></span></button>
+                                            <button (click)="removeRow(i)" class="btn btn-sm btn-danger" tabindex="-1"><span class="fa fa-times"></span></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-4" style="margin: 0 auto;margin-top: 40px;">
+                  <!-- <div class="demo-inline-spacing row"> -->
+                  <button (click)="reset()" class="btn btn-primary float-right mx-1">Reset</button>
+                  <button (click)="saveServiceAmt()" class="btn btn-success float-right mx-1">{{btnStatus}}</button>
+              </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+
+  <div class="modal-header ">
+    <h4 class="card-header text-center"> Role </h4>
+
+  </div>
+  <div class="card">
+  <form [formGroup]="roleForm">
+  <div class="card-body">
+    <div class="col-md-7">
+      <form [formGroup]="roleForm">
+
+        <div class="form-group row">
+          <label class="col-form-label col-md-6 text-right ">Role  <i class="text-danger" >*</i> </label>
+          <div class="col-md-6 ">
+            <input formControlName="roleName" [ngClass]="{'is-invalid':( f['roleName'].touched || f['roleName'].dirty || isSubmit) && f['roleName'].invalid}" class="form-control" placeholder="Role">
+            <div *ngIf="f['roleName'].invalid && ( f['roleName'].touched || f['roleName'].dirty || isSubmit)" class="text-danger">
+              <i *ngIf="f['roleName'].errors.required" class="text-danger">Role is required</i>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</form>
+  <div class="form-group row">
+    <div class="demo-inline-spacing " style="margin:0 auto">
+      <button (click)="onSubmit()" class="btn btn-success">{{btnStatus}}</button>
+      <button (click)="reset()" class="btn btn-primary"><span class="fas fa-remove"></span>Refresh</button>
+    </div >
+  </div>
+</div>
+<div class="card">
+<div class="card-body">
+  <div class="col-md-5 center">
+    <table class="table table-hover table-striped table-bordered ">
+      <thead>
+        <tr >
+          <th>Role</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr  *ngIf="roleModel.length==0" >
+          <td colspan="2" class="font-italic text-center">No item available</td>
+          </tr>
+        <tr *ngFor="let rl of roleModel" >
+        <td>{{rl.roleName}}</td>
+        <td><button (click)="getRoleByID(rl.id)" class="btn btn-primary">Edit</button></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</div>

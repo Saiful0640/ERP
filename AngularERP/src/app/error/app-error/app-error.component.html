@@ -1,0 +1,24 @@
+
+<div class="card text-danger">
+  <div class="card-header py-2">
+    <h1 class="text-center mb-0">ERROR! <img src="../../../assets/img/sad.png" height="40" width="40"/></h1>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="d-flex col-md justify-content-center align-items-center order-2 order-md-1 position-relative p-5">
+        <div class="error-bg-skew bg-white"></div>
+        <div class="text-md-left text-center">
+          <div class="font-weight-normal mb-5 details">
+          <p *ngIf="errorText">{{errorText}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="m-auto">
+        <button [routerLink]="['/']" class="btn btn-success m-auto"><span class="fa fa-chevron-left"></span> Go Back</button>
+      </div>
+    </div>
+  </div>
+</div>
+

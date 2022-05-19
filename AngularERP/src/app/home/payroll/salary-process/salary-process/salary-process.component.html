@@ -1,0 +1,110 @@
+<div class="card">
+    <div class="card-header text-center p-0">
+        <h4 class="text-center">Salary Process</h4>
+    </div>
+    <form [formGroup]="formGroup">
+        <div class="row no-gutters ml-5 mt-3">
+            <div class="col-md-3  row no-gutters">
+                <label class="col-form-label col-md-5 text-center">Period Name:</label>
+                <div class="col-md-7">
+                    <app-period-select-list [periodId]="f['periodID'].value" [moduleID]="moduleId" (onChange)="onSelectPeriod($event)"></app-period-select-list>
+                </div>
+            </div>
+            <div class="col-md-3  row no-gutters">
+                <label class="col-form-label col-md-4 text-center">Department:</label>
+                <div class="col-md-8">
+                    <app-department-select-list [setDeptId]="f['departmentID'].value" [focusId]="'txtDepartmentId'" (onChange)="f['departmentID'].setValue($event.id);onSelectDepartment($event)"></app-department-select-list>
+                </div>
+            </div>
+            <div class="col-md-3  row no-gutters">
+                <label class="col-form-label col-md-5 text-center">Group Type:</label>
+                <div class="col-md-7">
+                    <app-group-select-list [groupId]="f['groupID'].value" [focusId]="'txtGroupId'" (onChange)="f['groupID'].setValue($event.id);onSelectGroup($event)"></app-group-select-list>
+                </div>
+            </div>
+            <div class="col-md-1  row no-gutters">
+            </div>
+            <div class="col-md-1  row no-gutters">
+                <div class="col-md-5">
+                    <button (click)="getSalaryProcess()" [id]="'btnLoad'" class="btn btn-group mx-2 btn-success" type="button">Load</button>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body p-0">
+                <div class="data-table m-0 p-0">
+                    <table class="table text-center  mb-0 table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width:7%">SL</th>
+                                <th style="width:35%">MemberCode & Name</th>
+                                <th style="width:30%">Designation</th>
+                                <th style="width:10%">Gross</th>
+                                <th style="width:10%">Basic</th>
+                                <th style="width:10%">H.R.</th>
+                                <th style="width:10%">Medical</th>
+                                <th style="width:10%">Conv.</th>
+                                <th style="width:10%">Ttl prsnt</th>
+                                <th style="width:10%">OT Amnt</th>
+                                <th style="width:10%">Abs Ded</th>
+                                <th style="width:10%">Loan </th>
+                                <th style="width:10%">Adv Amnt</th>
+                                <th style="width:10%">Inc Tax</th>
+                                <th style="width:10%">Ttl Ded</th>
+                                <th style="width:12%">Net Pmnt</th>
+                                <th style="width:8%">Act</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="arrayForm.length==0">
+                                <td colspan="100%" class="text-center"><i>No Data found</i></td>
+                            </tr>
+                            <tr *ngFor="let arry of arrayForm.controls;let i=index" [formGroup]="arry">
+                                <td style="width:7%">{{i+1}}</td>
+                                <td style="width:35%">
+                                    <input formControlName="memberName" type="text" class="form-control text-left" readonly placeholder="EmpCode & Name">
+                                </td>
+                                <td style="width:30% "><input formControlName="designation" type="number" class="form-control" readonly placeholder="0.0"> </td>
+                                <td style="width:10% "><input formControlName="grossSalary" type="number" class="form-control" readonly placeholder="0.0"> </td>
+                                <td style="width:10% "><input formControlName="basic" type="number" class="form-control" readonly placeholder="0.0"> </td>
+                                <td style="width:10% "><input formControlName="houseRent" type="number" class="form-control" readonly placeholder="0.0"> </td>
+                                <td style="width:10% "><input formControlName="medical" type="number" class="form-control" readonly placeholder="0.0"> </td>
+                                <td style="width:10% "><input formControlName="convance" type="number" class="form-control" readonly placeholder="0.0"> </td>
+                                <td style="width:10% "><input formControlName="totalPressent" type="number" class="form-control" readonly placeholder="0.0"> </td>
+                                <td style="width:10% "><input formControlName="overTimeAmount" type="number" class="form-control" readonly placeholder="0.0"> </td>
+                                <td style="width:10% "><input formControlName="absentDeductAmount" type="number" class="form-control" readonly placeholder="0.0"> </td>
+                                <td style="width:10% "><input formControlName="loanAmount" type="number" (keyup)="getTotalAdditionDeduction(i)" class="form-control" placeholder="0.0"> </td>
+                                <td style="width:10% "><input formControlName="advanceAmount" type="number" (keyup)="getTotalAdditionDeduction(i)" class="form-control" placeholder="0.0"> </td>
+                                <td style="width:10% "><input formControlName="incomeTax" type="number" class="form-control" readonly placeholder="0.0"> </td>
+                                <td style="width:10% "><input formControlName="totalDeductAmount" type="number" class="form-control" readonly placeholder="0.0"> </td>
+                                <td style="width:12% "><input formControlName="netPayment" type="number" class="form-control" readonly placeholder="0.0"> </td>
+                                <td style="width:8%">
+                                    <!-- <button (click)="addRow()" *ngIf="arrayForm.controls.length==(i+1)" class="btn btn-sm btn-success"><span class="fa fa-plus"></span></button> -->
+                                    <button (click)="removeRow(i)" class="btn btn-sm btn-danger" tabindex="-1"><span class="fa fa-times"></span></button>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row demo-inline-spacing pull-center mt-2" style="margin: 0 auto;">
+                    <div class="col-md-1 no-gutters">
+                        <label class="col-form-label col-md-12  text-center">Narration:</label>
+                    </div>
+                    <div class="col-md-7 no-gutters">
+                        <div class="col-md-12">
+                            <textarea formControlName="narration" class="form-control" type="text" placeholder="Narration"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center mt-2">
+                        <button (click)="saveData()" class="btn btn-success mx-2" type="button">{{btnStatus}}</button>
+                        <button class="btn btn-secondary mx-2" type="button"> Approve</button>
+                        <button (click)="reset()" class="btn btn-primary mx-2" type="button"> Refresh</button>
+                        <button (click)="deleteSalary()" class="btn btn-danger mx-2" type="button"> Delete </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>

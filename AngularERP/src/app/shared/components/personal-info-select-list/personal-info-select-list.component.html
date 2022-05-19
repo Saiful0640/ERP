@@ -1,0 +1,22 @@
+<div class="input-group" >
+  <ng-select
+[(ngModel)]="memberId"
+name="memberId"
+(change)="onSelect($event)"
+[items]="memberOrEmployeeImfoModel"
+bindLabel="memberName"
+bindValue="id"
+style="width: 200px;"
+[ngClass]="{'is-invalid':isInvalid}"
+placeholder="Select Member Name">
+</ng-select>
+ <div *ngIf="isSearchBtnHide==false" class="input-group-append">
+    <button (click)="this.modalService.open(searchModal,  {size: 'lg', windowClass: 'modal-xl'})" class="input-group-text btn btn-primary" tabindex="-1" type="button">
+      <span class="fas fa-search" style="cursor: pointer;"></span>
+    </button>
+  </div>
+</div>
+
+<ng-template #searchModal>
+  <app-personal-info-search-view  [moduleId]="moduleId" (selectEvent)="onSearchBtnClick($event)"></app-personal-info-search-view>
+</ng-template>

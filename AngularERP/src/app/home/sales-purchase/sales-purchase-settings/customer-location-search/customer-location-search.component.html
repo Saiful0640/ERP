@@ -1,0 +1,46 @@
+<div class="card " style="background:skyblue;">
+    <div class="card-header">
+        <h4 style="color: cadetblue;" class="text-center">Serach Customer
+            <span (click)="cancel()" class="text-danger fas fa-window-close float-right"></span>
+        </h4>
+    </div>
+    <div class="card-body px-2 py-0">
+        <div class="input-group-row">
+            <div class="col-md-10 row">
+                <label for="formatedName" class="col-md-2 text-right">Search</label>
+                <div class="col-md-8">
+                    <input [(ngModel)]="accChartSearch.formatedName" (keyup)="filterAccountChartBasicEntry(accChartSearch.formatedName)" name="formatedName" type="text" class="form-control" placeholder="Search by name">
+
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body p-0" style="height: 300px;overflow: auto;">
+                <div class="data-table m-0">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#SL</th>
+                                <th>Customer Name</th>
+                                <th>Location</th>
+                                <th>Customer Address</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let loc of filterlocations; let i=index" (click)="onSelect(loc)">
+                                <td>{{i+1}}</td>
+                                <td>{{loc.formatedName}}</td>
+                                <td>{{loc.location}}</td>
+                                <td>{{loc.customerAddress}}</td>
+                                <td>
+                                    <button (click)="onSelect(loc)" class="btn btn-sm btn-primary">Select</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

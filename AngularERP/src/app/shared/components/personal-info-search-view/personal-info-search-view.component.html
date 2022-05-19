@@ -1,0 +1,67 @@
+<div class="card " style="height: 500px;background: rgb(195, 214, 250);">
+    <div class="card-header">
+        <h4 style="color: rgb(54, 141, 241)" class="text-center">
+            Member Information List
+            <span (click)="cancel()" class="text-danger fas fa-window-close float-right"></span>
+        </h4>
+
+    </div>
+
+    <!-- <div class="modal-body"> -->
+    <div class="card-body px-2 py-0">
+        <div class="input-group row">
+            <label for="memberName" class="col-md-4 text-right">Search</label>
+            <div class="col-md-8 ">
+              <input (keyup)="onSearch($event.target.value)" class="form-control" placeholder="Search by member name/member code/mobile no.">
+                <!-- <input [(ngModel)]="memSearch.memberName" (keyup)="filterAssMemberInfo(memSearch.memberName)" name="memberName" type="text" class="form-control" placeholder=" Search BY Member "> -->
+                <!-- <div class="col-md-6"> -->
+                <!-- <button (click)="go()" class="btn btn-info" >Create New</button> -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <div class="card" style="height: 380px;overflow: auto;background: rgb(238, 255, 238);">
+            <!-- <div class="card-body p-0" >
+    <div class="data-table m-0" style="min-height: 200px; background: #efe;"> -->
+            <table class="table text-center table-bordered">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Member Name</th>
+                        <th>Member Code</th>
+                        <th>Mobile No</th>
+                        <th>Present Address</th>
+                        <th width="80px">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td *ngIf="filteredMember.length==0" colspan="13" class="font-italic text-center">No item available</td>
+                    </tr>
+                    <tr *ngFor="let mf of filteredMember;let i=index">
+                        <td>{{i+1}}</td>
+                        <td style="text-align: left;">{{mf.memberName}}</td>
+                        <td style="text-align: left;">{{mf.memberCode}}</td>
+                        <td style="text-align: left;">{{mf.mobileNo}}</td>
+                        <td style="text-align: left;">{{mf.presentAddress}}</td>
+                        <td width="80px">
+                            <button class="btn btn-primary" (click)="onSelect(mf)">
+              <span class="fas fa-edit">
+               Select
+              </span>
+            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- </div>
+</div> -->
+
+        </div>
+    </div>
+    <!-- </div> -->
+    <!-- <div class="modal-footer">
+  <button class="btn btn-primary" ng-click="ok()">OK</button>
+  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div> -->
+
+</div>

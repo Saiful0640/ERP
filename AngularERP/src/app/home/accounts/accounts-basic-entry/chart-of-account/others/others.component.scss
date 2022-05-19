@@ -1,0 +1,63 @@
+tbody {
+  display:block;
+  height:400px;
+  overflow:scroll;
+}
+thead, tbody tr {
+  display:table;
+  width:100%;
+  table-layout:fixed;/* even columns width , fix width of table too*/
+}
+th.lgth,td.lgth{
+  width: 300px;
+}
+th.agth,td.agth{
+  width: 200px;
+}
+table th,td{
+  vertical-align: middle;
+}
+th.edth,td.edth{
+  width: 70px;
+}
+thead {
+  width: calc( 100% )/* scrollbar is average 1em/16px width, remove it from thead width */
+}
+table {
+  widows: 100%;
+}
+
+.btn:disabled{
+  cursor: not-allowed;
+}
+::-webkit-scrollbar {
+  width: 5px;
+  height: 1px;
+}
+::-webkit-scrollbar:hover {
+  width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #eee;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #bbb;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+// .modal-xl .modal-body {
+//   max-height: calc(100vh - 200px);
+//   overflow: auto;
+// }
+
+div.modal-xl .modal-content {
+  max-height: 600px;
+  overflow: auto;
+}

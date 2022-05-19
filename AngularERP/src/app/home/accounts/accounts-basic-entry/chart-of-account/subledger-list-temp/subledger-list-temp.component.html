@@ -1,0 +1,58 @@
+<div class="card " style="height: 500px;;background: rgb(195, 214, 250);">
+  <div class="card-header">
+    <h4 style="color: rgb(54, 141, 241)" class="text-center">
+      Subledger List
+      <span (click)="cancel()" class="text-danger fas fa-window-close float-right"></span>
+    </h4>
+
+  </div>
+
+  <div class="card-body px-2 py-0" >  
+    <div class="input-group row">
+      <label for="subledgerName" class="col-md-4 text-right">Search</label>
+      <div class="col-md-8 "> 
+        <input
+        [(ngModel)]="subledgerSearch.subledgerName"
+        (keyup)="filterSubledger(subledgerSearch.subledgerName)"
+        name="subledgerName"
+        type="text"
+        class="form-control"
+      placeholder=" Search BY Subledger ">
+      </div>
+    </div>    
+    <div class="card" >
+  <!-- <div class="card-body p-0">
+    <div class="data-table m-0" style="min-height: 250px; background: #efe;"> -->
+      <table class="table text-center  table-bordered" >
+        <thead>
+          <tr >
+            <th style="width: 50%;">Subledger</th>
+            <th style="width: 30%;">Alias Name</th>
+            <th style="width: 15%;">O.Balance</th>
+            <th style="width: 5%;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="filteredSubledger.length==0" >
+            <td colspan="13" class="font-italic text-center">No item available</td>
+          </tr>
+          <tr *ngFor="let sbl of filteredSubledger">
+               <td style="width: 50%;">{{sbl.subledgerName}}</td>
+               <td style="width: 30%;">{{sbl.aliasName}}</td>
+               <td style="width: 15%;">{{sbl.openingBalance}}</td>
+               <td style="width: 5%;">
+              <button class="btn btn-sm btn-success" (click)="onSelect(sbl)">
+                <span class="fas fa-edit"></span>
+              </button>
+              <!-- <a [routerLink]="['/accounts/basic/chart-of-account/sub-ledger/new-sub-ledger',sbl.subledgeId]"> Edit</a> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+</div>
+</div>
+</div>
+
+
+

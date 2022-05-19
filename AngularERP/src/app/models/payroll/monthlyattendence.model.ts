@@ -1,0 +1,35 @@
+export class Monthlyattendence {
+          id :number;
+          moduleID :number;
+          compID :number;
+          periodID :number;
+          memberID:number;
+          memberCode:string;
+          memberName:string;
+          groupID :number;
+          sectionID :number;
+          workDays :number;
+          pdWise :number;
+          pmWise :number;
+          empCode :string;
+          empName :string;
+          workingDays :number;
+          absentDays :number;
+          lateDays :number;
+          leaveDays :number;
+          totalPressentDays :number;
+          overTimeHours :number;
+          overTimeAmount :number;
+          tdaWorkingDays :number;
+          amount :number;
+          tdaLeaveDays :number;
+          tdaAbsentDays :number;
+          tourDays :number;
+          payableDays :number;
+          penalty :number;
+          payableAmount :number;
+          remarks :string;
+          comment :string;
+          userID:number;
+        //   itemAttendence :Monthlyattendence[];
+}

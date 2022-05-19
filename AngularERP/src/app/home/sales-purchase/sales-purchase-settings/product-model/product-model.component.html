@@ -1,0 +1,84 @@
+<div class="row">
+    <div class="card col-md-6">
+        <div class=" card-header bg-light text-center py-2">
+            <h4>Add New Product Model</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="productModelForm">
+                <div class="form-group row">
+                    <label for="name" class=" col-form-label col-md-4"><i class="text-danger">*</i>Model Name</label>
+                    <div class="col-md-8">
+                        <input formControlName="name" id="name" class="form-control" [ngClass]="{'is-invalid':(f['name'].touched || f['name'].dirty || isSubmit) && f['name'].invalid}" placeholder="Enter Model Name">
+                        <div *ngIf="f['name'].invalid && (f['name'].touched || f['name'].dirty || isSubmit)">
+                            <i *ngIf="f['name'].errors.required" class="text-danger">Model Name is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="description" class=" col-form-label col-md-4">Description</label>
+                    <div class="col-md-8">
+                        <input formControlName="description" id="description" class="form-control" placeholder="Enter Description">
+                    </div>
+                </div>
+                <!-- <div class="form-group row">
+          <label for="sortOrder" class=" col-form-label col-md-4">Sort Order</label>
+          <div class="col-md-5">
+            <input formControlName="sortOrder" id="sortOrder" type="number" class="form-control"
+              placeholder="Enter Sort Order">
+          </div>
+        </div> -->
+                <div class="form-group row">
+                    <label for="status" class=" col-md-4">Status</label>
+                    <div class="row col-md-8">
+                        <div class="col-md-8">
+                            <div class="custom-control custom-checkbox  row ">
+                                <input formControlName="isActive" type="checkbox" class="custom-control-input row" id="active" checked>
+                                <label class="custom-control-label" for="active">Active</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" row">
+                    <div class="row demo-inline-spacing center" style="margin: 0 auto;">
+                        <button [ladda]="isSaved" (click)="saveProModel()" class="btn btn-success mr-2">{{btnStatus}}</button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card col-md-6">
+        <div class="card-header bg-light text-center py-2">
+            <h4>Product Models</h4>
+        </div>
+        <div class="card-body ">
+            <div class="data-table">
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>#SN</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr >
+            <td colspan="13" class="font-italic text-center">No item available</td>
+          </tr> -->
+                    <tr *ngFor="let pm of productModel; let i =index">
+                        <td>{{i+1}}</td>
+                        <td>{{pm.name}}</td>
+                        <td>{{pm.description}}</td>
+                        <td>
+                            <button class="btn btn-primary py-2" (click)="edit(pm)">
+                <span class="fa fa-edit"></span>
+              </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+</div>

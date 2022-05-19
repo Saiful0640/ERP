@@ -1,0 +1,49 @@
+<div class="card " style="height: 500px;background: rgb(195, 214, 250);">
+    <div class="card-header">
+        <h4 style="color: rgb(54, 141, 241)" class="text-center">
+            Provision Payment List
+            <span (click)="cancel()" class="text-danger fas fa-window-close float-right"></span>
+        </h4>
+    </div>
+    <!-- <div class="modal-body"> -->
+    <!-- <div class="card-body px-2 py-0" >
+    <div class="input-group row">
+      <label for="groupName" class="col-md-4 text-right">Search</label>
+      <div class="col-md-8 ">
+        <input
+        [(ngModel)]="accGrouptSearch.groupName"
+        (keyup)="filterAccountGroup(accGrouptSearch.groupName)"
+        name="groupName"
+        type="text"
+        class="form-control"
+      placeholder=" Search BY Group ">
+      </div>
+    </div> -->
+    <div class="card">
+        <table class="table text-center table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">Account Name</th>
+                    <th style="width: 25%;">Alias Name</th>
+                    <th style="width: 25%;">Ammount</th>
+                    <th style="width: 25%;">Date</th>
+                    <th style="width: 10%;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td *ngIf="collectionModal.length==0" colspan="13" class="font-italic text-center">No item available</td>
+                </tr>
+                <tr *ngFor="let pcl of collectionModal">
+                    <td style="width: 25%;">{{pcl.accountName}}</td>
+                    <td style="width: 25%;">{{pcl.aliasName}}</td>
+                    <td style="width: 25%;">{{pcl.ammount}}</td>
+                    <td style="width: 25%;">{{pcl.payDate | date : 'dd/MM/yyyy'}}</td>
+                    <td style="width: 10%;"><button class="btn btn-sm btn-success" (click)="onSelect(pcl)">
+              <span class="fas fa-edit"></span>
+            </button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+tbody {
+  display:block;
+  height:400px;
+  overflow:auto;
+}
+thead, tbody tr {
+  display:table;
+  width:100%;
+  table-layout:fixed;/* even columns width , fix width of table too*/
+}
+thead {
+  width: calc( 100% )+16px/* scrollbar is average 1em/16px width, remove it from thead width */
+}
+table {
+  widows: 100%;
+}
+
+.btn:disabled{
+  cursor: not-allowed;
+}
+.disabled-row{
+  background: rgb(253, 176, 176);
+  color: rgb(41, 41, 41);
+}
+.disabled-row:hover{
+  background: rgb(158, 0, 0);
+  color: rgb(252, 252, 252);
+  transition: 0.3s;
+}
+.active-row{
+  background: rgb(206, 252, 218);
+  color: rgb(65, 65, 65);
+}
+.active-row:hover{
+  background: rgb(0, 126, 34);
+  color: rgb(252, 252, 252);
+  transition: 0.3s;
+}
+td{
+  padding-top: 2px;
+  padding-bottom: 2px;
+}

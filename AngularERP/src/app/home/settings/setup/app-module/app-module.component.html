@@ -1,0 +1,117 @@
+<div class="card">
+  <div class="card-header py-2">
+    <h4 class="text-center mb-0">Application Module</h4>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-5 px-1">
+        <form [formGroup]="moduleForm">
+          <!-- <div class="form-group row">
+            <label for="parentModuleId" class="col-md-4">Parent Module </label>
+            <div class="col-md-8">
+              <ng-select formControlName="parentModuleID" [items]="modules" bindLabel="name" bindValue="id"
+                placeholder="Select Parent Module">
+              </ng-select>
+              <div *ngIf="(frmControl['parentModuleId'].touched || frmControl['parentModuleId'].dirty || isSubmitted) && frmControl['parentModuleId'].invalid" class="text-danger">
+                <i *ngIf="frmControl['parentModuleId'].errors.required">Parent Module is required </i>
+              </div>
+            </div>
+          </div> -->
+          <div class="form-group row">
+            <label for="name" class="col-md-4">Module Name </label>
+            <div class="col-md-8">
+              <input formControlName="name"
+                [ngClass]="{'is-invalid':(frmControl['name'].touched || frmControl['name'].dirty || isSubmitted) && frmControl['name'].invalid}"
+                type="text" class="form-control" placeholder="Write Module Name  ">
+              <div
+                *ngIf="(frmControl['name'].touched || frmControl['name'].dirty || isSubmitted) && frmControl['name'].invalid"
+                class="text-danger">
+                <i *ngIf="frmControl['name'].errors.required">Module Name is required </i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="moduleRoutePath" class="col-md-4">Route</label>
+            <div class="col-md-8">
+              <input formControlName="moduleRoutePath"
+                [ngClass]="{'is-invalid':(frmControl['moduleRoutePath'].touched || frmControl['moduleRoutePath'].dirty || isSubmitted) && frmControl['moduleRoutePath'].invalid}"
+                type="text" class="form-control" placeholder="Write Route ">
+              <div
+                *ngIf="(frmControl['moduleRoutePath'].touched || frmControl['moduleRoutePath'].dirty || isSubmitted) && frmControl['moduleRoutePath'].invalid"
+                class="text-danger">
+                <i *ngIf="frmControl['moduleRoutePath'].errors.required">Route is required </i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="serialNo" class="col-md-4">Serial No.</label>
+            <div class="col-md-5">
+              <input formControlName="serialNo" type="number" class="form-control" placeholder="Serial for sorting">
+            </div>
+          </div>
+          <!-- <div class="form-group row">
+            <label class="col-md-4"></label>
+            <div class="col-md-8">
+              <div class="custom-control custom-checkbox custom-control-inline ">
+                <input formControlName="isParent" type="checkbox" class="custom-control-input " id="isParent">
+                <label class="custom-control-label" for="isParent">Is Parent</label>
+              </div>
+            </div>
+          </div> -->
+          <div class="row">
+            <div class="ml-auto mr-3">
+              <button (click)="reset()" class="btn btn-sm btn-info mx-1">Refresh</button>
+              <button [disabled]="isSaving" (click)="onSubmit()" class="btn btn-sm btn-success mx-1">{{btnStatus}}</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="col-md-7 px-1">
+        <div class="row">
+          <div class="col-8 ml-auto">
+            <div class="input-group">
+              <input (keyup)="onSearch($event.target.value)" type="text" class="form-control"
+                placeholder="Search by page name" />
+              <div class="input-group-append">
+                <button class="btn btn-sm btn-primary"><span class="fa fa-search"></span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="data-table">
+          <table class="table table-bordered mb-0">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Module_Name </th>
+                <th>Route_Path</th>
+
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="filteredModules.length==0 && !isLoading">
+                <td colspan="5">No module found</td>
+              </tr>
+              <tr *ngIf="filteredModules.length==0 && isLoading">
+                <td colspan="5" class="text-center font-weight-bold text-primary">
+                  <img src="../../../../../assets/img/loading.gif" width="30" height="30" /> Loading...
+                </td>
+              </tr>
+              <tr *ngFor="let module of filteredModules; let i=index" (click)="edit(module.id)">
+                <td>{{module.id}}</td>
+                <td>{{module.name}}</td>
+                <td>{{module.moduleRoutePath}}</td>
+                <td>
+                  <button (click)="edit(module.id)" class="btn btn-sm btn-info"><span
+                      class="fa fa-edit"></span></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

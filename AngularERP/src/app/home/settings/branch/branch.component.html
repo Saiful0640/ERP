@@ -1,0 +1,113 @@
+<div class="card">
+  <div class="cadr-header text-center">
+      <!-- <h4>{{title}} Criteria Setup</h4> -->
+  </div>
+  <div class="card-body">
+      <form [formGroup]="criteriaCenterForm">
+          <div class="row">
+              <div class="col-md-6">
+                  <div class="form-group row">
+                      <label class="col-form-label col-md-4 text-right">Type</label>
+                      <div class="col-md-8">
+                          <ng-select formControlName="criteriaID" [items]="criteriaType" bindLabel="criteriaCaption" bindValue="criteriaID" (change)="getAllCriteriaCenter();getCriteriaTwo(f['criteriaID'].value);" placeholder="Select Type"></ng-select>
+                      </div>
+                  </div>
+                  <div class="form-group row" *ngIf="formVal.criteriaID==2 || formVal.criteriaID==3">
+                      <label class="col-form-label col-md-4 text-right">{{lableNameTwo}}</label>
+                      <div class="col-md-8">
+                          <ng-select formControlName="parentID" [items]="criteriaItemForTypeTwo" bindLabel="detailsCaption" bindValue="detailsID" (change)="getAllCriteriaCenter();getCriteriaThree(f['parentID'].value)" placeholder="Select {{lableNameTwo}}" *ngIf="formVal.criteriaID==2"></ng-select>
+                          <ng-select formControlName="underCriteriaID" [items]="criteriaItemForTypeTwo" bindLabel="detailsCaption" bindValue="detailsID" (change)="getAllCriteriaCenter();getCriteriaThree(f['underCriteriaID'].value)" placeholder="Select {{lableNameTwo}}" *ngIf="formVal.criteriaID==3"></ng-select>
+                      </div>
+                  </div>
+                  <div class="form-group row" *ngIf="formVal.criteriaID==3">
+                      <label class="col-form-label col-md-4 text-right">{{lableNameThree}}</label>
+                      <div class="col-md-8">
+                          <ng-select formControlName="parentID" [items]="criteriaItemForTypeThree" bindLabel="detailsCaption" bindValue="detailsID" (change)="getAllCriteriaCenter()"  placeholder="Select {{lableNameThree}}"></ng-select>
+                      </div>
+                  </div>
+                  <div>
+
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-form-label col-md-4 text-right">Name</label>
+                      <div class="col-md-8">
+                          <input formControlName="detailsCaption" class="form-control" type="text" placeholder="Enter Name">
+                      </div>
+                  </div>
+                  <div class="form-group row" *ngIf="moduleId==41">
+                      <label class="col-form-label col-md-4 text-right">Flat Size</label>
+                      <div class="col-md-8">
+                          <input formControlName="flatSize" class="form-control" type="text" placeholder="Enter Name">
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-form-label col-md-4 text-right">Description</label>
+                      <div class="col-md-8">
+                          <textarea formControlName="detailsNote" class="form-control" placeholder="Enter Details"></textarea>
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-4 text-right">Notice</label>
+                  <div class="col-md-8">
+                     <textarea formControlName="notice" class="form-control" placeholder="Notice..."></textarea>
+                 </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-4 text-right">Notice Period</label>
+                  <div class="col-md-8">
+                    <app-period-select-list [periodId]="f['noticePeriodId'].value" [moduleID]="moduleId" (onChange)="onSelectPeriod($event)"></app-period-select-list>
+                 </div>
+                  </div>
+                    <div class="row demo-inline-spacing pull-right" style="margin: 0 auto;">
+                      <button (click)="reset()" class="btn btn-primary mx-2" type="button">Refresh</button>
+                      <button (click)="saveCriteriaCenter()" class="btn btn-success mx-2" type="button">{{btnStatus}}</button>
+                  </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="row mr-2">
+                      <div class="input-group col-md-8 ml-auto pr-0">
+                          <input (keyup)="onSearch($event.target.value)" type="text" class="form-control" placeholder="Search by Name" style="border-radius: 0;">
+                      </div>
+                      <div class="input-group-append">
+                          <button class="btn btn-sm btn-primary border-0 ml-0" style="border-radius: 0;">
+             <span class="fa fa-search"></span>
+           </button>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <table class="table table-bordered text-center">
+                          <thead>
+                              <tr>
+                                  <th>Name</th>
+                                  <th *ngIf="f['criteriaID'].value !=1">Under</th>
+                                  <th *ngIf="f['criteriaID'].value==3 ">Super Under</th>
+                                  <th *ngIf="f['criteriaID'].value==1 || f['criteriaID'].value==2">Description</th>
+                                  <th *ngIf="f['criteriaID'].value==3 && moduleId==41">Flat Size</th>
+                                  <th style="width: 80px;">Action</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr *ngIf="criteriaAllArea.length==0">
+                                  <td colspan="5" class="text-center">
+                                      <span>No Data found</span>
+                                  </td>
+                              </tr>
+                              <tr *ngFor="let ct of filteredCriteria; let i=index" (click)="edit(ct)">
+                                  <td>{{ct.detailsCaption}}</td>
+                                  <td *ngIf="f['criteriaID'].value !=1">{{ct.underDetailsCaption}}</td>
+                                  <td *ngIf="f['criteriaID'].value==3 ">{{ct.superUnderDetailsCaption}}</td>
+                                  <td *ngIf="f['criteriaID'].value==1 || f['criteriaID'].value==2">{{ct.detailsNote}}</td>
+                                  <td *ngIf="f['criteriaID'].value==3 && moduleId==41">{{ct.flatSize}}</td>
+                                  <!-- <textarea readonly>{{ct.detailsNote}}</textarea> -->
+                                  <td style="width: 80px;">
+                                      <span (click)="edit(ct)" class="fa fa-edit btn btn-sm btn-primary"></span>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </form>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+
+  <div class="input-group">
+    <ng-select
+  [(ngModel)]="sublegerId"
+  name="sublegerId"
+  (change)="onSelect($event)"
+  [items]="subledgerItems"
+  bindLabel="subledgerName"
+  bindValue="subledgerId"
+  [id]="idForTabIndex"
+  [disabled]="IsDisabled"
+  [ngStyle]="{'width':'170px'}"
+  placeholder="Select Subledger">
+  </ng-select>
+    <!-- <ng-select formControlName="subledgerId"  [items]="bankTransArray.value.subItem" bindLabel="subledgerName" bindValue="subledgerId" placeholder=" Subledger" [ngStyle]="{'width':'194px'}" > </ng-select> -->
+  <div  class="input-group-append" >
+    <button (click)="createNewItem()"   class="input-group-text btn btn-info"
+    >
+     <span class="fa fa-plus" style="cursor: pointer;"></span>
+       </button>
+    </div>
+    
+  </div>

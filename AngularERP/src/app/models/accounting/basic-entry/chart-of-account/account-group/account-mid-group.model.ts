@@ -1,0 +1,32 @@
+export class AccountMidGroup {
+  id :number;
+	midGroupId :number;
+	topGroupId :number;
+	groupCode :string;
+	groupName :string;
+	caption :string;
+	accountTypeID :number;
+	isAssets :number;
+	accType :number;
+	accountFlowType :number;
+	effect :number;
+	isBlank :number;
+	isTrialBal1 :number;
+	trialBalaAfect :number;
+	balanceShetGrp :string;
+	sdateBalancAffect :string;
+	balanceSheetCaption :string;
+	balanceSheetGroupCaption :string;
+	accountType :number;
+	balanceType :number;
+	printOrderTrialBalance :number;
+	printOrderBalanceSheet :number;
+	printOrderCashFlow :number;
+	fundFlowCaption :string;
+	fundFlowGroup :string;
+	printOrderFundFlow :number;
+	printOrderIncomeStatement :number;
+	printOrderProfitLoss :number;
+	printOrderTrading :number;
+	incomeStateCaption :string;
+}

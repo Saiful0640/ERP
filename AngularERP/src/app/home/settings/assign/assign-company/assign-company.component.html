@@ -1,0 +1,56 @@
+<div class="card p-0">
+  <div class="card-header py-2">
+    <h4 class="text-center mb-0">Assign Company & Branch</h4>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6 m-auto">
+        <div class="form-group row">
+          <!-- <label for="userId" class="col-md-4">User</label> -->
+          <div class="col-md-8 m-auto">
+            <ng-select [(ngModel)]="selectedUserId" (change)="onSelectUser(userIdField.value)" #userIdField="ngModel"
+              required [items]="users" bindLabel="userName" bindValue="userId" placeholder="Select User"></ng-select>
+            <div *ngIf="userIdField.invalid && (userIdField.touched || userIdField.dirty)" class="text-danger mt-1">
+              <span *ngIf="userIdField.errors?.required">Select an user</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row my-3">
+          <div class="card p-0 m-0 col-12">
+            <div class="card-header font-weight-bold text-big py-2">
+              Select Company
+            </div>
+            <div class="card-body p-0 m-0">
+              <div class="list-group list-group-root well" style="max-height: 350px; overflow-y: scroll;">
+                <ul *ngFor="let company of companies; let i=index" class="list-group col-md-12">
+                  <li #listFiled class="list-group-item btn text-left py-1">
+                    <span class="mr-2">{{i+1}})</span>
+                    <input [(ngModel)]="company.isAssigned" type="checkbox" class="custom-control float-left mr-3">
+                    <label class="cursor-pointer" (click)="onSelectCompany(company.isAssigned, company.compId,'span'+i)">{{company.name}}</label>
+                    <div class="d-inline pull-right">
+                      <span (click)="onExpand('span'+i)" [attr.href]="'#comp'+i" data-toggle="collapse" class="fa fa-chevron-right" [id]="'span'+i"></span>
+                    </div>
+                  </li>
+                  <ul>
+                    <li *ngFor="let branch of company.branches; let j=index" class="list-group-item collapse py-1 pl-3" for="'branch'+i+''++j"
+                      [id]="'comp'+i">
+                      <label>
+                        <input [(ngModel)]="branch.isAssigned" type="checkbox" [id]="'branch'+i+''+j" class="custom-control float-left mr-3">
+                        <span>{{branch.branchName}}</span>
+                      </label>
+                    </li>
+                  </ul>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="ml-auto mr-3">
+            <button (click)="onSubmit()" class="btn btn-success">Assign</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

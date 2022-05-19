@@ -1,0 +1,75 @@
+<div class="card border-0 p-0">
+  <div class="card-header px-4 py-2">
+      <h4 class="my-auto text-center">
+          <span>Search Production</span>
+          <button (click)="modalService.dismissAll()" class="float-right btn btn-sm btn-danger">
+      <span class="text-white font-weight-bold display-6">X</span>
+    </button></h4>
+
+  </div>
+  <div class="card-body">
+      <form [formGroup]="filterForm">
+          <div class="row">
+              <div class="col-6">
+                  <div class="form-group row">
+                      <label class="col-3 form-label">Start Date</label>
+                      <div class="col-9 input-group">
+                        <app-date-control [tabIndexIs]="true" [setNgbDate]="f['startDateNgb'].value"  (getNgbDate)="f['startDateNgb'].setValue($event);" [showCurrentDate]="false"></app-date-control>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group row">
+                  <label class="col-3 form-label">End Date</label>
+                  <div class="col-9 input-group">
+                    <app-date-control [tabIndexIs]="true" [setNgbDate]="f['endDateNgb'].value"  (getNgbDate)="f['endDateNgb'].setValue($event);" [showCurrentDate]="false"></app-date-control>
+                  </div>
+              </div>
+              </div>
+          </div>
+          <div class="row my-2">
+              <div class="col-12">
+                  <button [ladda]="isLoading" (click)="search()" class="btn btn-sm btn-success float-right">
+          <span class="fa fa-search"></span>
+          Search</button>
+              </div>
+          </div>
+      </form>
+      <div class="row">
+          <div class="data-table" style="min-height: 250px;">
+              <table class="table table-bordered">
+                  <thead>
+                      <tr>
+                          <th class="text-center" style="width:5%;">#SN</th>
+                          <th class="text-center" style="width:10%;">Challan_ID</th>
+                          <th class="text-center" style="width:10%;">Challan_No</th>
+                          <th class="text-center" style="width:10%;">Challan_Date</th>
+                          <th style="width:7%;">Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngIf="invoices.length==0 && !isLoading">
+                          <td colspan="9" class="text-center"><i><b>No Invoice Found.</b></i></td>
+                      </tr>
+                      <tr *ngIf="isLoading">
+                          <td colspan="9" class="text-center text-primary display-5 font-weight-bold"> <span class="fa fa-lg fa-spinner"></span> &nbsp;Loading...</td>
+                      </tr>
+                      <tr *ngFor="let invoice of invoices; let i=index" class="tr">
+                          <td class="text-center">{{i+1}}</td>
+                          <td class="text-center">{{invoice.challanId}}</td>
+                          <td class="text-center">{{invoice.challanNo}}</td>
+                          <td class="text-center">{{dateService.getYyyymmddToDate(invoice.challanDate) | date:'dd MMM,yyyy'}}</td>
+                          <td class="text-center">
+                              <div class="row text-align:center">
+                                  <button  (click)="onSelectInvoice(invoice)" class="btn btn-sm btn-primary"><span class="fa fa-edit"></span></button>&nbsp;
+                                  <button (click)="onPrint(invoice.challanId)" class="btn btn-sm btn-success"><span class="fa fa-eye"></span>View</button>
+                              </div>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</div>
+

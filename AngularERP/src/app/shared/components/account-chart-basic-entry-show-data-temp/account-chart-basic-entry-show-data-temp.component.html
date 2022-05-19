@@ -1,0 +1,48 @@
+<div class="card py-0" style="height: 500px;;background: rgb(195, 214, 250);">
+    <div class="card-header">
+        <h4 style="color: rgb(26, 128, 245)" class="text-center">
+            {{randomName}} List
+            <span (click)="cancel()" class="text-danger fas fa-window-close float-right"></span>
+        </h4>
+
+    </div>
+
+    <!-- <div class="modal-body"> -->
+    <div class="card-body px-1 py-0">
+        <div class="input-group row">
+            <label for="accountName" class="col-md-4 text-right">Search</label>
+            <div class="col-md-8 ">
+                <input [(ngModel)]="accchartSearch.accountName" (keyup)="filterAccountChartBasicEntry(accchartSearch.accountName)" name="accountName" type="text" class="form-control" placeholder=" Search BY {{randomName}} name ">
+            </div>
+        </div>
+
+        <div class="card">
+            <!-- <div class="card-body p-0"> -->
+            <!-- <div class="data-table m-0" style="min-height: 250px; background: #efe;">  -->
+            <table class="table text-center table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 50%;">{{randomName}} Name</th>
+                        <th style="width: 35%;">Alias Name</th>
+                        <th style="width: 10%;"> Balance</th>
+                        <th style="width: 5%;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="filteredAccChart.length==0">
+                        <td colspan="13" class="font-italic text-center">No item available</td>
+                    </tr>
+                    <tr *ngFor="let acbce of filteredAccChart">
+                        <td style="width: 50%;">{{acbce.accountName}}</td>
+                        <td style="width: 35%;">{{acbce.aliasName}}</td>
+                        <td style="width: 10%;">{{acbce.openningBalance}}</td>
+                        <td style="width: 5%;"> <button class="btn btn-sm btn-success" (click)="Select(acbce)">
+          <span class="fas fa-edit"></span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- </div> -->
+            <!-- </div>  -->
+        </div>
+    </div>

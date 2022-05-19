@@ -1,0 +1,19 @@
+  <div class="input-group">
+    <ng-select
+  [(ngModel)]="costCenterId"
+  name="costCenterId"
+  (change)="onSelect($event)"
+  [items]="CostCenterItems"
+  bindLabel="costCenterName"
+  bindValue="costCenterId"
+  [disabled]="IsDisabled"
+  [id]="idforTabIndex"
+  [ngStyle]="{'width':'170px'}"  
+  placeholder="Select CostCenter">
+  </ng-select>    
+  <div  class="input-group-append" *ngIf="isPlusActive" >
+    <button (keyup.enter)="createNewItem()"  class="input-group-text btn btn-info" >
+     <span class="fa fa-plus" style="cursor: pointer;"></span>
+       </button>
+    </div>
+  </div>

@@ -1,0 +1,132 @@
+<div class="card">
+  <div class=" card-header  text-center">
+    <h4>Cheque Book</h4>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <form [formGroup]="chequeBookForm">
+            <div class=" form-group row">
+              <label class="col-form-label col-md-3">Bank</label>
+              <div class="col-md-9">
+                <app-bank-select-list [bankID]="f['accountId'].value" (onChange)="onSelectBank($event)"
+                  [isInValid]="(this.f['accountId'].touched || this.f['accountId'].dirty || isSubmitted) && this.f['accountId'].invalid">
+                </app-bank-select-list>
+                <div
+                  *ngIf="(this.f['accountId'].touched || this.f['accountId'].dirty || isSubmitted) && this.f['accountId'].invalid"
+                  class="text-danger">
+                  <i *ngIf="this.f['accountId'].errors.required">Bank is required</i>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-form-label col-md-3">Received Date</label>
+              <div class="col-md-9">
+                <app-date-control [showCurrentDate]="true" (getYyyymmdd)="f['receivedDate'].setValue($event)" (getNgbDate)="receivedDateNgb=$event"  [setNgbDate]="receivedDateNgb">
+                </app-date-control>
+                <div
+                  *ngIf="(this.f['receivedDate'].touched || this.f['receivedDate'].dirty || isSubmitted) && this.f['receivedDate'].invalid"
+                  class="text-danger">
+                  <i *ngIf="this.f['receivedDate'].errors.required">Received date is required</i>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="f['id'].value<=0" class="form-group row">
+              <label class="col-form-label col-md-3">Cheque No</label>
+              <div class="col-md-9">
+                <div class="form-group row">
+                  <div class="col-md-6 row">
+                    <label class="col-12">First Page</label>
+                    <div class="col-12">
+                      <input formControlName="firstPage" class="form-control" type="number"
+                      placeholder="00 000 000">
+                    </div>
+                  </div>
+                  <div class="col-md-6 row">
+                    <label class="col-form-label col-12">Last Page</label>
+                  <div class="col-12">
+                    <input formControlName="lastPage" (change)="onLastChequeNo()" (keyup)="onLastChequeNo()"
+                      [ngClass]="{'is-invalid':this.f['firstPage'].value>this.f['lastPage'].value}" class="form-control"
+                      type="number" placeholder="00 000 000">
+                    <div
+                      *ngIf="(this.f['lastPage'].touched || this.f['lastPage'].dirty || isSubmitted) && this.f['lastPage'].invalid"
+                      class="text-danger">
+                      <i *ngIf="this.f['lastPage'].errors.required">Last ChequeNo is required</i>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="f['id'].value<=0" class="form-group row">
+              <label class="col-form-label col-md-3">Total</label>
+              <div class="col-md-9">
+                <input formControlName="chequeNo" class="form-control" value="{{totalPage}}" type="number"
+                  placeholder="Total page" readonly>
+              </div>
+            </div>
+            <div *ngIf="f['id'].value>0" class="form-group row">
+              <label class="col-form-label col-md-3"></label>
+              <div class="col-md-8 custom-control custom-checkbox ">
+                <input (change)="onReject($event.target.checked)" [checked]="f['isRejected'].value==true" type="checkbox"
+                  class="custom-control-input " id="chequeCancel">
+                <label class="custom-control-label" for="chequeCancel">Cheque Reject</label>
+              </div>
+            </div>
+            <div *ngIf="f['isRejected'].value==true" class=" form-group row">
+              <label class="col-form-label col-md-3">Reason</label>
+              <div class="col-md-9">
+                <textarea formControlName="rejectReason" class=" form-control col-lg"
+                  placeholder="What's the reason"></textarea>
+              </div>
+            </div>
+            <div *ngIf="f['isRejected'].value==true" class="form-group row">
+              <label class="col-form-label col-md-3">Rejected Date</label>
+              <div class="col-md-9">
+                <app-date-control [setNgbDate]="rejectDateNgb" (getYyyymmdd)="f['rejectDate'].setValue($event)">
+                </app-date-control>
+                <div *ngIf="f['rejectDate'].value==null && isSubmitted" class="text-danger">
+                  <i>Reject date is required</i>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="row demo-inline-spacing pull-right pr-5" style="margin: 0 auto;">
+                <button [ladda]="isSaving" (click)="onSubmit()" class="btn btn-success">{{btnStatus}}</button>
+                <button (click)="reset()" class="btn btn-secondary">Reset</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-6">
+          <table class="table table-striped table-hover table-bordered">
+            <thead>
+              <tr>
+                <th>Cheque Number</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td *ngIf="chequeBookModel.length==0" colspan="13" class="font-italic text-center">No item available
+                </td>
+              </tr>
+              <tr *ngFor="let chBook of chequeBookModel">
+                <td>{{chBook.chequeNo | number:'8.0-0' | noComma}}</td>
+                <td>
+                  <span *ngIf="chBook.isUsed==false && chBook.isRejected==false"
+                    class="badge badge-pill badge-success">available</span>
+                  <span *ngIf="chBook.isUsed==true" class="badge badge-pill badge-warning">used</span>
+                  <span *ngIf="chBook.isRejected==true" class="badge badge-pill badge-danger">rejected</span>
+                </td>
+                <td><button [disabled]="chBook.isRejected==true || chBook.isUsed==true" (click)="getChequeBookByID(chBook.id)" class="btn btn-primary">Edit</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

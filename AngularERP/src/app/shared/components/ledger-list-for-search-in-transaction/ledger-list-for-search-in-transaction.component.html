@@ -1,0 +1,67 @@
+<div class="card" style="width: 1000px;">
+  <div class="card-header py-1">
+    <h4 style="color: rgb(54, 141, 241)" class="text-center mb-0">
+      Ledger/Customer/Supplier List
+      <span (click)="cancel()" class="text-danger fas fa-window-close float-right"></span>
+    </h4>
+
+  </div>
+
+  <div class="card-body px-2 py-2">
+    <div class="input-group row">
+      <label for="accountName" class="col-md-2 text-right">Search</label>
+      <div class="col-md-10 row">
+        <div class="col-md-8">
+          <input  (keyup)="filterAccountChartBasicEntry($event)"
+            name="accountName" type="text" class="form-control" placeholder=" Search by  name " [id]="'txtSearch'">
+        </div>
+        <!-- <button class="btn btn-info" (click)="onSearchClick(searchModal)">Create New</button>
+        <ng-template #searchModal>
+
+
+         </ng-template>  -->
+
+
+      </div>
+
+    </div>
+    <div class="data-table mb-0" style="max-height: 450px;">
+      <table class="table text-center table-bordered">
+        <thead>
+          <tr>
+            <th>Account Name</th>
+            <th>Alias Name</th>
+            <th width="80px"> Balance</th>
+            <th width="70px">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="accountChartBasicEntry.length>0 && filteredAccChart.length==0">
+            <td colspan="6" class="text-center text-danger">
+              <b>No Customer found.Add new customer by submmiting this form. </b>
+            </td>
+          </tr>
+          <tr *ngIf="filteredAccChart.length==0">
+            <td colspan="13" class="font-italic text-center">No item available</td>
+          </tr>
+          <tr *ngFor="let acbce of filteredAccChart; let i=index" [id]="'row'+i">
+            <td>{{acbce.formateAccountName}}</td>
+            <td>{{acbce.aliasName}}</td>
+            <td class="text-right">{{acbce.openningBalance | number:'0.2-2'}}</td>
+            <td> <button class="btn btn-sm btn-primary" (click)="onSelect(acbce.accountId)" [id]="'btnSelectRow'+i"
+                (keyup)="filterAccountChartBasicEntry($event)">
+                <span class="fas fa-edit"></span> Select </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="accountChartBasicEntry.length>0 && filteredAccChart.length==0" class="row-my-2">
+        <div class="mx-auto col-md-10">
+          <app-ledger></app-ledger>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<div class="card">
+    <div class=" card-header bg-light text-center">
+        <h4>Leave Sub Category</h4>
+    </div>
+    <div class=" card-body">
+        <form [formGroup]="formGroup">
+            <div class="col-md-6 center">
+
+                <div class="form-group row">
+                    <label class="col-form-label col-md-4 text-md-right">Leave Catagory <i class="text-danger">*</i></label>
+                    <div class="col-md-8">
+                        <ng-select formControlName="leaveCategoryId" [items]="leaveTypes" bindLabel="typeName" bindValue="id" placeholder="Seelct Leave Catagory"></ng-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-md-4 text-md-right">Title <i class="text-danger">*</i></label>
+                    <div class="col-md-8">
+                        <input formControlName="title" type="text" class="form-control" placeholder="Title">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-md-4 text-md-right">Days <i class="text-danger">*</i></label>
+                    <div class="col-md-8">
+                        <input formControlName="days" type="number" class="form-control" placeholder="Total Days">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class=" card-footer">
+        <div class="demo-inline-spacing mt-3" style="margin:0 450px">
+            <button (click)="reset()" type="clear" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset </button>
+            <button (click)="onSubmit()" class="btn btn-success"><span class="fas fa-save"></span> {{btnStatus}} </button>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body scrollmenu">
+        <div class="col-md-6 center">
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Days</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of leaveCategory">
+                        <td>{{item.title}}</td>
+                        <td>{{item.days}}</td>
+                        <td><button (click)="getLeaveSubCategoryById(item.id)" class="btn btn-primary ">Edit</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

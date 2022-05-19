@@ -1,0 +1,53 @@
+<div class="card">
+  <div clas="card-header">
+    <h2 class="text-center">Approval</h2>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="approvalForm">
+      <div class="col-md-7 center">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label text-right">Select Module</label>
+          <div class="col-md-9">
+            <ng-select formControlName="moduleId" (change)="getApprovalLevel()" [items]="modules" bindLabel="name" bindValue="moduleID"
+              placeholder="Select Module"></ng-select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label text-right ">User</label>
+          <div class="col-md-9">
+            <ng-select formControlName="userId" (change)="getApprovalLevel()" [items]="users" bindLabel="userName" bindValue="userId"
+              placeholder="Select"></ng-select>
+
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label text-right">Approval Stage</label>
+          <div class="col-md-9">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+              <label class="checkbox-inline mx-2 font-weight-bold">
+                <input formControlName="canCheck" type="checkbox" class="input-check">
+                <span>Check</span>
+              </label>
+              <label class="checkbox-inline mx-2 font-weight-bold">
+                <input formControlName="canVerify" type="checkbox" id="rejectStatus" class="input-check">
+                <span>Verify</span>
+              </label>
+              <label class="checkbox-inline mx-2 font-weight-bold">
+                <!--  <input formControlName="orderType" (change)="getNextOrderNo()" type="radio" [value]="7" id="saleRadio"
+              class="input-check"> -->
+                <input formControlName="canApprove" type="checkbox" id="approveStatus" class="input-check">
+                <span>Approve</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="ml-auto">
+            <button (click)="reset()" class="btn btn-info">Reset</button>
+            <button (click)="onSubmit()" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

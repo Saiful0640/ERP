@@ -1,0 +1,21 @@
+<sidenav [orientation]="orientation" [ngClass]="getClasses()" style="width:100% !important">
+
+    <!-- Brand demo (see src/demo.css) -->
+    <div class="app-brand demo pl-1" *ngIf="orientation !== 'horizontal'">
+        <span class="app-brand-logo">
+      <img height="50" width="50" src="../../../assets/img/logo.png" alt="logo">
+    </span>
+        <a routerLink="/" class="app-brand-text demo sidenav-text font-weight-normal ml-1 mr-3">Software Arena Ltd</a>
+        <a href="javascript:void(0)" class="layout-sidenav-toggle sidenav-link text-large ml-auto" (click)="toggleSidenav()">
+            <i class="ion ion-md-menu align-middle"></i>
+        </a>
+    </div>
+    <div class="sidenav-divider mt-0" *ngIf="orientation !== 'horizontal'"></div>
+
+    <!-- Links -->
+    <div class="sidenav-inner" style="background-color:teal;" [ngClass]="{ 'py-1': orientation !== 'horizontal' }">
+
+        <sidenav-router-link icon="ion ion-md-home" route="/" [active]="isActive('/')">Home</sidenav-router-link>
+        <sidenav-router-link icon="fa fa-chart-line" route="/dashboard" [active]="isActive('/dashboard')">Dashboard</sidenav-router-link>
+    </div>
+</sidenav>

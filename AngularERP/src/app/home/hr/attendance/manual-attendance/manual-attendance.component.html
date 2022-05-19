@@ -1,0 +1,101 @@
+<div class="card-body">
+    <div class="card">
+        <h4 class="card-header text-center bg-light">
+            Menual Attendance
+        </h4>
+        <div class="card-body">
+            <div class="col-md-6 center">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Period
+          </label>
+                    <div class="col-sm-6">
+                        <app-period-select-list [moduleID]="moduleId" [periodId]="f['periodId'].value" (onChange)="f['periodId'].setValue($event.id)"></app-period-select-list>
+                        <div *ngIf="f['periodId'].invalid && (isSubmitted || f['periodId'].touched || f['periodId'].dirty)" class="text-danger">
+                            <i *ngIf="f['periodId'].errors.required">Please input Description</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Department
+          </label>
+                    <div class="col-sm-6">
+                        <app-department-select-list [setDeptId]="f['departmentId'].value" (onChange)="f['departmentId'].setValue($event.id)"></app-department-select-list>
+                    </div>
+                    <!-- <div class="col-sm-3">
+                        <input type="checkbox">
+                        <label class="col-form-label">All</label>
+                    </div> -->
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Employee_Code
+        </label>
+                    <div class="col-sm-9">
+                        <app-member-select-list [moduleId]="moduleId" (onChange)="f['memberCode'].setValue($event.memberCode)" [memberCode]="formVal.memberCode"> </app-member-select-list>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-3 ">Designation
+          </label>
+                    <div class="col-sm-6">
+                        <app-designation-select-list [designationId]="f['designationId'].value" (onChange)="f['designationId'].setValue($event.id)"></app-designation-select-list>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                        <button (click)="getAttendanceDetails()" type="clear" class="btn btn-secondary">
+                        <span class="ion ion-ios-search"></span> Get</button>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>SN</th>
+                            <th>EmpCode</th>
+                            <th>EmpName</th>
+                            <th>Department</th>
+                            <th>Designation</th>
+                            <th>Total Day</th>
+                            <th>Working Day</th>
+                            <th>Holiday</th>
+                            <th>With_Pay</th>
+                            <th style="width: 20px;">Without_Pay</th>
+                            <th style="width: 20px;">Attendance</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let attendance of attendanceList.controls;let i=index" [formGroup]="attendance">
+                            <td>{{i+1}}</td>
+                            <td>{{attendance.value.memberCode}}</td>
+                            <td>{{attendance.value.memberName}}</td>
+                            <td>{{attendance.value.department}}</td>
+                            <td>{{attendance.value.designation}}</td>
+                            <td>{{attendance.value.totalDay}}</td>
+                            <td>{{attendance.value.workingDay}}</td>
+                            <td>{{attendance.value.holiDay}}</td>
+                            <td>{{attendance.value.withPay}}</td>
+                            <td><input (keyup)="attendentCalculation(i)" type="number" class="form-control" formControlName="withoutPay"></td>
+                            <td><input disabled type="number" class="form-control" formControlName="attendDay"></td>
+                            <td class="demo-inline-spacing">
+                                <button class="btn btn-danger btn-sm"><span class="fas fa-trash"></span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                    <button (click)="save()" type="clear" class="btn btn-success">
+                      <span class="ion ion-ios-save"></span> Save</button>
+                    <button (click)="reset()" type="clear" class="btn btn-success">
+                        <span class="ion ion-ios-save"></span> Reset</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

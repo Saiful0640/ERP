@@ -1,0 +1,50 @@
+<div class="card " style="height: 500px; width: 1000px; background: rgb(195, 214, 250);">
+  <div class="card-header">
+    <h4 style="color: rgb(54, 141, 241)" class="text-center">
+     Receipt Member Amount
+      <span (click)="cancel()" class="text-danger fas fa-window-close float-right"></span>
+    </h4>
+  </div>
+  <div class="card-body px-2 py-0" >
+        <div class="card-body">   
+          <form [formGroup]="receiptMemAmtForm">       
+            <div class="card">
+              <div class="card-body p-0">
+                  <div class="data-table m-0" style="max-height: 245px; overflow: auto; background: #efe;">
+                <table class="table text-center table-bordered">
+              <thead>
+                <tr>
+                  <th><input type="checkbox" name="allChecked" [value]="memberListModel" (change)="allCheckedItem($event)"></th>                 
+                  <th>Period</th>
+                  <th>Amount</th>                 
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of memberListModel" >
+                  <td><input type="checkbox" name="isChecked" [checked]="item.isSelected" (change)="getOnSelectedPeriod(item.periodID,item.amount, $event.target.checked)"></td>
+                <td >{{item.periodName}}</td>
+                <td>{{item.periodID}}</td> 
+              </tr> 
+              </tbody>
+            </table>              
+            </div>
+          </div>
+          <div class="card-footer py-0 px-0" style="background: rgb(218, 253, 255);">
+            <div class="row mx-3">
+                <div class="col-md-4 center">
+                    <div class="row form-group">
+                        <label for="totalAmount" class=" col-form-label col ">Total Amount</label>
+                        <div class="col">
+                            <input formControlName="totalAmount" tabindex="-1" class=" form-control" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
+     <div class="row demo-inline-spacing mt-3" style="margin: 0 400px;">
+      <button (click)="onSelect()" class="btn btn-success">Save</button>      
+       </div>
+          </form>
+         </div>
+      </div>

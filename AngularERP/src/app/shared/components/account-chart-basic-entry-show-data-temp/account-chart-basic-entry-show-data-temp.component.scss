@@ -1,0 +1,78 @@
+table th,td{
+    vertical-align: middle;
+  }
+  td{
+    padding: 0;
+    padding-top: 0 !important;
+}
+td .form-control{
+    margin: 0;
+    border: 0;
+    padding: 1px;
+    text-align: center;
+    background: #eee;
+    border-radius: 0;
+    border: 1px solid #fff;
+}
+td .form-control:focus{
+    background: #ddffdd;
+    border: 1px dotted #555;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+ 
+tbody{
+    display:block;
+    height:270px;
+    overflow:scroll;
+    background: #efe;
+  } 
+thead, tbody tr {
+  display:table;
+  width:100%;
+  table-layout:fixed;/* even columns width , fix width of table too*/
+}
+thead {
+  width: calc( 100% -6px)/* scrollbar is average 1em/16px width, remove it from thead width */
+}
+table {
+  widows: 100%;
+}
+
+.btn:disabled{
+  cursor: not-allowed;
+}
+::-webkit-scrollbar {
+  width: 5px;
+  height: 1px;
+}
+::-webkit-scrollbar:hover {
+  width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #eee;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #bbb;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+// .modal-xl .modal-body {
+//   max-height: calc(100vh - 200px);
+//   overflow: auto;
+// }
+
+div.modal-xl .modal-content {
+  max-height: 600px;
+  overflow: auto;
+}

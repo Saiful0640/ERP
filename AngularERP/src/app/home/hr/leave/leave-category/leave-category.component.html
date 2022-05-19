@@ -1,0 +1,68 @@
+<div class="card">
+  <div class=" card-header bg-light text-center"><h4>Leave Catagory</h4></div>
+  <div class=" card-body">
+    <form [formGroup]="leavetypeForm">
+      <div class="col-md-6 center">
+
+        <div class="form-group row">
+          <label class="col-form-label col-md-4 text-md-right">Leave Name <i class="text-danger">*</i>  </label>
+          <div class="col-md-8">
+              <input formControlName="typeName"  type="text" class="form-control" placeholder="Leave Name" >
+              <div *ngIf="f['typeName'].invalid && (isSubmitted || f['typeName'].touched || f['typeName'].dirty)" class="text-danger">
+                <i *ngIf="f['typeName'].errors.required">Please input typeName</i>
+            </div>
+          </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-md-4 text-md-right">Total Days <i class="text-danger">*</i>  </label>
+        <div class="col-md-8">
+            <input  formControlName="days"  type="number" class="form-control" placeholder="Total Days" >
+            <div *ngIf="f['days'].invalid && (isSubmitted || f['days'].touched || f['days'].dirty)" class="text-danger">
+              <i *ngIf="f['days'].errors.required">Please input days</i>
+          </div>
+        </div>
+    </div>
+      </div>
+    </form>
+  </div>
+  <div class=" card-footer">
+    <div class="demo-inline-spacing mt-3" style="margin:0 400px">
+      <button (click)="reset()"  type="clear" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset </button>
+      <button (click)="onSubmit()" type="submit" class="btn btn-success"><span class="fas fa-save"></span> {{btnStatus}} </button>
+  </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-body scrollmenu">
+    <div class="col-md-6 center">
+      <table class="table table-striped table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>SN</th>
+            <th>Leave Catagory</th>
+            <th>Leave Days</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <tr >
+            <td colspan="13" class="font-italic text-center">No item available</td>
+          </tr> -->
+          <tr *ngFor="let item of leaveTypes; let i = index" >
+            <td>{{i+1}}</td>
+            <td>{{item.typeName}}</td>
+            <td>{{item.days}}</td>
+            <td>
+            <button (click)="getLeaveById(item.id)" class="btn btn-info py-1 px-2 rounded-0"><span
+              class="fas fa-edit"></span></button>
+          <!-- <button (click)="delete(item.id, deleteModal)" class="btn btn-danger py-1 px-2"><span class="fas fa-trash-alt"></span></button></td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<ng-template #deleteModal>
+  <app-delete-confirmation [rowId]="selectedItemId" (onConfirmedId)="confirmDeleteLeaveById($event)"></app-delete-confirmation>
+</ng-template>
+

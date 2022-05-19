@@ -1,0 +1,79 @@
+<div class=" card-header bg-light text-center py-0">
+    <h4>Product Brand</h4>
+</div>
+<div class="row ">
+    <div class="card col-md-6 pt-0 py-0">
+        <div class="card-body pt-1 py-0">
+            <form [formGroup]="productBrandForm">
+                <div class="form-group row">
+                    <label for="name" class=" col-form-label col-md-4"><i class="text-danger">*</i>Brand Name</label>
+                    <div class="col-md-8">
+                        <input formControlName="name" id="name" class="form-control" [ngClass]="{'is-invalid':(f['name'].touched || f['name'].dirty || isSubmit) && f['name'].invalid}" placeholder="Enter Brand Name">
+                        <div *ngIf="f['name'].invalid && (f['name'].touched || f['name'].dirty || isSubmit)">
+                            <i *ngIf="f['name'].errors.required" class="text-danger">Brand Name is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="description" class=" col-form-label col-md-4">Description</label>
+                    <div class="col-md-8">
+                        <input formControlName="description" id="description" class="form-control" placeholder="Enter Description">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="sortOrder" class=" col-form-label col-md-4">Sort Order</label>
+                    <div class="col-md-5">
+                        <input formControlName="sortOrder" id="sortOrder" type="number" class="form-control" placeholder="Enter Sort Order">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="status" class=" col-md-4">Status</label>
+                    <div class="row col-md-8">
+                        <div class="col-md-8">
+                            <div class="custom-control custom-checkbox  row ">
+                                <input formControlName="isActive" type="checkbox" class="custom-control-input row" id="active" checked>
+                                <label class="custom-control-label" for="active">Active</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" row">
+                    <div class="row demo-inline-spacing center" style="margin: 0 auto;">
+                        <button [ladda]="isSaved" (click)="saveBrand()" class="btn btn-success mr-2">{{btnStatus}}</button>
+                        <button (click)="reset()" class="btn btn-secondary">Reset</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="card col-md-6 pt-0 py-0">
+        <div class="card-body pt-1 py-0">
+            <div class="data-table">
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Sort Order</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr >
+          <td colspan="13" class="font-italic text-center">No item available</td>
+        </tr> -->
+                    <tr *ngFor="let pb of productBrandModel">
+                        <td>{{pb.name}}</td>
+                        <td>{{pb.description}}</td>
+                        <td>{{pb.sortOrder}}</td>
+                        <td>
+                            <button class="btn btn-primary p-1" (click)="edit(pb)"><span class="fa fa-edit"></span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+</div>

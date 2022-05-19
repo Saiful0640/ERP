@@ -1,0 +1,77 @@
+<div class="card " style="height: 550px;background: rgb(195, 214, 250);">
+    <div class="card-header my-0 py-0">
+        <h2 style="color: rgb(26, 128, 245)" class="text-center">
+            CostCenter
+            <span (click)="cancel()" class="text-danger fas fa-window-close float-right"></span>
+        </h2>
+
+    </div>
+
+    <div class="card-body">
+        <div class="row demo">
+            <div class="col-md-12">
+                <div class="form-group col-md-8 center row">
+                    <label class="col-form-label col-md-4 " style="font-size: 16px;">Account Name</label>
+                    <div class="col-md-8 mt-2">
+                        <span style="font-size: 16px;">{{accountName}}</span>
+                    </div>
+                </div>
+                <div class="form-group col-md-8 center row">
+                    <label class="col-form-label col-md-4" style="font-size: 16px;">Amount</label>
+                    <div class="col-md-8 mt-2">
+                        <span style="font-size: 16px;">{{totalAmount}}</span>
+                    </div>
+                </div>
+                <form [formGroup]="transCostCenterForm">
+                    <div class="card">
+                        <div class="card-body p-0">
+                            <div class="data-table m-0" style=" background: #efe;">
+                                <table class="table  table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>CostCenter</th>
+                                            <th width="100px">Amount</th>
+                                            <th width="100px">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let costArray of _transCostCenterForm.controls;let i=index" [formGroup]="costArray">
+                                            <!-- <tr > -->
+                                            <td>
+                                                <app-trans-cost-cenetr-select-list #data [costWidth]="costWidth" [moduleId]="moduleId" [idForTabIndex]="'ccostCenter'+i"  [transCostCenterID]="costArray.value.detailsId" (onChange)="getAllCostCenter($event,i)"></app-trans-cost-cenetr-select-list>
+                                            </td>
+                                            <td width="100px"><input (keyup)="getTotalAmount()" [id]="'costamount'+i" formControlName="amount" class="form-control" placeholder="0.00" type="number"></td>
+                                            <td width="100px">
+                                                <button (click)="addRow()" *ngIf="_transCostCenterForm.controls.length==(i+1)" class="btn btn-sm btn-success "><span class="fa fa-plus"></span></button>
+                                                <button (click)="removeRow(i)" class="btn btn-sm btn-danger" tabindex="-1"><span class="fa fa-times"></span>
+                        </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-footer py-1 px-0" style="background: rgb(181, 231, 181);">
+                            <div class="row mx-3">
+                                <div class="col-md-7 center">
+                                    <div class="row form-group">
+                                        <label for="totalAmount" class=" col-form-label col ">Total Amount</label>
+                                        <div class="col">
+                                            <input formControlName="totalAmount" tabindex="-1" class=" form-control" placeholder="0.00" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+     <div class="card-footer row">
+    <div class="row demo-inline-spacing center" style="margin: 0 auto;">
+      <button (click)="savetransCostCenter()" [id]="'okBtn'"  class="btn btn-success">OK</button>
+    </div>
+  </div> 
+</div>

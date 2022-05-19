@@ -1,0 +1,66 @@
+<!-- <div class="row col-12" style="height: 100%;">
+  <div *ngIf="isLoading" class="mx-auto my-auto display-4">
+    <img src="../../../assets/img/loading.gif" width="70px" height="70px" /> Loading... Please wait!
+  </div>
+  <div  [routerLink]="'accounts/index'"
+    class="col-md-12 col-lg-3 module  text-big" style="height: 150px;" (click)="onModuleSelected(6)">
+    <div class="row" style="height: 150px;" >
+      <div class="mx-auto my-auto "   >
+        <span class="fa fa-laptop-code m-2"></span><br>
+        <strong>Accounting</strong>
+      </div>
+    </div>
+  </div>
+  <div  [routerLink]="'hr/index'"
+  class="col-md-12 col-lg-3 module  text-big" style="height: 150px;" (click)="onModuleSelected(20)">
+  <div class="row" style="height: 150px;">
+    <div class="mx-auto my-auto "  >
+      <span class="fa fa-laptop-code m-2"></span><br>
+      <strong>Human Resource Management</strong>
+    </div>
+  </div>
+</div>
+<div  [routerLink]="'payroll/index'"
+class="col-md-12 col-lg-3 module  text-big" style="height: 150px;"  (click)="onModuleSelected(30)">
+<div class="row" style="height: 150px;">
+  <div class="mx-auto my-auto " >
+    <span class="fa fa-laptop-code m-2"></span><br>
+    <strong>Payroll</strong>
+  </div>
+</div>
+</div>
+<div  [routerLink]="'sales-purchase/index'"
+class="col-md-12 col-lg-3 module  text-big" style="height: 150px;" (click)="onModuleSelected(40)" >
+<div class="row" style="height: 150px;">
+  <div class="mx-auto my-auto " >
+    <span class="fa fa-laptop-code m-2"></span><br>
+    <strong>Sales And Purchase</strong>
+  </div>
+</div>
+</div>
+<div  [routerLink]="'settings/index'"
+class="col-md-12 col-lg-3 module  text-big" style="height: 150px;" (click)="onModuleSelected(1)">
+<div class="row" style="height: 150px;" >
+  <div class="mx-auto my-auto "  >
+    <span class="fa fa-laptop-code m-2"></span><br>
+    <strong>Setting</strong>
+  </div>
+</div>
+</div>
+</div> -->
+
+<div class="row col-12" style="height: 100%;">
+  <div *ngIf="isLoading" class="mx-auto my-auto display-4">
+    <img src="../../../assets/img/loading.gif" width="70px" height="70px" /> Loading... Please wait!
+  </div>
+  <div *ngFor="let module of modules" [routerLink]="module.moduleRoutePath+'/index'"
+  (click)="onModuleSelected(module.name)" class="col-md-12 col-lg-3 module  text-big" style="height: 150px;">
+    <div class="row" style="height: 150px;">
+      <div class="mx-auto my-auto ">
+        <span class="fa fa-laptop-code m-2"></span><br>
+        <strong>{{ module.name}}</strong>
+      </div>
+    </div>
+  </div>
+</div>
+

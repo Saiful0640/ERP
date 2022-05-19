@@ -1,0 +1,31 @@
+export class AttendenceModel{
+  id:number
+  moduleID:number
+  compID:number
+  periodID:number
+  groupID:number
+  sectionID:number
+  workDays:number
+  pDWise:number
+  pMWise:number
+  memberCode:string
+  memberID:number
+  workingDays:number
+  absentDays:number
+  lateDays:number
+  leaveDays:number
+  totalPressentDays:number
+  overTimeHours:number
+  overTimeAmount:number
+  tDAWorkingDays:number
+  amount:number
+  tDALeaveDays:number
+  tDAAbsentDays:number
+  tourDays:number
+  payableDays:number
+  penalty:number
+  payableAmount:number
+  remarks:string
+  comment:string
+  userID:number
+}

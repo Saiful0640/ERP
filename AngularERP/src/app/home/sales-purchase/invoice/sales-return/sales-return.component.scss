@@ -1,0 +1,90 @@
+.modal.show {
+  display: block;
+}
+
+.form-control-plaintext {
+  padding: 5px;
+}
+
+::-webkit-scrollbar {
+  width: 1px;
+  height: 8px;
+}
+
+.form-label,
+label {
+  margin-bottom: 0;
+}
+
+.data-table {
+  max-width: 100%;
+}
+
+td {
+  padding: 0;
+  padding-top: 0 !important;
+}
+
+td .form-control {
+  margin: 0;
+  border: 0;
+  padding: 1px;
+  text-align: center;
+  background: rgb(255, 255, 255);
+  border-radius: 0;
+  border: 1px solid rgb(213, 247, 253);
+}
+
+td .form-control:focus {
+  background: rgb(214, 238, 250);
+  border: 1px dotted rgb(77, 79, 82);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+/* Firefox */
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+.last-tr{
+  background: rgb(207, 244, 255) !important;
+  color: rgb(72, 72, 72);
+}
+.last-tr td {
+  //background: rgb(204, 239, 255);
+  text-align: center;
+  font-weight: bold;
+}
+
+.shadow {
+  box-shadow: 0 0 2px 0px;
+}
+
+.card {
+  background: rgb(214, 238, 250);
+}
+
+.custom-bg {
+  background: rgb(204, 245, 224);
+}
+// .data-table{
+// min-height: 300px !important;
+// }
+
+.border-danger{
+  border: 2px solid #c00 !important;
+}
+.invalid{
+  background:rgb(238, 46, 46) !important;
+  color: #fff;
+}
+::ng-deep .my-class .modal-dialog {
+  max-width: 80%;
+  width: 80%;
+}

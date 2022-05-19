@@ -1,0 +1,138 @@
+<div class="card mb-4 section">
+  <div class="card-header py-2">
+    <h4 class="text-center mb-0">Company Setup</h4>
+  </div>
+  <div class="card-body">
+   <div class="row">
+    <form [formGroup]="companyForm">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label for="name" class="col-form-label col-sm-3 ">Name <i class="text-danger">*</i></label>
+            <div class="col-sm-9">
+              <input formControlName="name" type="text" class="form-control" placeholder="Company Name">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Address</label>
+            <div class="col-sm-9">
+              <textarea formControlName="address" type="text" rows="1" class="form-control" placeholder="Address"></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Contact No</label>
+            <div class="col-sm-9">
+              <input formControlName="phone" type="text" class="form-control" placeholder="Contact No">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="description" class="col-form-label col-sm-3 ">Description</label>
+            <div class="col-sm-9">
+              <textarea formControlName="description" type="text" class="form-control"
+                placeholder="Description"></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="description" class="col-form-label col-sm-3 ">Currency Type</label>
+            <div class="col-sm-9">
+              <ng-select [items]="currencyList" formControlName="currencyType" bindLabel="currencySign" bindValue="id" (change)="onChangeCurrencySign($event)" placeholder="select Currency">
+              </ng-select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3">Status</label>
+            <div class="col-sm-6 mt-2">
+              <div class="custom-control custom-checkbox ml-2">
+                <input formControlName="isActive" type="checkbox" class="custom-control-input row" id="isActive"
+                  checked>
+                <label class=" custom-control-label " for="isActive">
+                  IsActive
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Email</label>
+            <div class="col-sm-9">
+              <input formControlName="email" type="text" [ngClass]="{ 'is-invalid': isSubmit && f['email'].errors }"
+                placeholder="Enter Supplier Email" class="form-control">
+              <div *ngIf="isSubmit && f['email'].errors" class="invalid-feedback">
+                <!-- <div *ngIf="f['email'].errors.required">Email is required</div> -->
+                <div *ngIf="f['email'].errors.email">Email must be a valid email address</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="tinNo" class="col-form-label col-sm-3 ">TIN </label>
+            <div class="col-sm-9">
+              <input formControlName="tin" type="number" class="form-control" placeholder="TIN NO">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3">Logo
+            </label>
+            <div class="col-sm-9">
+              <app-image-control [fieldId]="'pictureFileName'" (selectedFile)="f['logo'].setValue($event)"
+                [previewImg]="formVal.logo"></app-image-control>
+            </div>
+          </div>
+          <!-- <div class="form-group row">
+            <label class="col-form-label col-sm-3">Company Type
+            </label>
+            <div class="col-sm-9">
+              <ng-select formControlName="compTypeId" [items]="companyType" bindLabel="compTypeName" bindValue="compTypeId" placeholder="Select Type...."></ng-select>
+           </div>
+          </div> -->
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="row">
+    <div class="m-auto">
+      <button (click)="reset()" type="clear" class="btn btn-info">Reset</button>
+      <button (click)="onSubmit()" type="submit" class="btn btn-success">{{btnStatus}}</button>
+    </div>
+  </div>
+   </div>
+   <div class="row">
+    <div class="data-table">
+      <table class="table table-bordered mb-0">
+        <thead>
+            <tr>
+                <th class="tc-80">#SN</th>
+                <th class="tc-200">Company_Name</th>
+                <th class="tc-200">Address </th>
+                <th class="tc-100">Contact_No</th>
+                <th class="tc-100">TIN</th>
+                <th class="tc-100">Email</th>
+                <th class="tc-100">Enroll_Date</th>
+                <th class="tc-100">Status</th>
+                <th class="tc-80"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngIf="companyModel.length==0">
+                <td colspan="13" class="font-italic text-center">No item available</td>
+            </tr>
+            <tr *ngFor="let com of companyModel;let i=index" [ngClass]="{'active-row':com.isActive,'disabled-row':!com.isActive}">
+                <td class="tc-80">{{i+1}}</td>
+                <td class="tc-200">{{com.name}}</td>
+                <td class="tc-200">{{com.address}}</td>
+                <td class="tc-100">{{com.phone}}</td>
+                <td class="tc-100">{{com.tin}}</td>
+                <td class="tc-100">{{com.email}}</td>
+                <td class="tc-100">{{com.dateCreated | date:'dd/MM/yyyy'}}</td>
+                <td class="tc-100">
+                  <span *ngIf="com.isActive" class="badge badge-success badge-pill">active</span>
+                  <span *ngIf="!com.isActive" class="badge badge-danger badge-pill">disabled</span>
+                </td>
+                <td class="tc-80"><button (click)="onSelectCompanyId(com.id)" class="btn btn-sm btn-info"><span class="fa fa-edit"></span></button></td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+   </div>
+</div>

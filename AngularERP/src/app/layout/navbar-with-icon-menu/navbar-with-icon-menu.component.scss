@@ -1,0 +1,46 @@
+.modules{
+    font-size: 1.5rem;
+    padding: 10px;
+    background-color: #282;
+    color: #eee;
+    cursor:pointer;
+    border-radius: 100%;
+    height:50px;
+    width:50px;
+    margin-left:5px;
+    text-align:center;
+    box-shadow: 0px 0px 5px 1px #000;
+  }
+  .modules:hover{
+    background-color: #eee;
+    color: #282;
+    transition: .3s;
+    box-shadow: 0px 0px 5px 1px #000;
+  }
+  // .top-nav{
+  //   width:72%;
+  //   overflow-x:scroll;
+  // }
+
+  /* width */
+::-webkit-scrollbar {
+    height: 5px;
+  }
+  ::-webkit-scrollbar:hover {
+    height: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #eee;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #bbb;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #666;
+  }

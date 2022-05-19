@@ -1,0 +1,140 @@
+<div class="card section">
+    <h4 class="card-header text-center bg-light">
+        Employee Employment Information
+    </h4>
+    <div class="card-body">
+        <form [formGroup]="employmentInfoForm">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 text-sm-right ">Employee Code <i class="text-danger">*</i> </label>
+                        <div class="col-sm-6">
+                            <ng-select formControlName="memberCode" [items]="memberInfo" bindLabel="memberCode" bindValue="memberCode" (change)="getEmploymentInfoByMemberCode($event)" placeholder="Member Code"></ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-form-label col-sm-4 text-sm-right ">Employee Name <i class="text-danger">*</i> </label>
+                      <div class="col-sm-6">
+                          <input formControlName="memberName" type="text" class="form-control" disabled>
+                      </div>
+                  </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 text-sm-right">Joining Date </label>
+                        <div class="col-sm-6">
+                            <app-date-control [showCurrentDate]="false" [setNgbDate]="f['ngbJoinDate'].value" (getYyyymmdd)="f['joinDate'].setValue($event);onCngJoindate()"></app-date-control>
+                            <div *ngIf="f['ngbJoinDate'].invalid && (isSubmitted || f['ngbJoinDate'].touched || f['ngbJoinDate'].dirty)" class="text-danger">
+                                <i *ngIf="f['ngbJoinDate'].errors.required">Please input Description</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 text-sm-right ">Department <i class="text-danger">*</i> </label>
+                        <div class="col-sm-6">
+                            <app-department-select-list [setDeptId]="f['departmentId'].value" (onChange)="f['departmentId'].setValue($event.id)"></app-department-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 text-sm-right ">Designation <i class="text-danger">*</i></label>
+                        <div class="col-sm-6">
+                            <app-designation-select-list [designationId]="f['designationId'].value" (onChange)="f['designationId'].setValue($event.id)"></app-designation-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 text-sm-right ">Section  <i class="text-danger">*</i>  </label>
+                        <div class="col-sm-6">
+                            <app-section-select-list [sectionId]="f['sectionId'].value" (onChange)="f['sectionId'].setValue($event.id)"></app-section-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 text-sm-right ">Job Location   <i class="text-danger">*</i> </label>
+                        <div class="col-sm-6">
+
+                            <app-location-select-list [setLocationId]="f['jobLocationId'].value" (onChange)="f['jobLocationId'].setValue($event.id)"></app-location-select-list>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 text-sm-right ">Employee Type <i class="text-danger">*</i> </label>
+                        <div class="col-sm-6">
+                            <ng-select formControlName="empTypeId" [items]="empTypes" bindLabel="typeName" bindValue="id" placeholder="Select Employee Type"></ng-select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 text-sm-right ">Group Type<i class="text-danger">*</i> </label>
+                        <div class="col-sm-6">
+                            <app-group-select-list [groupId]="f['groupID'].value" (onChange)="f['groupID'].setValue($event.id)"></app-group-select-list>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 text-sm-right">Confirmation Date  <i class="text-danger">*</i> </label>
+                        <div class="col-sm-6">
+                            <app-date-control [showCurrentDate]="false" [setNgbDate]="f['ngbConfirmationDate'].value" (getYyyymmdd)="f['confirmationDate'].setValue($event)"></app-date-control>
+                            <div *ngIf="f['ngbConfirmationDate'].invalid && (isSubmitted || f['ngbConfirmationDate'].touched || f['ngbConfirmationDate'].dirty)" class="text-danger">
+                                <i *ngIf="f['ngbConfirmationDate'].errors.required">Please input Description</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 text-sm-right ">Probable Conf. Date </label>
+                        <div class="col-sm-6">
+                            <app-date-control [showCurrentDate]="false" [setNgbDate]="f['ngbProConfirmationDate'].value" (getYyyymmdd)="f['proConfirmationDate'].setValue($event)"></app-date-control>
+                            <div *ngIf="f['ngbProConfirmationDate'].invalid && (isSubmitted || f['ngbProConfirmationDate'].touched || f['ngbProConfirmationDate'].dirty)" class="text-danger">
+                                <i *ngIf="f['ngbConfirmationDate'].errors.required">Please input Description</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 text-sm-right">Job Description <i class="text-danger">*</i> </label>
+                        <div class="col-sm-6">
+                            <textarea formControlName="jobDescription" class="form-control" placeholder="Enter Job Description"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 text-sm-right">Action Type </label>
+                        <div class=" col-sm-6">
+                            <ng-select formControlName="actionTypeId" [items]="actionTypes" bindLabel="action" bindValue="id" placeholder="Select Action Type"></ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 text-sm-right">Action Date </label>
+                        <div class="col-sm-6">
+                            <!-- <app-date-control [showCurrentDate]="false" [setNgbDate]="f['ngbActionDate'].value" (getYyyymmdd)="f['actionDate'].setValue($event)"></app-date-control> -->
+
+                            <app-date-control [showCurrentDate]="false" [setNgbDate]="f['ngbActionDate'].value" (getYyyymmdd)="f['actionDate'].setValue($event)"></app-date-control>
+
+                            <!-- <app-date-control [showCurrentDate]="true" [setNgbDate]="formVal.ngbActionDate" (getYyyymmdd)="employmentInfoForm.patchValue({actionDate: $event })"></app-date-control> -->
+                            <div *ngIf="f['ngbActionDate'].invalid && (isSubmitted || f['ngbActionDate'].touched || f['ngbActionDate'].dirty)" class="text-danger">
+                                <i *ngIf="f['ngbActionDate'].errors.required">Please input Action </i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-4 text-sm-right">Action Reason </label>
+                        <div class="col-sm-6">
+                            <textarea formControlName="reason" type="text" class="form-control" placeholder="Action Reason"></textarea>
+                        </div>
+                    </div>
+
+                    <div  class="form-group row">
+                        <label class="col-form-label col-sm-4 text-sm-right ">Leave Type<i class="text-danger">*</i> </label>
+                        <div class="col-sm-6">
+                            <ng-select formControlName="leaveID" [items]="leaveCategory" bindLabel="title" bindValue="id" placeholder="Select Employee Type"></ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class=" row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                <button (click)="reset()" type="clear" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset </button>
+                <button (click)="save()" type="" class="btn btn-success"><span class="fas fa-save"></span> {{btnStatus}} </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Employee Search Modal -->

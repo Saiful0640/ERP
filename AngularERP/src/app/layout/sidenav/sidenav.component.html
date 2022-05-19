@@ -1,0 +1,400 @@
+<sidenav [orientation]="orientation" [ngClass]="getClasses()">
+
+    <!-- Links -->
+    <div class="sidenav-inner" style="background-color:teal;" [ngClass]="{ 'py-1': orientation !== 'horizontal' }">
+        <span>Logo</span>
+        <sidenav-router-link icon="" class="mr-auto" route="/" [active]="isActive('/')" >{{companyName}}
+        </sidenav-router-link>
+        <!-- <span>{{branchName}}</span> -->
+        <sidenav-router-link *ngIf="isLoading" icon="" class="mx-auto" route="/">Loading</sidenav-router-link>
+        <!-- =========================================================Accounting Module start==================================== -->
+        <!-- pagess for Accounts-->
+        <ng-container *ngIf="currentModuleId==6 ">
+            <sidenav-router-link  [route]="'/accounts/dashboard'" [active]="isActive('/accounts/dashboard')">Dashboard
+            </sidenav-router-link>
+        </ng-container>
+        <ng-container *ngIf="currentModuleId==6">
+            <!-- Root Module:Accounts -->
+            <!-- Sub-Module:basic -->
+            <sidenav-menu  icon="" text="Basic Entry" [active]="isMenuActive('/accounts/basic/')" [open]="isMenuOpen('/accounts/basic/')">
+                <!-- super-sub-module:Bank which sub-module is Basic and root module is Accounts -->
+                <sidenav-menu  icon="" text="Bank" [active]="isMenuActive('/accounts/basic/bank/')" [open]="isMenuOpen('/accounts/basic/bank/')">
+                    <sidenav-router-link [route]="'/accounts/basic/bank/new-bank'" [active]="isActive('/accounts/basic/bank/new-bank')">
+                        New Bank</sidenav-router-link>
+                        <sidenav-router-link [route]="'/accounts/basic/bank/cheque-book'" [active]="isActive('/accounts/basic/bank/cheque-book')">
+                            Cheque Book</sidenav-router-link>
+                </sidenav-menu>
+                    <!-- super-sub-module:Chart of Account which sub-module is Basic and root module is Accounts -->
+                    <sidenav-menu  icon="" text="Chart Of Account" [active]="isMenuActive('/accounts/basic/chart-of-account/')" [open]="isMenuOpen('/accounts/basic/chart-of-account/')">
+                        <sidenav-router-link [route]="'/accounts/basic/chart-of-account/ledger'" [active]="isActive('/accounts/basic/chart-of-account/ledger')">
+                            Ledger</sidenav-router-link>
+                            <sidenav-router-link [route]="'/accounts/basic/chart-of-account/sub-ledger'" [active]="isActive('/accounts/basic/chart-of-account/sub-ledger')">
+                                Subledger</sidenav-router-link>
+                                <sidenav-router-link [route]="'/accounts/basic/chart-of-account/group'" [active]="isActive('/accounts/basic/chart-of-account/group')">
+                                    Group</sidenav-router-link>
+                                    <sidenav-router-link [route]="'/accounts/basic/chart-of-account/cost-center'" [active]="isActive('/accounts/basic/chart-of-account/cost-center')">
+                                        Costcenter</sidenav-router-link>
+                    </sidenav-menu>
+                <sidenav-router-link  [route]="'/accounts/basic/customer'" [active]="isActive('/accounts/basic/customer')">
+                   Customer</sidenav-router-link>
+                   <sidenav-router-link  [route]="'/accounts/basic/supplier'" [active]="isActive('/accounts/basic/supplier')">
+                    supplier</sidenav-router-link>
+                    <sidenav-router-link  [route]="'/accounts/basic/fixed-assets'" [active]="isActive('/accounts/basic/fixed-assets')">
+                        fixed-assets</sidenav-router-link>
+                        <sidenav-router-link  [route]="'/accounts/basic/period-setup'" [active]="isActive('/accounts/basic/period-setup')">
+                            period-setup</sidenav-router-link>
+
+            </sidenav-menu>
+            <!-- Root Module:Accounts -->
+            <!-- Sub-Module:transaction -->
+            <sidenav-menu  icon="" text="Transaction" [active]="isMenuActive('/accounts/transaction/')" [open]="isMenuOpen('/accounts/transaction/')">
+                <sidenav-router-link  [route]="'/accounts/transaction/cash-transaction'" [active]="isActive('/accounts/transaction/cash-transaction')">
+                   Cash Transaction</sidenav-router-link>
+                   <sidenav-router-link  [route]="'/accounts/transaction/bank-transaction'" [active]="isActive('/accounts/transaction/bank-transaction')">
+                    Bank Transaction</sidenav-router-link>
+                    <sidenav-router-link  [route]="'/accounts/transaction/journal-entry'" [active]="isActive('/accounts/transaction/journal-entry')">
+                        Journal Transaction</sidenav-router-link>
+
+            </sidenav-menu>
+
+                 <!-- Root Module:Accounts -->
+            <!-- Sub-Module:transaction -->
+            <sidenav-menu  icon="" text="Reports" [active]="isMenuActive('/accounts/report/')" [open]="isMenuOpen('/accounts/report/')">
+                <sidenav-router-link  [route]="'/accounts/report/rpt-chart-account'" [active]="isActive('/accounts/report/rpt-chart-account')">
+                   Chart of Account </sidenav-router-link>
+                   <sidenav-router-link  [route]="'/accounts/report/rpt-daybook'" [active]="isActive('/accounts/report/rpt-daybook')">
+                   Daybook</sidenav-router-link>
+                    <sidenav-router-link  [route]="'/accounts/report/rpt-ledger'" [active]="isActive('/accounts/report/rpt-ledger')">
+                        Ledger</sidenav-router-link>                     <sidenav-router-link  [route]="'/accounts/report/rpt-subledger-daybook'" [active]="isActive('/accounts/report/rpt-subledger-daybook')">
+                            Subledger</sidenav-router-link>
+                            <sidenav-router-link  [route]="'/accounts/report/rpt-costcenter-daybook'" [active]="isActive('/accounts/report/rpt-costcenter-daybook')">
+                                Costcenter</sidenav-router-link>
+
+            </sidenav-menu>
+        </ng-container>
+
+        <!-- =========================================Accounting Module ENd========================================================== -->
+
+
+
+    <!-- =====================================================Human Resource  Module start==================================== -->
+        <!-- pagess for Human Resource-->
+
+        <ng-container *ngIf="currentModuleId==20">
+            <!-- Root Module:Human Resource -->
+            <!-- Sub-Module:hr-basic-entry -->
+            <sidenav-menu  icon="" text="HR Basic Entry" [active]="isMenuActive('/hr/hr-basic-entry/')" [open]="isMenuOpen('/hr/hr-basic-entry/')">
+                <sidenav-router-link  [route]="'/hr/hr-basic-entry/department'" [active]="isActive('/hr/hr-basic-entry/department')">
+                   Department</sidenav-router-link>
+                   <sidenav-router-link  [route]="'/hr/hr-basic-entry/designation'" [active]="isActive('/hr/hr-basic-entry/designation')">
+                    Designation</sidenav-router-link>
+                    <sidenav-router-link  [route]="'/hr/hr-basic-entry/section'" [active]="isActive('/hr/hr-basic-entry/section')">
+                        Section</sidenav-router-link>
+                        <sidenav-router-link  [route]="'/hr/hr-basic-entry/hr-period'" [active]="isActive('/hr/hr-basic-entry/hr-period')">
+                            HR Period</sidenav-router-link>
+                            <sidenav-router-link  [route]="'/hr/hr-basic-entry/holiday'" [active]="isActive('/hr/hr-basic-entry/holiday')">
+                                Holiday</sidenav-router-link>
+                                <sidenav-router-link  [route]="'/hr/hr-basic-entry/group-type'" [active]="isActive('/hr/hr-basic-entry/group-type')">
+                                    Group type</sidenav-router-link>
+
+
+            </sidenav-menu>
+            <!-- Root Module:Human Resource -->
+            <!-- Sub-Module:Employee -->
+            <sidenav-menu  icon="" text="Employee" [active]="isMenuActive('/hr/employee/')" [open]="isMenuOpen('/hr/employee/')">
+                <sidenav-router-link  [route]="'/hr/employee/employee-gen-info'" [active]="isActive('/hr/employee/employee-gen-info')">
+                   Employee General Info</sidenav-router-link>
+                   <sidenav-router-link  [route]="'/hr/employee/employment-info'" [active]="isActive('/hr/employee/employment-info')">
+                    Employment Info</sidenav-router-link>
+                    <sidenav-router-link  [route]="'/hr/employee/family-info'" [active]="isActive('/hr/employee/family-info')">
+                        Family Info</sidenav-router-link>
+
+            </sidenav-menu>
+
+                 <!-- Root Module:Human Resource -->
+            <!-- Sub-Module:Leave -->
+            <sidenav-menu  icon="" text="Leave" [active]="isMenuActive('/hr/leave/')" [open]="isMenuOpen('/hr/leave/')">
+                <sidenav-router-link  [route]="'/hr/leave/leave-category'" [active]="isActive('/hr/leave/leave-category')">
+                    Leave Category</sidenav-router-link>
+                   <sidenav-router-link  [route]="'/hr/leave/leave-sub-category'" [active]="isActive('/hr/leave/leave-sub-category')">
+                    Leave Sub Category</sidenav-router-link>
+                        <sidenav-router-link  [route]="'/hr/leave/leave-entry'" [active]="isActive('/hr/leave/leave-entry')">
+                            Leave Entry </sidenav-router-link>
+            </sidenav-menu>
+
+
+                         <!-- Root Module:Human Resource -->
+            <!-- Sub-Module:Attendance -->
+            <sidenav-menu  icon="" text="Attendance" [active]="isMenuActive('/hr/attendance/')" [open]="isMenuOpen('/hr/attendance/')">
+                <sidenav-router-link  [route]="'/hr/attendance/manual-attendance'" [active]="isActive('/hr/attendance/manual-attendance')">
+                    Manual Attendance</sidenav-router-link>
+                   <sidenav-router-link  [route]="'/hr/attendance/monthly-attendence'" [active]="isActive('/hr/attendance/monthly-attendence')">
+                    Monthly Attendence</sidenav-router-link>
+
+            </sidenav-menu>
+
+
+
+                         <!-- Root Module:Human Resource -->
+            <!-- Sub-Module:loan-and-advance -->
+            <!-- <sidenav-menu  icon="" text="Loan And Advance" [active]="isMenuActive('/hr/loan-and-advance/')" [open]="isMenuOpen('/hr/loan-and-advance/')">
+                <sidenav-router-link  [route]="'/hr/loan-and-advance/loan-and-advance'" [active]="isActive('/hr/loan-and-advance/loan-and-advance')">
+                    Loan And Advance</sidenav-router-link> </sidenav-menu> -->
+
+
+                 <!-- Root Module:Human Resource -->
+            <!-- Sub-Module:HR Report -->
+            <sidenav-menu  icon="" text="HR Reports" [active]="isMenuActive('/hr/hr-reports/')" [open]="isMenuOpen('/hr/hr-reports/')">
+                <sidenav-router-link  [route]="'/hr/hr-reports/hr-payroll-report'" [active]="isActive('/hr/hr-reports/hr-payroll-report')">
+                   HR Payroll Report </sidenav-router-link>
+                   <sidenav-router-link  [route]="'/hr/hr-reports/leave-report'" [active]="isActive('/hr/hr-reports/leave-report')">
+                    Leave Report</sidenav-router-link></sidenav-menu>
+        </ng-container>
+
+        <!-- =========================================Human Resource  Module ENd=================================================== -->
+
+
+
+
+          <!-- =============================================Payroll Module start======================================================== -->
+          <ng-container *ngIf="currentModuleId==30">
+            <!-- Root Module:Payroll Module -->
+            <!-- Sub-Module:setting -->
+            <sidenav-menu  icon="" text="Settings" [active]="isMenuActive('/payroll/setting/')" [open]="isMenuOpen('/payroll/setting/')">
+                <sidenav-router-link  [route]="'/payroll/setting/payroll-member-information'" [active]="isActive('/payroll/setting/payroll-member-information')">
+                   Payroll Member Information</sidenav-router-link>
+                   <sidenav-router-link  [route]="'/payroll/setting/designation'" [active]="isActive('/payroll/setting/designation')">
+                    Designation</sidenav-router-link>
+                    <sidenav-router-link  [route]="'/payroll/setting/payroll-section'" [active]="isActive('/payroll/setting/payroll-section')">
+                        Payroll Section</sidenav-router-link>
+                    <sidenav-router-link  [route]="'/payroll/setting/payroll-period-setup'" [active]="isActive('/payroll/setting/payroll-period-setup')">
+                        Payroll Period Setup</sidenav-router-link>
+                        <sidenav-router-link  [route]="'/payroll/setting/payroll-service-name-setup'" [active]="isActive('/payroll/setting/payroll-service-name-setup')">
+                          Payroll Service Name Setup</sidenav-router-link>
+                            <sidenav-router-link  [route]="'/payroll/setting/payroll-criteria'" [active]="isActive('/payroll/setting/payroll-criteria')">
+                                Payroll Criteria</sidenav-router-link>
+                  <sidenav-router-link  [route]="'/payroll/setting/payroll-service-amount-setup'" [active]="isActive('/payroll/setting/payroll-service-amount-setup')">
+                      Payroll Service Amount Setup</sidenav-router-link>
+                      <sidenav-router-link  [route]="'/payroll/setting/emp-salary-structure'" [active]="isActive('/payroll/setting/emp-salary-structure')">
+                        Employee Salary Structure</sidenav-router-link>
+                      <sidenav-router-link  [route]="'/payroll/setting/payroll-member-assign'" [active]="isActive('/payroll/setting/payroll-member-assign')">
+                        Payroll Member Assign</sidenav-router-link>
+                        
+                         <sidenav-router-link  [route]="'/payroll/setting/employee-salary-structure-s'" [active]="isActive('/payroll/setting/employee-salary-structure-s')">
+                            Enrollment</sidenav-router-link> 
+                 
+                        </sidenav-menu>
+            <!-- Root Module:Payroll -->
+            <!-- Sub-Module:Salary Process -->
+            <sidenav-menu  icon="" text="Salary Process" [active]="isMenuActive('/payroll/salary-process/')" [open]="isMenuOpen('/payroll/salary-process/')">
+                <sidenav-router-link  [route]="'/payroll/salary-process/salary-process'" [active]="isActive('/payroll/salary-process/salary-process')">
+                   Salary Process</sidenav-router-link>
+                   <sidenav-router-link  [route]="'/payroll/salary-process/salary-view'" [active]="isActive('/payroll/salary-process/salary-view')">
+                    Salary View</sidenav-router-link>
+
+                        <sidenav-router-link  [route]="'/payroll/salary-process/monthly-salary-process'" [active]="isActive('/payroll/salary-process/monthly-salary-process')">
+                          Monthly Salary Process</sidenav-router-link>
+                          <sidenav-router-link  [route]="'/payroll/salary-process/bonus-process'" [active]="isActive('/payroll/salary-process/bonus-process')">
+                           Bonus Process</sidenav-router-link>
+            </sidenav-menu>
+
+                 <!-- Root Module:Payroll -->
+            <!-- Sub-Module:PAyroll-Transaction -->
+            <sidenav-menu  icon="" text="Transaction" [active]="isMenuActive('/payroll/payroll-transaction/')" [open]="isMenuOpen('/payroll/payroll-transaction/')">
+                <sidenav-router-link  [route]="'/payroll/payroll-transaction/payroll-bill-prepare'" [active]="isActive('/payroll/payroll-transaction/payroll-bill-prepare')">
+                   Payroll Bill Prepare</sidenav-router-link>
+                   <sidenav-router-link  [route]="'/payroll/payroll-transaction/payroll-bill-collection'" [active]="isActive('/payroll/payroll-transaction/payroll-bill-collection')">
+                   Payroll Bill Collection</sidenav-router-link>
+                    <sidenav-router-link  [route]="'/payroll/payroll-transaction/payroll-payable-opening-balance'" [active]="isActive('/payroll/payroll-transaction/payroll-payable-opening-balance')">
+                        Payroll Payable Opening Balance</sidenav-router-link>
+                        <sidenav-router-link  [route]="'/payroll/payroll-transaction/payroll-receivable-opening-balance'" [active]="isActive('/payroll/payroll-transaction/payroll-receivable-opening-balance')">
+                            Payroll Receivable Opening Balance </sidenav-router-link>
+                            <sidenav-router-link  [route]="'/payroll/payroll-transaction/payroll-others-bill-prepare'" [active]="isActive('/payroll/payroll-transaction/payroll-others-bill-prepare')">
+                               Payroll Other Bill Prepare</sidenav-router-link>
+                               <sidenav-router-link  [route]="'/payroll/payroll-transaction/payroll-loan-and-advance'" [active]="isActive('/payroll/payroll-transaction/payroll-loan-and-advance')">
+                                Payroll Loan And Advance</sidenav-router-link>
+            </sidenav-menu>
+
+
+
+                 <!-- Root Module:Human Resource -->
+            <!-- Sub-Module:HR Report -->
+            <sidenav-menu  icon="" text="HR Reports" [active]="isMenuActive('/payroll/report/')" [open]="isMenuOpen('/payroll/report/')">
+                <sidenav-router-link  [route]="'/payroll/report/payroll-report'" [active]="isActive('/payroll/report/payroll-report')">
+                    Payroll Report </sidenav-router-link>
+                  </sidenav-menu>
+        </ng-container>
+
+
+        <!-- ===============================================Payroll Module Ended================================================= -->
+
+
+          <!-- =====================================================Sales And Purchase start==================================== -->
+        <!-- pagess for Sales And Purchase-->
+  <!-- pagess for Sales And Purchase-->
+      <ng-container *ngIf="currentModuleId==40 ">
+        <sidenav-router-link  [route]="'/sales-purchase/purchase-manage'" [active]="isActive('/sales-purchase/purchase-manage')">Purchase Manage
+        </sidenav-router-link>
+        <sidenav-router-link  [route]="'/sales-purchase/sales-manage'" [active]="isActive('/sales-purchase/sales-manage')">Sales Manage
+        </sidenav-router-link>
+    </ng-container>
+        <ng-container *ngIf="currentModuleId==40">
+          <!-- Root Module:Sales And Purchase -->
+          <!-- Sub-Module:sales-purchase-settings -->
+          <sidenav-menu  icon="" text="Sales & Purchase Settings" [active]="isMenuActive('/sales-purchase/sales-purchase-settings/')" [open]="isMenuOpen('/sales-purchase/sales-purchase-settings/')">
+              <sidenav-router-link  [route]="'/sales-purchase/sales-purchase-settings/category'" [active]="isActive('/sales-purchase/sales-purchase-settings/category')">
+                 category</sidenav-router-link>
+                 <sidenav-router-link  [route]="'/sales-purchase/sales-purchase-settings/product'" [active]="isActive('/sales-purchase/sales-purchase-settings/product')">
+                  product</sidenav-router-link>
+                  <sidenav-router-link  [route]="'/sales-purchase/sales-purchase-settings/product-brand'" [active]="isActive('/sales-purchase/sales-purchase-settings/product-brand')">
+                      product-brand</sidenav-router-link>
+                      <sidenav-router-link  [route]="'/sales-purchase/sales-purchase-settings/product-color'" [active]="isActive('/sales-purchase/sales-purchase-settings/product-color')">
+                        product-color</sidenav-router-link>
+                          <sidenav-router-link  [route]="'/sales-purchase/sales-purchase-settings/product-model'" [active]="isActive('/sales-purchase/sales-purchase-settings/product-model')">
+                              product-model</sidenav-router-link>
+                              <sidenav-router-link  [route]="'/sales-purchase/sales-purchase-settings/product-unit'" [active]="isActive('/sales-purchase/sales-purchase-settings/product-unit')">
+                                product-unit</sidenav-router-link>
+                                  <sidenav-router-link  [route]="'/sales-purchase/sales-purchase-settings/product-size'" [active]="isActive('/sales-purchase/sales-purchase-settings/product-size')">
+                                    product-size</sidenav-router-link>
+                                     <sidenav-router-link  [route]="'/sales-purchase/sales-purchase-settings/product-entry'" [active]="isActive('/sales-purchase/sales-purchase-settings/product-entry')">
+                                      product-entry</sidenav-router-link>
+      <sidenav-router-link  [route]="'/sales-purchase/sales-purchase-settings/customer-delivery-location'" [active]="isActive('/sales-purchase/sales-purchase-settings/customer-delivery-location')">
+        customer-delivery-location</sidenav-router-link>
+        <sidenav-router-link  [route]="'/sales-purchase/sales-purchase-settings/discount-sattings'" [active]="isActive('/sales-purchase/sales-purchase-settings/discount-sattings')">
+          discount-sattings</sidenav-router-link>
+          <sidenav-router-link  [route]="'/sales-purchase/sales-purchase-settings/dues-monitoring'" [active]="isActive('/sales-purchase/sales-purchase-settings/dues-monitoring')">
+            dues-monitoring</sidenav-router-link>
+            <sidenav-router-link  [route]="'/sales-purchase/sales-purchase-settings/dues-receivable-monitor'" [active]="isActive('/sales-purchase/sales-purchase-settings/dues-receivable-monitor')">
+              dues-receivable-monitor</sidenav-router-link>
+
+          </sidenav-menu>
+          <!-- Root Module:Sales And Purchase -->
+          <!-- Sub-Module:Invoice -->
+          <sidenav-menu  icon="" text="Invoice" [active]="isMenuActive('/sales-purchase/invoice/')" [open]="isMenuOpen('/sales-purchase/invoice/')">
+              <sidenav-router-link  [route]="'/sales-purchase/invoice/purchase-invoice'" [active]="isActive('/sales-purchase/invoice/purchase-invoice')">
+                purchase-invoice</sidenav-router-link>
+      <sidenav-router-link  [route]="'/sales-purchase/invoice/purchase-return'" [active]="isActive('/sales-purchase/invoice/purchase-return')">
+      purchase-return</sidenav-router-link>
+      <sidenav-router-link  [route]="'/sales-purchase/invoice/sales-invoice'" [active]="isActive('/sales-purchase/invoice/sales-invoice')">
+        sales-invoice</sidenav-router-link>
+          <sidenav-router-link  [route]="'/sales-purchase/invoice/sales-return'" [active]="isActive('/sales-purchase/invoice/sales-return')">
+            sales-return </sidenav-router-link>
+            <sidenav-router-link  [route]="'/sales-purchase/invoice/invoice'" [active]="isActive('/sales-purchase/invoice/invoice')">
+              invoice</sidenav-router-link>
+
+          </sidenav-menu>
+               <!-- Root Module:Sales And Purchase -->
+          <!-- Sub-Module:order -->
+          <sidenav-menu  icon="" text="Order" [active]="isMenuActive('/sales-purchase/order/')" [open]="isMenuOpen('/sales-purchase/order/')">
+            <sidenav-router-link  [route]="'/sales-purchase/order/new-order'" [active]="isActive('/sales-purchase/order/new-order')">
+               New Order</sidenav-router-link>
+               <sidenav-router-link  [route]="'/sales-purchase/order/order-list'" [active]="isActive('/sales-purchase/order/order-list')">
+                Order List</sidenav-router-link>
+                <sidenav-router-link  [route]="'/sales-purchase/order/app-pending-order'" [active]="isActive('/sales-purchase/order/app-pending-order')">
+                    Pending Order</sidenav-router-link>
+                    <sidenav-router-link  [route]="'/sales-purchase/order/app-delivery-order'" [active]="isActive('/sales-purchase/order/app-delivery-order')">
+                       Delivery Order </sidenav-router-link>
+
+        </sidenav-menu>
+
+                       <!-- Root Module:Sales And Purchase -->
+          <!-- Sub-Module:sales-purchase-reports -->
+          <sidenav-menu  icon="" text="Sales & Purchase Reports" [active]="isMenuActive('/sales-purchase/sales-purchase-reports/')" [open]="isMenuOpen('/sales-purchase/sales-purchase-reports/')">
+              <sidenav-router-link  [route]="'/sales-purchase/sales-purchase-reports/do-reports'" [active]="isActive('/sales-purchase/sales-purchase-reports/do-reports')">
+                DO Report</sidenav-router-link>
+                 <sidenav-router-link  [route]="'/sales-purchase/sales-purchase-reports/dynamic-sales'" [active]="isActive('/sales-purchase/sales-purchase-reports/dynamic-sales')">
+                 Dynamic Sales</sidenav-router-link>
+                 <sidenav-router-link  [route]="'/sales-purchase/sales-purchase-reports/report-sales'" [active]="isActive('/sales-purchase/sales-purchase-reports/report-sales')">
+                 Sales Report</sidenav-router-link>
+
+          </sidenav-menu>
+
+
+
+                       <!-- Root Module:Sales And Purchase -->
+          <!-- Sub-Module:loan-and-advance -->
+          <sidenav-menu  icon="" text="Loan And Advance" [active]="isMenuActive('/hr/loan-and-advance/')" [open]="isMenuOpen('/hr/loan-and-advance/')">
+              <sidenav-router-link  [route]="'/hr/loan-and-advance/loan-and-advance'" [active]="isActive('/hr/loan-and-advance/loan-and-advance')">
+                  Loan And Advance</sidenav-router-link> </sidenav-menu>
+
+
+               <!-- Root Module:Sales And Purchase -->
+          <!-- Sub-Module:HR Report -->
+          <!-- <sidenav-menu  icon="" text="HR Reports" [active]="isMenuActive('/hr/hr-reports/')" [open]="isMenuOpen('/hr/hr-reports/')">
+              <sidenav-router-link  [route]="'/hr/hr-reports/hr-payroll-report'" [active]="isActive('/hr/hr-reports/hr-payroll-report')">
+                 HR Payroll Report </sidenav-router-link>
+                 <sidenav-router-link  [route]="'/hr/hr-reports/leave-report'" [active]="isActive('/hr/hr-reports/leave-report')">
+                  Leave Report</sidenav-router-link></sidenav-menu> -->
+      </ng-container>
+
+      <!-- =========================================Sales And Purchase ENd=================================================== -->
+
+
+
+
+
+
+      <!-- ================================Settings Module Start ================================= -->
+           <!-- pagess for Setting-->
+      <ng-container *ngIf="currentModuleId==1">
+          <sidenav-router-link  [route]="'/settings/dashboard'" [active]="isActive('/settings/dashboard')">Dashboard
+          </sidenav-router-link>
+      </ng-container>
+        <ng-container *ngIf="currentModuleId==1">
+          <!-- Root Module:Setting Module -->
+
+
+         <!-- Root Module:Settings -->
+          <!-- Sub-Module:setup -->
+          <sidenav-menu  icon="" text="Setup" [active]="isMenuActive('/settings/setup/')" [open]="isMenuOpen('/settings/setup/')">
+            <sidenav-router-link  [route]="'/settings/setup/year'" [active]="isActive('/settings/setup/year')">
+               Year</sidenav-router-link>
+               <sidenav-router-link  [route]="'/settings/setup/financial-year'" [active]="isActive('/settings/setup/financial-year')">
+               Financial Year</sidenav-router-link>
+               <sidenav-router-link  [route]="'/settings/setup/app-module'" [active]="isActive('/settings/setup/app-module')">
+                Module</sidenav-router-link>
+
+        </sidenav-menu>
+
+          <!-- Sub-Module:company -->
+          <sidenav-menu  icon="" text="Company" [active]="isMenuActive('/settings/company/')" [open]="isMenuOpen('/settings/company/')">
+              <sidenav-router-link  [route]="'/settings/company/new-company'" [active]="isActive('/settings/company/new-company')">
+                New Company</sidenav-router-link>
+                 <!-- <sidenav-router-link  [route]="'/settings/company/company-list'" [active]="isActive('/settings/company/company-list')">
+                  Company List</sidenav-router-link> -->
+                  <!-- <sidenav-router-link  [route]="'/settings/company/branch-criteria'" [active]="isActive('/settings/company/branch-criteria')">
+                      Branch Criteria</sidenav-router-link> -->
+
+                      </sidenav-menu>
+
+
+               <!-- Root Module:Setting -->
+          <!-- Sub-Module:user -->
+          <sidenav-menu  icon="" text="User" [active]="isMenuActive('/settings/user/')" [open]="isMenuOpen('/settings/user/')">
+              <sidenav-router-link  [route]="'/settings/user/new-user'" [active]="isActive('/settings/user/new-user')">
+                New User</sidenav-router-link>
+                 <sidenav-router-link  [route]="'/settings/user/role'" [active]="isActive('/settings/user/role')">
+                 Role</sidenav-router-link>
+                  <sidenav-router-link  [route]="'/settings/user/change-password'" [active]="isActive('/settings/user/change-password')">
+                     Change Password</sidenav-router-link>
+
+          </sidenav-menu>
+       <!-- Sub-Module:Assign -->
+       <sidenav-menu  icon="" text="Assign" [active]="isMenuActive('/settings/assign/')" [open]="isMenuOpen('/settings/assign/')">
+        <sidenav-router-link  [route]="'/settings/assign/company'" [active]="isActive('/settings/assign/company')">
+          Assign Company</sidenav-router-link>
+
+           <sidenav-router-link  [route]="'/settings/assign/assing-module'" [active]="isActive('/settings/assign/assing-module')">
+            Assign Module</sidenav-router-link>
+
+    </sidenav-menu>
+      </ng-container>
+
+      <!-- ============================================Setting Module Ended=============================== -->
+
+
+        <sidenav-router-link icon="" class="ml-auto" (click)="logout()" [active]="isActive('/')">
+            Logout <span class="bg-dark p-2 ml-auto">{{userName}}</span>
+        </sidenav-router-link>
+    </div>
+</sidenav>

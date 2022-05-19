@@ -1,0 +1,44 @@
+import { TransDetailsModel } from "../transaction/trans-details-model";
+
+export class AccountingReportModel {
+        fromDate :string;
+        toDate :string;
+        accountId :number;
+        subledgerName:number;
+        subledgerId:string;
+        costCenterId:number;
+        id :number;
+         transId :number;
+         partyId :number;
+         voucherNo :string;
+          voucherDate :string;
+          voucherType :string;
+          refAccountId :number;
+          transType :number;
+          totalAmount :number;
+          refNo :string;
+          narration     :string;
+          bankBranch :string;
+          chequeNo :string;
+          chequeDate   :string;
+           userId     :number;
+          netPayable :number;
+          branchId :number;
+          compId :number;
+          conRate :number;
+          yearID :number;
+          transDetails :TransDetailsModel[];
+          formatVoucherNo :string;
+          accountName :string;
+          debit:number;
+          credit :number;
+          amount:number;
+          balance :number;
+          openingAmount:number;
+          closingBalance:number;
+          groupName:string;
+          costCenterName:string;
+          lowerGroupId:number;
+          vn:number;
+          note;
+}

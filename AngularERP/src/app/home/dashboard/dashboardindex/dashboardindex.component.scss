@@ -1,0 +1,104 @@
+.data-table {
+  overflow-y: auto;
+}
+
+.data-table{
+max-height: 400px;
+overflow-y: auto;
+}
+.category-wise thead tr th{
+background: rgb(3, 100, 55);
+color: #ddd;
+}
+.selected{
+background: rgb(0, 147, 201);
+color:#fff;
+}
+.card-body{
+text-align: center;
+vertical-align: baseline;
+}
+h3{
+color: rgb(255, 255, 255);
+font-size: medium;
+margin-top: 8%;
+cursor: pointer;
+}
+h4{
+color: rgb(0, 0, 0);
+font-size: 18px;
+font-weight: bold;
+margin-top: 5%;
+}
+.productType:hover{
+background: rgb(3, 100, 55);
+box-shadow: 2px 3px 10px 2px;
+transition: 0.3s;
+}
+.productType{
+background: #077dcc;
+ height: 135px;
+  margin-right: 2px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+.productType1{
+background: #8e5ea2; height: 135px;  margin-right: 2px; border-radius: 15px;
+cursor: pointer;
+
+}
+.productType2{
+background: #f86c6b; height: 135px;  margin-right: 2px; border-radius: 15px;
+cursor: pointer;
+
+}
+.productType3{
+background: #008080; height: 135px;   border-radius: 15px;
+cursor: pointer;
+
+}
+.productType1:hover{
+background:rgb(3, 100, 55);
+box-shadow: 2px 3px 10px 2px;
+transition: 0.3s;
+cursor: pointer;
+
+}
+.productType2:hover{
+background: rgb(3, 100, 55);
+box-shadow: 2px 3px 10px 2px;
+transition: 0.3s;
+cursor: pointer;
+
+}
+.productType3:hover{
+background: rgb(3, 100, 55);
+box-shadow: 2px 3px 10px 2px;
+transition: 0.3s;
+cursor: pointer;
+
+}
+#horizontalBar-char{
+background-color: white;
+height: 250px!important;
+width: 550px!important;
+}
+.modalss .card-header {
+  background: rgb(25, 156, 196);
+  color: #eee;
+}
+
+.modalss .card-body {
+  background: rgb(210, 242, 253)
+}
+
+.modalss .data-table {
+  background: rgb(255, 255, 255);
+  overflow-y: auto;
+}
+
+.modalss .tr:hover {
+  background: rgb(57, 143, 36);
+  color: #eee;
+  cursor: pointer;
+}

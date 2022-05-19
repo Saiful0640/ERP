@@ -1,0 +1,291 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light p-0">
+        {{title}} Member Info
+    </h4>
+    <div class="card-body">
+        <form [formGroup]="memPersonalInfoForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right">{{labelname}} Code
+                      <i class="text-danger">*</i>
+                    </label>
+                        <div class="input-group col-md-6">
+                            <input  formControlName="memberCode" [ngClass]="{'is-invalid':( f['memberCode'].touched || f['memberCode'].dirty || isSubmitted) && f['memberCode'].invalid}" class="form-control" placeholder="{{labelname}} Code" required>
+                            <div *ngIf="f['memberCode'].invalid && (f['memberCode'].dirty || f['memberCode'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                <i *ngIf="f['memberCode'].errors.required">Member Code is required</i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right">{{labelname}} Name
+                      <i class="text-danger">*</i></label>
+                        <div class="input-group col-md-6">
+                            <input formControlName="memberName" [ngClass]="{'is-invalid':( f['memberName'].touched || f['memberName'].dirty || isSubmitted) && f['memberName'].invalid}" type="text" class="form-control" placeholder="{{labelname}} Name" required>
+                            <div *ngIf="f['memberName'].invalid && (f['memberName'].dirty || f['memberName'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                <i *ngIf="f['memberName'].errors.required">Member Name is required</i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right ">Father's Name<i class="text-danger">*</i> </label>
+                        <div class="col-md-6">
+                            <input [ngClass]="{'is-invalid':( f['fathersName'].touched || f['fathersName'].dirty || isSubmitted) && f['fathersName'].invalid}" formControlName="fathersName" type="text" class="form-control" placeholder="Enter Father's Name">
+                            <div *ngIf="f['fathersName'].invalid && (f['fathersName'].dirty || f['fathersName'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                <i *ngIf="f['fathersName'].errors.required">fathersName is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right">Mother's Name<i class="text-danger">*</i></label>
+                        <div class="col-md-6">
+                            <input [ngClass]="{'is-invalid':( f['mothersName'].touched || f['mothersName'].dirty || isSubmitted) && f['mothersName'].invalid}" formControlName="mothersName" type="text" class="form-control" placeholder="Enter Mother's Name">
+                            <div *ngIf="f['mothersName'].invalid && (f['mothersName'].dirty || f['mothersName'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                <i *ngIf="f['mothersName'].errors.required">mothersName is required</i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right"> Date Of Birth
+                        <i class="text-danger">*</i>
+                    </label>
+                        <div class="input-group col-md-8">
+                            <app-date-control [showCurrentDate]=true
+                  [ngClass]="{'is-invalid':( f['dateOfBirth'].touched || f['dateOfBirth'].dirty || isSubmitted) && f['dateOfBirth'].invalid}"
+                  (getYyyymmdd)="f['dateOfBirth'].setValue($event)"
+                  ></app-date-control>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right">Gender
+                        <i class="text-danger">*</i>
+                    </label>
+                        <div class="col-md-8">
+                           <ng-select formControlName="genderID" [items]="genders" bindLabel="name" bindValue="id" placeholder="Select Gender">
+
+                           </ng-select>
+
+                            <div *ngIf="f['genderID'].invalid && (f['genderID'].dirty || f['genderID'].touched || isSubmitted)" class="text-danger">
+                                <i *ngIf="f['genderID'].errors.required">gender is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div *ngIf="moduleId!=48"  class="form-group row">
+                      <label class="col-form-label col-md-4 text-md-right">Last Education </label>
+                      <div class="col-md-6">
+                          <input type="text" formControlName="lastEducation" class="form-control" placeholder="Enter Last Education" >
+                      </div>
+                  </div> -->
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right ">Blood Group
+                </label>
+                        <div class="col-md-8">
+                          <ng-select formControlName="bloodGroupID" [items]="bloodGroups" bindLabel="name" bindValue="id" placeholder="Select Blood Group">
+
+                          </ng-select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right">Religion
+
+                   </label>
+                        <div class="col-md-8">
+                          <ng-select formControlName="religionID" [items]="relagions" bindLabel="name" bindValue="id" placeholder="Select Religion">
+
+                          </ng-select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right ">National ID/BC  <i class="text-danger">*</i>
+                    </label>
+                        <div class="col-md-6">
+                            <input [ngClass]="{'is-invalid':( f['nationalityID'].touched || f['nationalityID'].dirty || isSubmitted) && f['nationalityID'].invalid}" formControlName="nationalityID" type="text" class=" form-control" placeholder="Enter National ID Number">
+                            <div *ngIf="f['nationalityID'].invalid && (f['nationalityID'].dirty || f['nationalityID'].touched || isSubmitted)" class="text-danger">
+                                <i *ngIf="f['nationalityID'].errors.required">NationalID is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right ">Mobile </label>
+                        <div class="col-md-6">
+                            <input [ngClass]="{'is-invalid':( f['mobileNo'].touched || f['mobileNo'].dirty || isSubmitted) && f['mobileNo'].invalid}" formControlName="mobileNo" type="text" class=" form-control" placeholder="Enter Mobile Number">
+                            <div *ngIf="f['mobileNo'].invalid && (f['mobileNo'].dirty || f['mobileNo'].touched || isSubmitted)" class="text-danger">
+                                <i *ngIf="f['mobileNo'].errors.required">Mobile is required</i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right ">Email </label>
+                        <div class="col-md-6">
+                            <input formControlName="email" type="email" class="form-control" placeholder="Enter Email">
+                        </div>
+
+                    </div>
+                    <div *ngIf="moduleId!=48" class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right">Marital Status
+                     <i class="text-danger">*</i>
+                          </label>
+                        <div class="col-md-8">
+                          <ng-select formControlName="maritialStatusID" [items]="maritialStatuses" bindLabel="name" bindValue="id" placeholder="Select Maritial Status">
+
+                          </ng-select>
+                            <div *ngIf="f['maritialStatusID'].invalid && (f['maritialStatusID'].dirty || f['maritialStatusID'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                <i *ngIf="f['maritialStatusID'].errors.required">maritial Status is required</i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="f['maritialStatusID'].value==1" class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right">Spouse Name
+                    <i class="text-danger">*</i>
+                        </label>
+                        <div class="col-md-6">
+                            <input formControlName="spousName" type="text" class="form-control" placeholder="Spouse Name">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right">Picture
+                 <i class="text-danger">*</i>
+                  </label>
+                        <div class="col-md-6">
+                            <app-image-control [ngClass]="{'is-invalid':( f['picture'].touched || f['picture'].dirty || isSubmitted) && f['picture'].invalid}" [fieldId]="'pictureFileName'" (selectedFile)="f['picture'].setValue($event)" [previewImg]="formVal.picture"></app-image-control>
+                            <div *ngIf="f['picture'].invalid && (f['picture'].dirty || f['picture'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                <i *ngIf="f['picture'].errors.required">Picture is required</i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right">Location
+                    <i class="text-danger">*</i>
+                 </label>
+                        <div class="col-md-8">
+                            <app-basic-item-select-list [ngClass]="{'is-invalid':( f['location'].touched || f['location'].dirty || isSubmitted) && f['location'].invalid}" [tableName]="locationTable" [basicItemId]="f['location'].value" (onChange)="f['location'].setValue($event.id)"></app-basic-item-select-list>
+                            <div *ngIf="f['location'].invalid && (f['location'].dirty || f['location'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                <i *ngIf="f['location'].errors.required">Location is required</i>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right">Present Thana
+                  <i class="text-danger">*</i> </label>
+                        <div class="col-md-8 row">
+                            <div class="col-md-9">
+                                <app-thana-select-list [ngClass]="{'is-invalid':( f['thanaID'].touched || f['thanaID'].dirty || isSubmitted) && f['thanaID'].invalid}" [thanaId]="f['thanaID'].value" (onChange)="onSelectPresentThana($event);"></app-thana-select-list>
+                                <div *ngIf="f['thanaID'].invalid && (f['thanaID'].dirty || f['thanaID'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                    <i *ngIf="f['thanaID'].errors.required">thanaID is required</i>
+                                </div>
+                            </div>
+                            <div class="custom-control custom-checkbox  row col-md-3">
+                                <input [value]="isSameThana" (change)="onSameSelect()" type="checkbox" class="custom-control-input row" id="same">
+                                <label class=" custom-control-label " for="same">
+                                  Same
+                             </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right">Present Upazila </label>
+                        <div class="col-md-6">
+                            <input formControlName="presentUpazila" type="text" class="form-control" placeholder="Enter Present Upazila" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right">Present District</label>
+                        <div class="col-md-6">
+                            <input formControlName="presentDistrict" type="text" class="form-control" placeholder="Enter Present District" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right">Present Address
+                    <i class="text-danger">*</i>
+                </label>
+                        <div class="col-md-8 row">
+                            <div class="col-md-9">
+                                <textarea [ngClass]="{'is-invalid':( f['presentAddress'].touched || f['presentAddress'].dirty || isSubmitted) && f['presentAddress'].invalid}" formControlName="presentAddress" type="text" class="form-control" placeholder="Enter Present Address"></textarea>
+                                <div *ngIf="f['presentAddress'].invalid && (f['presentAddress'].dirty || f['presentAddress'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                    <i *ngIf="f['presentAddress'].errors.required">presentAddress is required</i>
+                                </div>
+                            </div>
+                            <div class="custom-control custom-checkbox  row col-md-3">
+                                <input [value]="allSame" (change)="onSameAddressSelect()" type="checkbox" class="custom-control-input row" id="allSame">
+                                <label class=" custom-control-label " for="allSame">
+                              Is Same
+                           </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right">Parmanent Thana<i class="text-danger">*</i></label>
+                        <div class="col-md-8">
+                            <app-thana-select-list [ngClass]="{'is-invalid':( f['permanentThanaID'].touched || f['permanentThanaID'].dirty || isSubmitted) && f['permanentThanaID'].invalid}" [thanaId]="f['permanentThanaID'].value" (onChange)="onSelectPermanentThana($event)"></app-thana-select-list>
+                            <div *ngIf="f['permanentThanaID'].invalid && (f['permanentThanaID'].dirty || f['permanentThanaID'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                <i *ngIf="f['permanentThanaID'].errors.required">permanentThanaID is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right">Parmanent Upazila</label>
+                        <div class="col-md-6">
+                            <input formControlName="permanetUpazila" type="text" class="form-control" placeholder="Enetr Parmanent Upazila" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right">Parmanent District</label>
+                        <div class="col-md-6">
+                            <input formControlName="permanetDistrict" type="text" class="form-control" placeholder="Enetr Parmanent District" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-4 text-md-right">Parmanent Address
+                       <i class="text-danger">*</i>
+                    </label>
+                        <div class="col-md-6">
+                            <textarea [ngClass]="{'is-invalid':( f['permanentAddress'].touched || f['permanentAddress'].dirty || isSubmitted) && f['permanentAddress'].invalid}" formControlName="permanentAddress" type="text" class="form-control" placeholder="Enetr Parmanent Address"></textarea>
+                            <div *ngIf="f['permanentAddress'].invalid && (f['permanentAddress'].dirty || f['permanentAddress'].touched || isSubmitted)" class="row text-danger col-md-12">
+                                <i *ngIf="f['permanentAddress'].errors.required">permanentAddress is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div *ngIf="moduleId!=48"  class="form-group row">
+                      <label class="col-form-label col-md-4 text-md-right">Present Position</label>
+                      <div class="col-md-6">
+                          <input type="text" formControlName="position" class="form-control" placeholder="Enter Present Position" >
+                      </div>
+                  </div> -->
+                </div>
+            </div>
+
+        </form>
+        <div class=" row">
+        <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+            <button (click)="reset()" class="btn  btn-primary mx-2">Refresh</button>
+            <button (click)="saveMember()" class="btn  btn-success mx-2">{{btnStatus}}</button>
+            <button (click)="modalServOpen(memberListModal)" class="btn  btn-info">Show</button>
+           <!--  <button (click)="onPrint()"  class="btn  btn-dark  mx-2"><i class="fa fa-print"></i>Print</button>-->
+        </div>
+      </div>
+
+    </div>
+</div>
+<ng-template #memberListModal >
+    <app-personal-info-search-view [moduleId]="moduleId" (selectEvent)="getMemberByID($event)"></app-personal-info-search-view>
+</ng-template>
+<!-- <ng-template #saveModal >
+  <app-assign-criteria ></app-assign-criteria>
+</ng-template> -->

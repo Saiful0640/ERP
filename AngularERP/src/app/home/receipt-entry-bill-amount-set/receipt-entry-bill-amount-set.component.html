@@ -1,0 +1,82 @@
+<div class="card">
+    <div class="card-header text-center bg-light">
+        <h4>Bill Amount</h4>
+        <span (click)="cancel()" class="text-danger fas fa-window-close float-right"></span>
+    </div>
+    <form [formGroup]="transbillForm">
+      <div class="row">
+        <div class="col-7 center">
+          <div class="row">
+            <div class="col-10 center">
+              <input   type="text" (keyup)="onSearch($event.target.value)" class="form-control" placeholder="Search by Voucher No/Bill To/Mobile No" />
+            </div>
+          </div>
+          </div>
+          <div class="col-3 center">
+            <div class="row">
+              <div class="col-md-3 center m-auto my-2">
+                <label>Date</label>
+              </div>
+              <div class="col-md-9 center m-auto my-2">
+                <app-date-control [showCurrentDate]="false"  (getLocalDate)="searchbydate($event)"></app-date-control>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+        <div class="row col-md-4 center">
+            <label>Total Amount:</label>
+            <span>{{totalAmount}}</span>
+        </div>
+        <div class="col-md-12 center">
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th style="width:100px">Voucher No</th>
+                        <th style="width:500px">Bill-To</th>
+                        <th style="width:100px">BillContactNo</th>
+                        <th style="width:100px">BillDate</th>
+                        <th style="width:150px">Amount</th>
+                        <th style="width:200px">Receipt</th>
+                        <th style="width:200px">Select</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let billArr of billAmtArr.controls;let i=index " [formGroup]="billArr">
+                        <td style="width:100px">{{billArr.value.formatInvoiceNo}}</td>
+                        <td style="width:500px">{{billArr.value.billTo}}</td>
+                        <td style="width:100px">{{billArr.value.billContactNo}}</td>
+                        <td style="width:100px">{{billArr.value.billDate}}</td>
+                        <td style="width:150px">{{billArr.value.totalAmount}}</td>
+                        <td style="width:200px"><input (keyup)="addition()" (change)="getAmountIndex(i)" (keydown)="onTabKeyDown($event,i)" formControlName="amount"  id="'billAmt'+i" type="number" class="form-control" placeholder="0.00" autofocus></td>
+                        <td style="width:150px">
+                          <input type="checkbox" formControlName="isActive" (change)="onSelectActiveInActive($event.target.checked,i)" name="isActive" [checked]="billArr.value.isActive">
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+        <!-- <div class="col-md-4 center">
+            <button type="button" (click)="onSubmit($event)"  [id]="'btnOk'" class="btn btn-success">OK</button>
+        </div> -->
+        <div class="card-footer py-1 px-0" style="background: rgb(181, 231, 181);">
+          <div class="row mx-3">
+              <div class="col-md-8 center">
+                  <div class="row form-group">
+                      <label for="totalAmount" class=" col-form-label col ">Total Amount</label>
+                      <div class="col">
+                          <input formControlName="totalAmount" tabindex="-1" class=" form-control" placeholder="0.00" disabled>
+                      </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <div>
+                        <button  [id]="'btnOk'" (click)="saveOk(billAmtArr.value)" class="btn btn-info pull-right">OK</button></div>
+                  </div>
+
+              </div>
+          </div>
+      </div>
+    </div>
+  </form>
+
+</div>

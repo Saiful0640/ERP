@@ -1,0 +1,108 @@
+<div class="input-group">
+    <ng-select [(ngModel)]="customerId" style="width: 300px;" #field="ngModel" [items]="customers" bindLabel="formattedName" bindValue="accountId" (change)="onSelect($event)" [id]="elementId" placeholder="Select Customer" [disabled]="IsDisabled" [ngClass]="{'is-invalid':IsInvalid && (field.touched || field.dirty)}"></ng-select>
+    <div class="input-group-append">
+        <button *ngIf="isPlusIconHide==false" (click)="createNewItem()" class="input-group-text btn btn-info" type="button">
+      <span class="fa fa-plus" style="cursor: pointer;"></span>
+    </button>
+        <button type="button" (click)="onClickSearchBtn(searchModal)" class="btn btn-sm btn-primary py-1"><span class="fa fa-search"></span>
+    </button>
+    </div>
+    <!-- <div *ngIf="IsInvalid && (field.touched || field.dirty)" class="text-danger">
+    <i>This field is required</i>
+  </div> -->
+</div>
+
+<ng-template #searchModal>
+    <div class="card">
+        <div class="card-header py-1">
+            <h4 class="mb-0 text-center">
+                Search Party
+                <div (click)="modalService.dismissAll()" class="btn btn-sm btn-danger float-right"><span class="fa fa-times"></span></div>
+            </h4>
+
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8 m-auto my-2">
+                    <input type="text" (keyup)="search($event)" [id]="'txtSearch'" class="form-control" autofocus placeholder="Search by name or mobile no." />
+                </div>
+            </div>
+            <div class="data-table m-0">
+                <table class="table table-bordered mb-0">
+                    <thead>
+                        <tr>
+                            <th>#SN</th>
+                            <th>Name</th>
+                            <th>ContactNo</th>
+                            <th>Address</th>
+                            <th>Balance</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="customers.length>0 && filtered.length==0">
+                            <td colspan="6" class="text-center text-danger">
+                                <b>No customer found. Add new customer by submitting the form in below</b>
+                            </td>
+                        </tr>
+                        <tr *ngFor="let party of filtered; let i=index" (click)="onSelect(party)" [id]="'row'+i">
+                            <td>{{i+1}}</td>
+                            <td>{{party.formattedName}}</td>
+                            <td>{{party.billContactNo}}</td>
+                            <td>{{party.deliveryAddress}}</td>
+                            <td class="text-right">{{party.pertyCurrentBalance | number:'2.2-2'}}</td>
+                            <td>
+                                <button (click)="onSelect(party)" (keyup)="search($event)" [id]="'btnSelectProduct'+i" class="btn btn-sm btn-primary">Select</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div *ngIf="customers.length>0 && filtered.length==0" class="row my-2">
+        <div class="mx-auto col-md-10">
+            <form #customerForm="ngForm">
+                <div class="form-group row">
+                    <label for="name" class="form-control-label col-md-4">Name <span class="text-danger">*</span></label>
+                    <div class="col-md-8">
+                        <input [(ngModel)]="newCustomerModel.accountName" name="accountName" #custName="ngModel" required type="text" class="form-control" placeholder="Enter customer name">
+                        <div *ngIf="custName.invalid && (custName.touched || custName.dirty)" class="text-danger">
+                            <span *ngIf="custName.errors && custName.errors.required">Customer name is required</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="name" class="form-control-label col-md-4">Alias Name</label>
+                    <div class="col-md-8">
+                        <input [(ngModel)]="newCustomerModel.aliasName" name="aliasName" type="text" class="form-control" placeholder="Enter customer name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="mobileNo" class="form-control-label col-md-4">Mobile No.</label>
+                    <div class="col-md-8">
+                        <input [(ngModel)]="newCustomerModel.mobileNo" name="mobileNo" type="text" class="form-control" placeholder="Enter customer mobileNo">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="address" class="form-control-label col-md-4">Address</label>
+                    <div class="col-md-8">
+                        <input [(ngModel)]="newCustomerModel.address" name="address" type="text" class="form-control" placeholder="Enter customer address">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="groupAccId" class="form-control-label col-md-4">Customer Group</label>
+                    <div class="col-md-8">
+                        <app-group-account-select-list [lowerGroupID]="newCustomerModel.lowerGroupId" (onChange)="newCustomerModel.groupAccountID=$event.id">
+                        </app-group-account-select-list>
+                    </div>
+                </div>
+                <div class="row">
+                    <button (click)="onAddNewCustomer()" [disabled]="customerForm.invalid" class="btn btn-sm btn-success ml-auto mr-3">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,87 @@
+<div class="card">
+    <div class="card-header bg-light text-center">
+        <h4>Payroll Salary Head Setup</h4>
+    </div>
+    <div class="card-body">
+        <div class="col-md-7 center">
+            <form [formGroup]="serviceNameForm">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4 text-right">Service Name</label>
+                                <div class="col-md-8">
+                                    <input formControlName="serviceName" class="form-control" type="text" placeholder="Sevice Name">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4 text-right">Service Type</label>
+                                <div class="col-md-8">
+                                    <app-service-type-select-list [typeId]="f['serviceTypeID'].value" (onChange)="f['serviceTypeID'].setValue($event.id)"></app-service-type-select-list>
+                                </div>
+                            </div>
+                            <div class="form-group row " >
+                                <label class="col-form-label  col-md-4 text-right">Salary Type</label>
+                                <div class="col-md-8">
+                                    <ng-select formControlName="addDeduct" placeholder="Select">
+                                        <ng-option [value]=1>Addition</ng-option>
+                                        <ng-option [value]=-1>Detucttion</ng-option>
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4 text-right">% Of Gross</label>
+                                <div class="col-md-8">
+                                    <input formControlName="unitPrice" class="form-control" type="number" placeholder="0.00">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-4 text-right"></label>
+                                <div class="col-md-8">
+                                    <div class="custom-control custom-checkbox custom-control-inline ">
+                                        <input formControlName="isFixedAmount" type="checkbox" class="custom-control-input row" id="fixedAmount">
+                                        <label class="custom-control-label" for="fixedAmount">Is Fixed Amount</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row demo-inline-spacing pull-right" style="margin: 0 auto">
+                                <button (click)="reset()" class="btn btn-primary mx-2" type="button">Refresh</button>
+                                <button (click)="saveServiceName()" class="btn btn-success mx-2" type="button">{{btnStatus}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="card">
+                <div class="card-body">
+                    <div class="data-table mt-0">
+                        <table class="table table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    <th>Service Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td *ngIf="serviceName.length==0" colspan="13" class="font-italic text-center">No item available</td>
+                                </tr>
+                                <tr *ngFor="let sn of serviceName">
+                                    <td>{{sn.serviceName}}</td>
+                                    <td>
+                                        <button class="btn btn-primary" (click)="onSelect(sn)">
+                                          <span class="fas fa-edit">
+                                           Select
+                                          </span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

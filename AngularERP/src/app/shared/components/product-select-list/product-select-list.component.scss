@@ -1,0 +1,22 @@
+// :host /deep/ .noUi-vertical {
+//     height: 400px;
+//     margin: 0 auto 30px;
+//   }
+.selected-row {
+    background: rgb(220, 252, 249);
+    button {
+        background: rgb(8, 122, 2);
+    }
+    td {
+        background: rgb(58, 211, 231);
+    }
+}
+
+::ng-deep .modal-xl .modal-dialog {
+    max-width: 80%;
+    width: 60%;
+}
+
+.data-table {
+    overflow-y: auto;
+}

@@ -1,0 +1,26 @@
+<div class="modal-header ">
+  <h4>Account Group</h4>
+  <span  (click)="cancel()" class="text-danger fas fa-window-close"></span>
+</div>
+<div class=" card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-7">
+      <form [formGroup]="accountGroupForm">
+        <div class="form-group row">
+          <label class="col-form-label col-md-6 ">Type Name</label>
+          <div class="col-md-6 ">
+            <input formControlName="typeName" class="form-control" placeholder="Enter Type Name">
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer row">
+    <div class="row demo-inline-spacing center" style="margin: 0 auto;">
+      <button (click)="saveAccountGroup()" class="btn btn-success">Save</button>
+      <button (click)="reset()" class="btn btn-primary">Reset</button>
+    </div>
+  </div>
+</div>

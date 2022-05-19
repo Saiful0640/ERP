@@ -1,0 +1,99 @@
+<div class="card">
+  <div class="cadr-header text-center">
+      <!-- <h4>{{title}} Criteria Setup</h4> -->
+  </div>
+  <div class="card-body">
+      <form [formGroup]="branchForm">
+          <div class="row">
+              <div class="col-md-6">
+                  <div class="form-group row">
+                      <label class="col-form-label col-md-4 text-right">Branch Name</label>
+                      <div class="col-md-8">
+                        <input formControlName="name" class="form-control" type="text" placeholder="Enter Branch Name">
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-4 text-right">Short Name</label>
+                    <div class="col-md-8">
+                      <input formControlName="shortName" class="form-control" type="text" placeholder="Enter Branch Short Name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4 text-right">Contact No</label>
+                  <div class="col-md-8">
+                    <input formControlName="contactNo" class="form-control" type="text" placeholder="Enter Contact No">
+                  </div>
+               </div>
+               <div class="form-group row">
+                <label class="col-form-label col-md-4 text-right">Address</label>
+                <div class="col-md-8">
+                  <input formControlName="address" class="form-control" type="text" placeholder="Enter Address">
+                </div>
+             </div>
+                  <div>
+
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-4 text-right">Select Branch Type</label>
+                  <div class="col-md-8">
+                    <ng-select [items]="typelst" formControlName="type" (change)="branchType($event)" placeholder="Select Branch Type "></ng-select>
+                 </div>
+                  </div>
+                    <div class="row demo-inline-spacing pull-right" style="margin: 0 auto;">
+                      <button (click)="reset()" class="btn btn-primary mx-2" type="button">Refresh</button>
+                      <button (click)="saveBranch()" class="btn btn-success mx-2" type="button">{{btnStatus}}</button>
+                  </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="row mr-2">
+                      <div class="input-group col-md-8 ml-auto pr-0">
+                          <input (keyup)="onSearch($event.target.value)"  type="text" class="form-control" placeholder="Search by Branch Name" style="border-radius: 0;">
+                      </div>
+                      <div class="input-group-append">
+                          <button  class="btn btn-sm btn-primary border-0 ml-0" style="border-radius: 0;">
+                             <span class="fa fa-search"></span>
+                         </button>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <table class="table table-bordered text-center">
+                        <thead>
+                            <tr>
+                                <th>SL NO.</th>
+                                <th >Branch Name</th>
+                                <th >Short Name</th>
+                                <th >Contact No</th>
+                                <th >Address</th>
+                                <th >Type</th>
+                                <th style="width: 80px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="lstbranchname.length==0">
+                                <td colspan="5" class="text-center">
+                                    <span>No Data found</span>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let ct of lstbranchname; let i=index" >
+                                <td>{{i+1}}</td>
+                                <td>{{ct.name}}</td>
+                                <td >{{ct.shortName}}</td>
+                                <td >{{ct.contactNo}}</td>
+                                <td >{{ct.address}}</td>
+                                <td ><span  *ngIf="ct.approveStatus===1"> Branch</span>
+                                    <span *ngIf="ct.approveStatus===2"> Floor Production</span>
+                                </td>
+                                <!-- <textarea readonly>{{ct.detailsNote}}</textarea> -->
+                                <td style="width: 80px;">
+                                    <span (click)="edit(ct)"  class="fa fa-edit btn btn-sm btn-primary"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+              </div>
+          </div>
+      </form>
+  </div>
+</div>

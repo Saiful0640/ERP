@@ -1,0 +1,177 @@
+<div class="card">
+  <div class="card-body" style="align-items: center">
+    <div class="row" style="margin: auto">
+      <div class="col-12">
+        <div class="row" *ngFor="let item of salesdashboard">
+          <div class="col-md-3 productType">
+            <!-- <h3 >Total Bank And Cash</h3> -->
+            <!-- <h4>{{item.cashandBank}}</h4> -->
+          </div>
+          <div class="col-md-3 productType1" (click)="GetDashboardDetails()">
+            <h3>Total Sales</h3>
+            <h4>{{ item.netSales }}</h4>
+          </div>
+          <div class="col-md-3 productType2" (click)="GetDashboardDetails()">
+            <h3>Total Collection</h3>
+            <h4>{{ item.collection }}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col-5" style="background-color: white">
+      <canvas id="canvas">{{ Charts }} </canvas>
+    </div>
+    <div class="col-3">
+      <div class="data-table">
+        <table class="table table-bordered table-striped table-hover mb-0">
+          <thead>
+            <tr>
+              <td>#SN</td>
+              <td>Name</td>
+              <td>Amount</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of lstdashboardbycity; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.amount }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 15px">
+    <div class="col-md-8 m-auto">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <div class="ml-auto">
+              <app-date-control
+                (getYyyymmdd)="startDate = $event; onChangeDate()"
+              ></app-date-control>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <div class="mr-auto">
+              <app-date-control
+                (getYyyymmdd)="endDate = $event; onChangeDate()"
+              ></app-date-control>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body p-1 pr-2" *ngIf="isOpen">
+    <div class="row">
+      <div class="col-md-7">
+        <h2>Sales By Month</h2>
+        <div class="data-table">
+          <table class="table table-bordered table-striped table-hover mb-0">
+            <thead>
+              <tr>
+                <td>#SN</td>
+                <td>Month</td>
+                <td>Sales</td>
+                <td>Collection</td>
+                <td>Defference</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of lstdashboarddetails; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.months }}</td>
+                <td>{{ item.sales }}</td>
+                <td>{{ item.collections }}</td>
+                <td>{{ item.differec }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <h2>Sales By Category</h2>
+        <div class="data-table">
+          <table class="table table-bordered table-striped table-hover mb-0">
+            <thead>
+              <tr>
+                <td>#SN</td>
+                <td>Category Name</td>
+                <td>Sales Amount</td>
+                <td>Sales Quantity</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of lstdashboardcategory; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.categoryName }}</td>
+                <td>{{ item.salesAmount }}</td>
+                <td>{{ item.salesQuantity }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="col-md-12">
+  <div class="card-header  text-center">
+    <h4>Welcome to Dashboard!</h4>
+  </div>
+  <div class="row">
+       <div class="col-md-4">
+          <div class="panel">
+              <div class="panel-body">
+                  <h4>
+                      Low Stock
+                  </h4>
+                  <ul *ngIf="dashboardModel.length==0">
+                      <li>No Data Found</li>
+                  </ul>
+                    <ul *ngFor="let item of dashboardModel; let i=index" class="list-group">
+                        <li class="list-group-item">{{item.region}}<span class="badge badge-info">{{item.salesAmount}}</span></li>
+                    </ul>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel">
+            <div class="panel-body">
+                <h4>
+                    Purchase Summary
+                </h4>
+                <ul *ngIf="dashboardModell.length==0">
+                    <li>No Data Found</li>
+                </ul>
+                  <ul *ngFor="let item of dashboardModell; let i=index" class="list-group">
+                      <li class="list-group-item">{{item.region}}<span class="badge badge-info">{{item.salesAmount}}</span></li>
+                  </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel">
+            <div class="panel-body">
+                <h4>
+                    Sales Summary
+                </h4>
+                <ul *ngIf="dashboardModelll.length==0">
+                    <li>No Data Found</li>
+                </ul>
+                  <ul *ngFor="let item of dashboardModelll; let i=index" class="list-group">
+                      <li class="list-group-item">{{item.region}}<span class="badge badge-info">{{item.salesAmount}}</span></li>
+                  </ul>
+            </div>
+        </div>
+    </div>
+  </div>
+</div> -->

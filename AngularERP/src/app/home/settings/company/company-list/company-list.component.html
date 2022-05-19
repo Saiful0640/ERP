@@ -1,0 +1,43 @@
+<div class="card mb-4">
+    <div class="card-header py-2">
+        <h4 class="text-center mb-0">Company List</h4>
+    </div>
+    <div class="card-body px-1 py-0">
+        <div class="data-table">
+          <table class="table table-bordered mb-0">
+            <thead>
+                <tr>
+                    <th class="tc-80">#SN</th>
+                    <th class="tc-200">Company_Name</th>
+                    <th class="tc-200">Address </th>
+                    <th class="tc-100">Contact_No</th>
+                    <th class="tc-100">TIN</th>
+                    <th class="tc-100">Email</th>
+                    <th class="tc-100">Enroll_Date</th>
+                    <th class="tc-100">Status</th>
+                    <th class="tc-80"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="companyModel.length==0">
+                    <td colspan="13" class="font-italic text-center">No item available</td>
+                </tr>
+                <tr *ngFor="let com of companyModel;let i=index" [ngClass]="{'active-row':com.isActive,'disabled-row':!com.isActive}">
+                    <td class="tc-80">{{i+1}}</td>
+                    <td class="tc-200">{{com.name}}</td>
+                    <td class="tc-200">{{com.address}}</td>
+                    <td class="tc-100">{{com.phone}}</td>
+                    <td class="tc-100">{{com.tin}}</td>
+                    <td class="tc-100">{{com.email}}</td>
+                    <td class="tc-100">{{com.dateCreated | date:'dd/MM/yyyy'}}</td>
+                    <td class="tc-100">
+                      <span *ngIf="com.isActive" class="badge badge-success badge-pill">active</span>
+                      <span *ngIf="!com.isActive" class="badge badge-danger badge-pill">disabled</span>
+                    </td>
+                    <td class="tc-80"><button [routerLink]="['/settings/company/new-company',{compId:com.id}]" class="btn btn-sm btn-info"><span class="fa fa-edit"></span></button></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>

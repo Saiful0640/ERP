@@ -1,0 +1,125 @@
+<div class="card border-0 p-0">
+    <div class="card-header px-4 py-2">
+        <h4 class="my-auto text-center">
+            <span>Search Invoice</span>
+            <button (click)="modalService.dismissAll()" class="float-right btn btn-sm btn-danger">
+        <span class="text-white font-weight-bold display-6">X</span>
+      </button></h4>
+
+    </div>
+    <div class="card-body">
+        <form [formGroup]="filterForm">
+            <div class="row">
+                <div class="col-8" >
+                  <label class="col-12 center form-label">Search by Name And Mobile Number</label>
+                    <div class="form-group row">
+                        <div class="col-12">
+                          <div class="row">
+                            <div class="col-7">
+                              <app-customer-select-list [elementId]="'ngSelectParty'" [IsDisabled]="restrictForEdit || isLoadFromOrder" [IsInvalid]="filterForm.invalid && !isSubmitted" [customerId]="formVal.partyId" (onChange)="onSelectCustomer($event)">
+                              </app-customer-select-list>
+                            </div>
+                            <div class="col-3">
+                              <input type="text" formControlName="billContactNo" class="form-control" placeholder="Mobile No">
+                            </div>
+
+                              <button  (click)="searchbypartyname()" class="btn btn-success " style="height: 35px;">
+                                <span class="fa fa-search"></span>
+                                Search</button>
+
+                          </div>
+                            <!-- <input formControlName="searchText" (keyup)="search()" type="text" class="form-control" placeholder="Search by VoucherNo/AccountName/BillTo/BillAddress" /> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 ">
+                    <div class="form-group row">
+                        <label class="col-12 center form-label">Voucher Date</label>
+                        <div class="col-12 center input-group">
+                            <app-date-control [setNgbDate]="filterForm.controls['invoiceDateNgb'].value" (getYyyymmdd)="onDateChange($event)" (getNgbDate)="onDateNgbChange($event)" [showCurrentDate]="false"></app-date-control>
+                            <div class="input-group-append ml-2 mt-1">
+                              <button [ladda]="isLoading" (click)="search()" class="btn btn-sm btn-success float-right">
+                                <span class="fa fa-search"></span>
+                                Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col-6">
+                  </div>
+                  <div class="col-6">
+                    <div class="row">
+                      <div class="col-12">
+                        <input formControlName="searchText" (keyup)="filterParty($event.target.value)" type="text" class="form-control" placeholder="Search by Party Name/Voucher No/Mobile No" />
+
+                      </div>
+
+
+                    </div>
+
+                  </div>
+
+
+            </div>
+        </form>
+        <div class="row">
+            <div class="data-table" style="min-height: 250px;">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 30px;">#SN</th>
+                            <th style="width: 150px;">Party_Name</th>
+                            <th style="width: 200px;">Address</th>
+                            <th *ngIf="companyType!=5" style="width: 80;">Mobile_No</th>
+                            <th *ngIf="companyType==5" style="width: 80px;">Mobile No</th>
+                            <th *ngIf="companyType==5" style="width: 80px;">Bill No</th>
+                            <th *ngIf="companyType!=5" style="width: 130px;">Voucher_No</th>
+                            <th *ngIf="companyType!=5" style="width: 80px;">Voucher_Date</th>
+                            <th *ngIf="companyType==5" style="width: 80px;">Bill Date</th>
+                            <th *ngIf="companyType!=5" style="width: 80px;">Total_Amount</th>
+                            <th *ngIf="companyType!=5"style="width: 200px;">Bill_To</th>
+                            <th style="width: 80px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="filterInvoices.length==0 && !isLoading">
+                            <td colspan="9" class="text-center"><i><b>No Invoice Found.</b></i></td>
+                        </tr>
+                        <tr *ngIf="isLoading">
+                            <td colspan="9" class="text-center text-primary display-5 font-weight-bold"> <span class="fa fa-lg fa-spinner"></span> &nbsp;Loading...</td>
+                        </tr>
+                        <tr *ngFor="let invoice of filterInvoices; let i=index" class="tr">
+                            <td style="width: 40px;">{{i+1}}</td>
+                            <td *ngIf="companyType!=5" style="width: 150px;">{{invoice.partyName}}</td>
+                            <td *ngIf="companyType==5" style="width: 150px;">{{invoice.billTo}}</td>
+                            <td style="width: 200px;">{{invoice.billAddress}}</td>
+                            <td style="width: 80px;">{{invoice.billContactNo}}</td>
+                            <td style="width: 130px;">{{invoice.formattedVoucherNo}}</td>
+                            <td style="width: 80px;">{{dateService.getYyyymmddToDate(invoice.voucherDate) | date:'dd MMM,yyyy'}}</td>
+                            <td *ngIf="companyType!=5" style="width: 80px; text-align: right;">{{invoice.totalAmount | number:'1.2-2'}}</td>
+                            <td *ngIf="companyType!=5" style="width: 200px;">{{invoice.billTo}}</td>
+                            <td style="width: 80px;">
+                                <div class="row">
+                                    <button *ngIf="pageAuthInfo.editable" (click)="onSelectInvoice(invoice.transId )" class="btn btn-sm btn-primary">Select</button>
+                                    <button (click)="onPrint(invoice.transId)" class="btn btn-sm btn-info">Print</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="filterInvoices.length>0" class="badge-secondary">
+
+                            <td *ngIf="companyType!=5" colspan="5" style="width:600px;text-align: right;color: black;"><b>Total Amount</b></td>
+                            <td *ngIf="companyType!=5" style="width: 80px;text-align: right;color: black;">
+                                <b>{{totalInvoiceAmount | number:'1.2-2'}}</b>
+                            </td>
+                            <td colspan="2" style="width: 280px;">
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

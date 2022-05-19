@@ -1,0 +1,37 @@
+
+
+
+
+
+
+  <div class="card">
+    <div class=" card-header bg-light text-center"><h4>Leave Report</h4></div>
+    <div class=" card-body">
+      <form [formGroup]="leaveRptForm">
+        <div class="col-md-5 center">
+
+          <div class="form-group row">
+            <label class="col-form-label col-md-4 text-md-right">Year </label>
+            <div class="col-md-8">
+              <ng-select formControlName="yearId" [items]="years" bindLabel="yearName" bindValue="id" (change)="onSelectYear($event)" placeholder="Select Year"></ng-select>
+         </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-form-label col-md-4 text-md-right">Emp Code </label>
+          <div class="col-md-8">
+            <!-- <app-member-select-list [moduleId]="moduleID" (onChange)="f['memberCode'].setValue($event.memberCode)" [memberCode]="formVal.memberCode"></app-member-select-list> -->
+        <ng-select formControlName="memberCode" [items]="employees" bindLabel="memberName" bindValue="memberCode" placeholder="Select Member Code" (change)="selectEmployee($event)" ></ng-select>
+          </div>
+      </div>
+      <div class=" row">
+        <div class="demo-inline-spacing mt-2" style="margin:0 220px">
+          <button (click)="onPrint()"  class="btn btn-info"><span class="fa fa-print"></span> Print </button>
+        </div>
+       </div>
+       </div>
+      </form>
+    </div>
+  </div>
+
+

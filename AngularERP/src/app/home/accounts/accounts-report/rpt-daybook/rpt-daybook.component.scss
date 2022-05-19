@@ -1,0 +1,11 @@
+.data-table {
+    min-height: 380px;
+    max-height: 380px;
+    background: #fff;
+    overflow-y: auto;
+}
+
+::ng-deep .my-class .modal-dialog {
+    max-width: 90%;
+    width: 90%;
+}

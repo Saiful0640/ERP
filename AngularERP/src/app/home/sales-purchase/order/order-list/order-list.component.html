@@ -1,0 +1,118 @@
+<div class="card" id="listOrderPage">
+    <div class="card-header py-1">
+        <h4 class="text-center mb-0">
+            {{title}}</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3 mt-1">
+                <app-customer-select-list [customerId]="" [IsInvalid]="!searchObj.partyId" (onChange)="searchObj.partyId=$event.accountId; searchOrders()" *ngIf="companyType==1"></app-customer-select-list>
+                <app-customer-select-list-for-order [CustomerType]="1" [elementId]="'ngSelectParty'" [customerId]="" (onChange)="searchObj.partyId=$event.accountId; searchOrders()" *ngIf="companyType==2">
+                </app-customer-select-list-for-order>
+            </div>
+            <div class="col-md-2 mt-1">
+                <app-date-control (getLocalDate)="searchObj.fromDate=$event; searchOrders()"></app-date-control>
+            </div>
+            <div class="col-md-2 mt-1">
+                <app-date-control (getLocalDate)="searchObj.toDate=$event; searchOrders()"></app-date-control>
+            </div>
+            <div class="col-md-2 mt-1">
+                <input [(ngModel)]="searchObj.orderNo" name="orderNo" (keydown.enter)="searchOrders()" type="text" class="form-control" placeholder="Order No.">
+            </div>
+            <div class="col-md-2 mt-1">
+                <label for="chkAnydate"><input [(ngModel)]="searchObj.anyDate" name="anyDate" (change)="searchOrders()" type="checkbox" id="chkAnydate"> Any Date</label>
+            </div>
+
+            <div *ngIf="!(loadForBill || loadForChallan)" class="col-md-2 mt-1">
+                <ng-select [(ngModel)]="searchObj.orderType" name="orderType" (change)="searchOrders()" [items]="orderTypes" bindValue="orderType" bindLabel="typeName" placeholder="Select Order Type">
+                </ng-select>
+            </div>
+            <div class="col-md-3 mt-1">
+                <label *ngIf="!(loadForBill || loadForChallan ) && orStatus[0] " class="checkbox-inline ml-1">
+          <input type = "checkbox" value = "0" [checked]="orStatus[0]" (change)="onCheckStatus($event.target.checked,$event.target.value)" > Pending
+       </label>
+                <label *ngIf="!(loadForBill || loadForChallan) && orStatus[1]" class="checkbox-inline ml-1">
+          <input [checked]="orStatus[1]" type="checkbox" value="1" (change)="onCheckStatus($event.target.checked,$event.target.value)" > Checked
+       </label>
+                <label *ngIf="!(loadForBill || loadForChallan ) && orStatus[2]" class="checkbox-inline ml-1">
+      <input [checked]="orStatus[2]" type = "checkbox" value = "2" (change)="onCheckStatus($event.target.checked,$event.target.value)"> Verified
+   </label>
+                <!-- <label *ngIf="!(loadForBill || loadForChallan )" class = "checkbox-inline ml-1">
+    <input [checked]="orderStatus.indexOf(2)>-1" type = "checkbox" value = "2" (change)="onCheckStatus($event.target.checked,$event.target.value)"> Verified
+ </label> -->
+                <!-- <label class = "checkbox-inline ml-1">
+    <input [checked]="orderStatus.indexOf(3)>-1" type = "checkbox" value = "3" (change)="onCheckStatus($event.target.checked,$event.target.value)"> Approved
+ </label> -->
+                <label class="checkbox-inline ml-1" *ngIf="orStatus[3]">
+          <input [checked]="orStatus[3]" type = "checkbox" value = "3" (change)="onCheckStatus($event.target.checked,$event.target.value)"> Approved
+       </label>
+                <label *ngIf="!(loadForBill || loadForChallan) && orStatus[4]" class="checkbox-inline ml-1">
+        <input [checked]="orStatus[4]" type = "checkbox" value = "4" (change)="onCheckStatus($event.target.checked,$event.target.value)"> Rejected
+     </label>
+                <!-- <label *ngIf="!(loadForBill || loadForChallan) && orStatus[4]" class="checkbox-inline ml-1">
+      <input [checked]="orStatus[4]" type = "checkbox" value = "4" (change)="onCheckStatus($event.target.checked,$event.target.value)"> Approved
+   </label> -->
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="data-table">
+                <table class="tbale table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#SN</th>
+                            <th>OrderNo</th>
+                            <th>Party_Name</th>
+                            <th>Date</th>
+                            <th>Paid</th>
+                            <th>Payable</th>
+                            <th>Cr.Limit</th>
+                            <th>Balance</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="orders.length==0 && !isLoading">
+                            <td colspan="10" class="text-center">No order found.</td>
+                        </tr>
+                        <tr *ngIf="isLoading">
+                            <td colspan="10" class="text-center text-primary">
+                                <img src="../../../../../assets/img/loading.gif" height="40" width="40" /> Loading ...
+                            </td>
+                        </tr>
+                        <tr *ngFor="let order of orders;let i=index" [ngClass]="{'text-danger':order.creditLimit<order.balance && order.orderType==7}">
+                            <td>{{i+1}}</td>
+                            <td>{{order.orderNo}}</td>
+                            <td>{{order.partyName}}</td>
+                            <td>{{datFormet.getYyyymmddToDate(order.orderDate) | date:'dd/MM/yyyy'}}</td>
+                            <td class="text-right">{{order.paidAmount | number:'2.2-2'}}</td>
+                            <td class="text-right">{{order.netPayable | number:'2.2-2'}}</td>
+                            <td class="text-right">{{order.creditLimit | number:'2.2-2'}}</td>
+                            <td class="text-right">{{order.balance | number:'2.2-2'}}</td>
+                            <td [ngSwitch]="order.status" class="font-weight-bold">
+                                <span *ngSwitchCase="-1" class="badge badge-pill badge-warning">Drafted</span>
+                                <span *ngSwitchCase="0" class="badge badge-pill badge-warning">Pending</span>
+                                <span *ngSwitchCase="1" class="badge badge-pill badge-primary">Checked</span>
+                                <span *ngSwitchCase="2" class="badge badge-pill badge-success">Verified</span>
+                                <span *ngSwitchCase="3" class="badge badge-pill badge-info">Approved</span>
+                                <span *ngSwitchCase="4" class="badge badge-pill badge-danger">Rejected</span>
+                            </td>
+                            <td>
+                                <button *ngIf="!(loadForBill || loadForChallan) && pageAuthInfo.editable" (click)="onSelect(order.id)" class="btn btn-info btn-sm">
+                  <span class="fa fa-edit"></span>
+                </button>
+                                <button *ngIf="loadForBill" (click)="onSelect(order.id)" class="btn btn-info btn-sm">
+                  Bill
+                </button>
+                                <button *ngIf="loadForChallan" (click)="onSelect(order.id)" class="btn btn-info btn-sm">
+                  Challan
+                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

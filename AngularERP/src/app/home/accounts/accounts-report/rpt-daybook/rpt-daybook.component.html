@@ -1,0 +1,108 @@
+<div class="card" >
+    <div class="card-header py-2">
+        <h4 class="text-center mb-0">DayBook</h4>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="rptDayBookForm">
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <app-date-control [setNgbDate]="f['fromDateNgb'].value"  (getYyyymmdd)="f['fromDate'].patchValue($event)" [showCurrentDate]="true" (getNgbDate)="f['fromDateNgb'].setValue($event)">
+                    </app-date-control>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="row p-0 m-0">
+                        <label class="col-2">To</label>
+                        <div class="col-9">
+                            <app-date-control [setNgbDate]="f['todateNgb'].value"  (getYyyymmdd)="f['todate'].patchValue($event)"  [showCurrentDate]="true"  (getNgbDate)="f['todateNgb'].setValue($event)">
+                            </app-date-control>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <ng-select formControlName="voucherType" placeholder="Select VoucherType">
+                        <ng-option [value]="'CashPayment'">Cash Payment</ng-option>
+                        <ng-option [value]="'CashReceive'">Cash Receive</ng-option>
+                        <ng-option [value]="'BankPayment'">Bank Payment</ng-option>
+                        <ng-option [value]="'BankReceive'">Bank Receive</ng-option>
+                        <ng-option [value]="'JournalEntry'">Journal Entry</ng-option>
+                    </ng-select>
+                </div>
+                <div class="col-md-5 mr-0 p-0">
+                    <div class="row p-0">
+                        <div class="col-md-10">
+                            <span [ladda]="isLoading" (click)="getAllDaybookForReport()" class="btn py-1 btn-success">View</span>
+                            <span (click)="reset()" class="btn py-1 btn-info">Reset</span>
+                            <span (click)="onPrintPDF()" class="btn py-1 btn-info">PrintPDF</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3">
+                <div class="card-body p-0">
+                    <div class="row">
+                        <div class="ml-auto mr-3">
+                            <input (keyup)="filterDayBookReport($event.target.value)" class="form-control" placeholder="Search by Account Head/Voucher No/ Ref No">
+                        </div>
+                    </div>
+                    <div class="data-table m-0">
+                        <table class="table mb-0 table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="tc-80">SL</th>
+                                    <th class="tc-100">Voucher Date</th>
+                                    <th class="tc-100">Voucher No</th>
+                                    <th class="tc-200">Account Head</th>                                    
+                                     <th class="tc-100">Dr.Amount</th>
+                                    <th class="tc-100">Cr.Amount</th> 
+                                    <th class="tc-100">Total Amount</th> 
+                                    <th class="tc-100">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="filterDaybookModel.length==0">
+                                    <td colspan="8" class="text-center"><i>No Data found</i></td>
+                                </tr>
+                                <tr *ngFor="let rptdb of filterDaybookModel; let i=index">
+                                    <td class="tc-80">{{i+1}}</td>
+                                     <td class="tc-100">{{dateService.getYyyymmddToDate(rptdb.voucherdate) | date: "yyyy/mm/dd" }}</td>
+                                    <td class="tc-100">{{rptdb.formatevoucherno}}</td>
+                                    <td class="tc-200 text-left">{{rptdb.accountname}}</td>
+                                     <td class="tc-100 text-right">{{rptdb.debit | number:'2.2-2' }}</td>
+                                    <td class="tc-100 text-right">{{rptdb.credit | number:'2.2-2'}}</td> 
+                                    <td class="tc-100 text-right">{{rptdb.totalamount | number:'2.2-2'}}</td> 
+                                </tr>
+                                <tr *ngIf="filterDaybookModel.length>0" class="badge-secondary">
+                                    <td class="tc-80"></td>
+                                    <td class="tc-100"></td>
+                                    <td class="tc-100"></td>
+                                    <td class="tc-200 text-left"></td>
+                                    <td class="tc-100 text-right font-weight-bold">Total</td>
+                                     <td class="tc-100 text-right font-weight-bold">{{totalDebit | number:'2.2-2'}}</td>
+                                    <td class="tc-100 text-right font-weight-bold">{{totalCredit | number:'2.2-2'}}</td> 
+                                    <td class="tc-100"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer p-0" *ngIf="filterDaybookModel.length !=0" style="background: rgb(73, 204, 221);color: rgb(17, 3, 67);">
+                    <div class="col mx-3">
+                        <div class="col-md-4 row">
+                            <label class="col-md-4">Total Debit:</label>
+                            <span>{{totalDebit | number:'2.2-2'}}</span>
+                        </div>
+                        <div class="col-md-4 row">
+                            <label class="col-md-4">Total Credit:</label>
+                            <span>{{totalCredit | number:'2.2-2'}}</span>
+                        </div>
+                        <div class="col-md-4 row">
+                            <label class="col-md-4">Closing Balance:</label>
+                            <span>{{totalDebit-totalCredit | number:'2.2-2'}}</span>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="card col-md-6">
+        <div class="card-header bg-light text-center py-2">
+            <h4>Others Group</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="otherRefForm">
+
+                <div class="form-group row">
+                    <label class="col-form-label col-md-4">Group Name</label>
+                    <div class="col-md-8">
+                      <ng-select formControlName="groupID" [items]="subledgers" bindLabel="subledgerName" bindValue="subledgerId" [ngClass]="{'is-invalid':( f['groupID'].touched || f['groupID'].dirty || isSubmit) && f['groupID'].invalid}" placeholder="Select Group"></ng-select>
+                      <div *ngIf="f['groupID'].invalid && ( f['groupID'].touched || f['groupID'].dirty || isSubmit)" class="text-danger">
+                        <i *ngIf="f['groupID'].errors.required" class="text-danger">Name is required</i>
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-md-4 ">Ref. Name</label>
+                    <div class="col-md-8">
+                        <input formControlName="othersReferenceName" type="text" class="form-control" [ngClass]="{'is-invalid':( f['othersReferenceName'].touched || f['othersReferenceName'].dirty || isSubmit) && f['othersReferenceName'].invalid}" placeholder="Enter Ref. Name">
+                        <div *ngIf="f['othersReferenceName'].invalid && ( f['othersReferenceName'].touched || f['othersReferenceName'].dirty || isSubmit)" class="text-danger">
+                          <i *ngIf="f['othersReferenceName'].errors.required" class="text-danger">Name is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                  <label for="isCheque" class="col-md-4">Is Cheque</label>
+                  <div class="col-md-8">
+                    <div class="custom-control custom-checkbox custom-control-inline">
+                      <input formControlName="isCheque" type="checkbox" class="custom-control-input row" id="ischeque">
+                      <label class="custom-control-label" for="ischeque"></label>
+                    </div>
+                  </div>
+                </div>
+
+            </form><br>
+            <div class="row">
+              <div class="row demo-inline-spacing center" style="margin: 0 auto;">
+                  <button [ladda]="isSaving" (click)="saveOthersref()" class="btn btn-success mr-2">{{btnStatus}}</button>
+                  <button (click)="reset()" class="btn btn-primary"> Reset</button>
+              </div>
+          </div>
+        </div>
+    </div>
+    <div class="card col-md-6">
+        <div class="card-header bg-light text-center py-2">
+          <h4>Others  Group Information</h4>
+        </div>
+        <div class="card-body ">
+          <table class="table table-striped table-hover table-bordered">
+            <thead>
+              <tr>
+                <th style="width: 70px;">#SN.</th>
+                <th style="width: 200px;">Group Name</th>
+                <th style="width: 200px;">Ref. Name</th>
+                <th style="width: 70px;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- <tr >
+                <td colspan="13" class="font-italic text-center">No item available</td>
+              </tr> -->
+              <tr *ngFor="let or of otherRefModel; let i =index">
+                <td style="width: 70px;">{{i+1}}</td>
+                <td style="width: 200px;">{{or.subledgerName}}</td>
+                <td style="width: 200px;">{{or.othersReferenceName}}</td>
+                <td style="width: 70px;">
+                  <button class="btn btn-primary py-2" (click)="edit(or.othersID)">
+                    <span class="fa fa-edit"></span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+</div>
+

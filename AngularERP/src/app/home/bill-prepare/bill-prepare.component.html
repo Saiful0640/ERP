@@ -1,0 +1,73 @@
+  <div class="card">
+    <h4 class="card-header text-center bg-light">
+    {{title}} Bill Prepare
+    </h4>
+    <div class="card-body">
+      <div class="col-md-6 center">
+        <form [formGroup]="billProcForm">
+          <div class="form-group row" *ngIf="processType!=2">
+            <label class="col-form-label col-md-3 text-right ">Process Type
+            </label>
+            <div class="col-md-9">
+              <ng-select formControlName="type"  placeholder="Select ">
+                <ng-option [value]="1">All Member</ng-option>
+                <ng-option [value]="3">Individual</ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="form-group row" *ngIf="f['type'].value==3">
+            <label class="col-form-label col-md-3 text-right">{{fstlabelName}}</label>
+                  <div class="col-md-9">
+                    <ng-select formControlName="parentID" [items]="parentDetailsItems" bindLabel="detailsCaption" bindValue="detailsID" (change)="onSelectCriteria(f['parentID'].value)"  placeholder="--Select--"></ng-select>
+                  </div>
+          </div>
+          <div class="form-group row" *ngIf="f['type'].value==3">
+            <label class="col-form-label col-md-3 text-right">{{sndlableName}}</label>
+            <div class="col-md-9">
+              <ng-select formControlName="underCriteriaID" [items]="subDetailsItems" bindLabel="detailsCaption" bindValue="detailsID" (change)="onSelectSubCriteria(f['underCriteriaID'].value)"  placeholder="--Select--"></ng-select>
+            </div>
+        </div>
+        <div class="form-group row" *ngIf="f['type'].value==3">
+          <label class="col-form-label col-md-3 text-right">{{thrdlableName}}</label>
+          <div class="col-md-9">
+            <ng-select formControlName="detailsID" [items]="superSubDetailsItems" bindLabel="detailsCaption" bindValue="detailsID"   placeholder="--Select--"></ng-select>
+          </div>
+      </div>
+      <div class="form-group row " *ngIf="f['type'].value==3">
+        <label class="col-form-label  col-md-3 text-right">  <i class="text-danger">*</i>{{labelName}} </label>
+        <div class="col-md-9">
+          <app-personal-info-select-list [memberId]="f['memberID'].value"   (onChange)="onSelectMemberInfo($event)"></app-personal-info-select-list>
+        </div>
+    </div>
+
+       <div class="form-group row" *ngIf="processType==2">
+          <label class="col-form-label col-md-3 text-right ">Service Head
+          </label>
+          <div class="col-md-9">
+            <ng-select formControlName="serviceHead" [items]="servicesByType" bindLabel="serviceName" bindValue="id" placeholder="Select "></ng-select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-md-3 text-right ">Period Name
+          </label>
+          <div class="col-md-9">
+            <app-period-select-list [periodId]="f['periodID'].value" [moduleID]="moduleID" (onChange)="onSelectPeriod($event)"></app-period-select-list>
+          </div>
+        </div>
+        <div class="row">
+          <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+            <button (click)="reset()" type="clear" class="btn btn-info">
+              <span class="ion ion-ios-refresh"></span> Referesh
+            </button>
+            <button (click)="processBill()" class="btn btn-success"> Process
+            </button>
+            <!-- <button (click)="createNewItem(billList)" class="btn btn-info float-right mx-1">View</button> -->
+          </div>
+        </div>
+      </form>
+        </div>
+    </div>
+  </div>
+<ng-template #billList tabindex="-1">
+  <app-bill-process-view></app-bill-process-view>
+  </ng-template>

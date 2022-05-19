@@ -1,0 +1,74 @@
+
+  <div class="card" >
+    <div class="card-header bg-light">
+      <h2 style="text-align: center; ">{{title}} Individual Receipt Entry</h2>
+    </div>
+    <div class="card-body py-0">
+    <form [formGroup]="individualReceiptForm">
+      <div class="container">
+      <div class="row" >
+        <label class="col-md-4"></label>
+        <div class="col-md-5  " >
+        <div class="form-group row ">
+          <label class="col-form-label col-md-3 text-right">Member</label>
+          <div class="col-md-9">
+              <app-personal-info-select-list [memberId]="f['memberID'].value"    (onChange)="onSelectMemberInfo($event)"></app-personal-info-select-list>
+          </div>
+         </div>
+        </div>
+        <div class="col-md-2">
+          <button (click)="createNewView(PreBillModal)" class="btn btn-success mx-2" type="button">Show</button>
+          </div>
+      </div>
+  <div class="row">
+  <table class="table table-bordered table-striped text-center" >
+    <thead>
+        <tr>
+          <th style="width: 100px;">#SL no.</th>
+          <th style="width: 100px;">Code</th>
+          <th style="width: 100px;">Name</th>
+          <th style="width: 100px;" >{{lblname}}</th>
+           <th style="width: 100px;" *ngIf="lblSnd!=null">{{lblSnd}}</th>
+           <th style="width: 100px;" *ngIf="lblthird!=null">{{lblthird}}</th>
+          <th style="width: 100px;">Service</th>
+          <th style="width: 100px;">Period Name</th>
+          <th style="width: 100px;">Amount</th>
+          <th style="width: 100px;">
+            <input type="checkbox" name="isAllChecked" (change)="oncheckedall($event.target.checked)">
+          </th>
+
+        </tr>
+      </thead>
+    <tbody>
+      <tr *ngFor="let opnbalance of individualReceiptArray
+      .controls;let i=index" [formGroup]="opnbalance">
+        <td style="width:100px;">{{i+1}}</td>
+        <td style="width: 100px;"> {{opnbalance.value.memberCode}}</td>
+        <td style="width: 100px;"> {{opnbalance.value.memberName}}</td>
+        <td style="width: 100px;" *ngIf="lblSnd!=null"> {{opnbalance.value.superDetailsCaption}}</td>
+        <td style="width: 100px;" *ngIf="lblthird!=null"> {{opnbalance.value.underDetailsCaption}}</td>
+        <td style="width: 100px;"> {{opnbalance.value.detailsCaption}}</td>
+         <td style="width: 100px;"> {{opnbalance.value.serviceName}}</td>
+         <td style="width: 100px;"> {{opnbalance.value.periodName}}</td>
+        <td style="width:100px;">{{opnbalance.value.amount}}</td>
+        <td style="width:100px;text-align: center;">
+          <input type="checkbox" name="isChecked" formControlName="isChecked" [checked]="opnbalance.value.isChecked" (change)="getOnSelectedChecked($event.target.checked,i)">
+            <!-- <button class="text-white bg-danger font-weight-bold" type="button"><span class="fa fa-window-close"></span></button> -->
+        </td>
+     </tr>
+    </tbody>
+  </table>
+</div>
+   <div class="row demo-inline-spacing pull-right mt-2" style="margin: 0 auto;">
+     <button (click)="reset()" class="btn btn-primary mx-2" type="button"> Refresh</button>
+    <button (click)="saveIndividualReceipt()" class="btn btn-success mx-2" type="button">{{btnStatus}}</button>
+  </div>
+</div>
+</form>
+  </div>
+  </div>
+
+  <ng-template #PreBillModal>
+    <app-center-prepared-bill-list [type]="f['typeID'].value" [periodId]="f['periodID'].value" ></app-center-prepared-bill-list>
+  </ng-template>
+

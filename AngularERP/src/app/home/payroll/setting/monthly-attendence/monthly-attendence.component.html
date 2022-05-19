@@ -1,0 +1,125 @@
+<div class="card">
+    <div class="card-header text-center p-0">
+        <h4 class="text-center">Monthly Attendence</h4>
+    </div>
+    <form [formGroup]="formGroup">
+        <div class="row no-gutters mt-3">
+            <div class="col-md-3  row no-gutters">
+                <label class="col-form-label col-md-5 text-center">Period Name:</label>
+                <div class="col-md-6 ">
+                    <app-period-select-list [periodId]="f['periodID'].value" [focusId]="'txtPeriodId'" [moduleID]="moduleId" (onChange)="onSelectPeriod($event)"></app-period-select-list>
+                </div>
+            </div>
+            <div class="col-md-2  row no-gutters">
+                <label class="col-form-label col-md-5 text-center">Group Type:</label>
+                <div class="col-md-7">
+                    <app-group-select-list [groupId]="f['groupID'].value" [focusId]="'txtgroupId'" (onChange)="f['groupID'].setValue($event.id);onSelectGroup($event)"></app-group-select-list>
+                </div>
+            </div>
+            <div class="col-md-2  row no-gutters">
+                <label class="col-form-label col-md-4 text-center">Section:</label>
+                <div class="col-md-8">
+                    <app-section-select-list [sectionId]="f['sectionID'].value" [focusId]="'txtSectionId'" (onChange)="f['sectionID'].setValue($event.id);onSelectSection($event)"></app-section-select-list>
+                </div>
+            </div>
+            <div class="col-md-2  row no-gutters">
+                <label class="col-form-label col-md-5 text-center ml-3">Month Days:</label>
+                <div class="col-md-5">
+                    <input formControlName="workDays" (keyup)="onMonthDays()" (keydown)="onEnterOrTabKeyDown($event,'txtPdWise')" type="number" [id]="'txtWorkDays'" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-1  row no-gutters">
+                <label class="col-form-label col-md-3 text-center ml-0">P.D:</label>
+                <div class="col-md-9">
+                    <input formControlName="pdWise" (keyup)="onpdwide()"  (keydown)="onEnterOrTabKeyDown($event,'txtPmWise')" type="number" class="form-control" [id]="'txtPdWise'" placeholder="0">
+                </div>
+            </div>
+            <div class="col-md-1  row no-gutters">
+                <label class="col-form-label col-md-3 text-center">P.M:</label>
+                <div class="col-md-9">
+                    <input formControlName="pmWise" type="number" (keydown)="onEnterOrTabKeyDown($event,'btnLoad')" class="form-control" [id]="'txtPmWise'" placeholder="0">
+                </div>
+            </div>
+            <div class="col-md-1 row no-gutters">
+                <div class="col-md-12 ml-2">
+                    <button class="btn btn-group mx-2 btn-success" (click)="getMonthlyAttendance()" [id]="'btnLoad'" type="button">Load</button>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body p-0">
+                <div class="data-table m-0 p-0">
+                    <table class="table text-center  mb-0 table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width:6%">SL</th>
+                                <th style="width:31%">EmployeeName</th>
+                                <th style="width:9%">Wrk Days</th>
+                                <th style="width:9%">Abs Days</th>
+                                <th style="width:9%">Late Days</th>
+                                <th style="width:9%">Lev Days</th>
+                                <th style="width:9%">Total prsnt</th>
+                                <th style="width:9%">OT Hours</th>
+                                <th style="width:9%">OT Amnt</th>
+                                <th style="width:9%">Work Days</th>
+                                <th style="width:9%">Amnt</th>
+                                <th style="width:9%">Absnt Days</th>
+                                <th style="width:9%">Leave Days</th>
+                                <th style="width:9%">Tour Days</th>
+                                <th style="width:9%">Payble Days</th>
+                                <th style="width:9%">Pnalty</th>
+                                <th style="width:9%">Payble Amnt</th>
+                                <th style="width:9%">Remrk</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="arrayForm.length==0">
+                                <td colspan="100%" class="text-center"><i>No Data found</i></td>
+                            </tr>
+                            <tr *ngFor="let Arry of arrayForm.controls;let i=index" [formGroup]="Arry">
+                                <td style="width:6%">{{i+1}}</td>
+                                <td style="width:31%">
+                                    <!-- <ng-select formControlName="empCode" [items]="memberInfo" bindLabel="memberName" bindValue="memberCode" (change)="onSeelctEmpName($event,i)" placeholder="Select Employee"></ng-select> -->
+                                    <input formControlName="empName"  type="text" class="form-control" readonly placeholder="0.0"> 
+                                </td>
+                                
+                                <td style="width:9% "><input formControlName="workingDays" (keyup)="presentDaysCalculation(i)" type="number" class="form-control" readonly placeholder="0.0"> </td>
+                                <td style="width:9% "><input formControlName="absentDays" (keyup)="presentDaysCalculation(i)" type="number" class="form-control" placeholder="0.0"> </td>
+                                <td style="width:9% "><input formControlName="lateDays" (keyup)="presentDaysCalculation(i)" type="number" class="form-control" placeholder="0.0"> </td>
+                                <td style="width:9% "><input formControlName="leaveDays" (keyup)="presentDaysCalculation(i)" type="number" class="form-control" placeholder="0.0"> </td>
+                                <td style="width:9% "><input formControlName="totalPressentDays" type="number" class="form-control" readonly placeholder="0.0"> </td>
+                                <td style="width:9% "><input formControlName="overTimeHours" (keyup)="presentDaysCalculation(i)" type="number" class="form-control" placeholder="0.0"> </td>
+                                <td style="width:9% "><input formControlName="overTimeAmount" type="number" class="form-control" readonly placeholder="0.0"> </td>
+                                <td style="width:9% "><input formControlName="tdaWorkingDays" type="number" class="form-control" readonly placeholder="0.0"> </td>
+                                <td style="width:9% "><input formControlName="amount" type="number" class="form-control" placeholder="0.0"> </td>
+                                <td style="width:9% "><input formControlName="tdaAbsentDays" (keyup)="tdapresentDaysCalculation(i)" type="number" class="form-control" placeholder="0.0"> </td>
+                                <td style="width:9% "><input formControlName="tdaLeaveDays" (keyup)="tdapresentDaysCalculation(i)" type="number" class="form-control" placeholder="0.0"> </td>
+                                <td style="width:9% "><input formControlName="tourDays" (keyup)="tdapresentDaysCalculation(i)" type="number" class="form-control" placeholder="0.0"> </td>
+                                <td style="width:9% "><input formControlName="payableDays" type="number" class="form-control" readonly placeholder="0.0"> </td>
+                                <td style="width:9% "><input formControlName="penalty" (keyup)="tdapresentDaysCalculation(i)" type="number" class="form-control" placeholder="0.0"> </td>
+                                <td style="width:9% "><input formControlName="payableAmount" type="number" class="form-control" readonly placeholder="0.0"> </td>
+                                <td style="width:9% "><input formControlName="remarks" class="form-control" placeholder="remarks"> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row demo-inline-spacing pull-center mt-2" style="margin: 0 auto;">
+                    <div class="col-md-1 no-gutters">
+                        <label class="col-form-label col-md-12  text-center">Narration:</label>
+                    </div>
+                    <div class="col-md-7 no-gutters">
+                        <div class="col-md-12">
+                            <textarea formControlName="comment" class="form-control" type="text" placeholder="Narration"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center mt-2">
+                        <button class="btn btn-secondary mx-2" type="button"> Approve</button>
+                        <button (click)="reset()" class="btn btn-primary mx-2" type="button"> Refresh</button>
+                        <button (click)="saveData()" class="btn btn-success mx-2" type="button">{{btnStatus}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>

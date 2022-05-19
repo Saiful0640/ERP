@@ -1,0 +1,117 @@
+<div class="card md-4">
+  <div class="card-header py-2">
+    <h4 class="text-center mb-0">Year Setup</h4>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <form [formGroup]="yearForm">
+          <!-- <div class="form-group row">
+            <label class="col-form-label col-md-3">Year Type <i class="text-danger">*</i></label>
+            <div class="col-md-6">
+              <app-year-type-select-list [yearId]="f['yearTypeID'].value"
+                [ngClass]="{'is-invalid':( f['yearTypeID'].touched || f['yearTypeID'].dirty || isSubmit) && f['yearTypeID'].invalid}"
+                (onChange)="onSelectYearType($event)"></app-year-type-select-list>
+
+              <div *ngIf="f['yearTypeID'].invalid && ( f['yearTypeID'].touched || f['yearTypeID'].dirty || isSubmit)"
+                class="text-danger">
+                <i *ngIf="f['yearTypeID'].errors.required" class="text-danger">Year Type is required</i>
+              </div>
+            </div>
+          </div> -->
+          <div class="form-group row">
+            <label class="col-form-label col-md-3">Year Name </label>
+            <div class="col-md-6">
+              <input formControlName="yearName"
+                [ngClass]="{'is-invalid':( f['yearName'].touched || f['yearName'].dirty || isSubmit) && f['yearName'].invalid}"
+                type="text" class="form-control" placeholder="Year Name">
+              <div *ngIf="f['yearName'].invalid && ( f['yearName'].touched || f['yearName'].dirty || isSubmit)"
+                class="text-danger">
+                <i *ngIf="f['yearName'].errors.required" class="text-danger">Year Name is required</i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-md-3">Start Date <i class="text-danger">*</i></label>
+            <div class="col-md-6">
+              <div class="input-group ">
+                <app-date-control
+                  [ngClass]="{'is-invalid':( f['startDate'].touched || f['startDate'].dirty || isSubmit) && f['startDate'].invalid}"
+                  (getYyyymmdd)="f['startDate'].setValue($event)" (getNgbDate)="f['startDateNgb'].setValue($event)"
+                  [setNgbDate]="f['startDateNgb'].value"></app-date-control>
+                <div *ngIf="f['startDate'].invalid && ( f['startDate'].touched || f['startDate'].dirty || isSubmit)"
+                  class="text-danger">
+                  <i *ngIf="f['startDate'].errors.required" class="text-danger">Start Date is required</i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-md-3">End Date <i class="text-danger">*</i></label>
+            <div class="col-md-6">
+              <div class=" input-group ">
+                <app-date-control
+                  [ngClass]="{'is-invalid':( f['endDate'].touched || f['endDate'].dirty || isSubmit) && f['endDate'].invalid}"
+                  (getYyyymmdd)="f['endDate'].setValue($event)" (getNgbDate)="f['endDateNgb'].setValue($event)"
+                  [setNgbDate]="f['endDateNgb'].value"></app-date-control>
+                <div *ngIf="f['endDate'].invalid && ( f['endDate'].touched || f['endDate'].dirty || isSubmit)"
+                  class="text-danger">
+                  <i *ngIf="f['endDate'].errors.required" class="text-danger">End Date is required</i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-md-3">Status <i class="text-danger">*</i></label>
+            <div class="col-md-6 mt-2">
+              <div class="custom-control custom-checkbox ml-2">
+                <input formControlName="active" type="checkbox" (click)="onActiveClick($event.target.checked)" class="custom-control-input row" id="active"
+                  checked>
+                <label class=" custom-control-label " for="active">
+                  IsActive
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-9">
+              <div class="row">
+                <div class="ml-auto mr-2">
+                  <button (click)="reset()" class="btn btn-info">Reset</button>
+                <button (click)="onSubmit()" class="btn btn-success">{{btnStatus}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-6">
+        <div class="data-table mb-0">
+          <table class="table table-hover table-striped mb-0 table-bordered">
+            <thead>
+              <tr>
+                <th>#SN</th>
+                <th>Year Name</th>
+                <th>Start Date</th>
+                <th>End Dat</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="yearModel.length==0">
+                <td colspan="13" class="font-italic text-center">No item available</td>
+              </tr>
+              <tr *ngFor="let yr of yearModel;let i=index">
+                <td>{{i+1}}</td>
+                <td>{{yr.yearName}}</td>
+                <td>{{yr.startDate | date:'ddMMyyyy'}}</td>
+                <td>{{yr.endDate | date:'ddMMyyyy'}}</td>
+                <td><button (click)="getYearByID(yr.id)" class="btn btn-sm btn-primary"><span class="fas fa-edit"></span></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

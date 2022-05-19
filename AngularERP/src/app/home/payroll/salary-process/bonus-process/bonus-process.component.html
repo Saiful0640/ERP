@@ -1,0 +1,127 @@
+<div class="card">
+  <div class="card-header text-center ">
+      <h4 class="text-center">Bonus Process</h4>
+  </div>
+  <div class="card-body ">
+     <form [formGroup]="formGroup">
+          <div class="card ">
+              <div class="card-body p-1 row no-gutters">
+
+                <div class="col-md-2  row no-gutters">
+                  <label class="col-form-label col-md-4 text-center">Period:</label>
+                  <div class="col-md-8">
+                    <app-period-select-list [periodId]="f['periodID'].value" [moduleID]="moduleId" (onChange)="onSelectPeriod($event)"></app-period-select-list>
+                  </div>
+               </div>
+               <div class="col-md-2  row no-gutters">
+                <label class="col-form-label col-md-4 text-center">Group:</label>
+                <div class="col-md-8">
+                  <!-- <select formControlName="groupID" placeholder="Select" class="custom-select">
+                    <option value="0">Select</option>
+                    <option value="1">Head Office</option>
+                    <option value="2">Marketing</option>
+                    <option value="3">Factory</option>
+                    </select> -->
+                    <app-group-select-list [groupId]="f['groupID'].value" (onChange)="f['groupID'].setValue($event.id)"></app-group-select-list>
+                </div>
+             </div>
+             <div class="col-md-2  row no-gutters">
+                <label class="col-form-label col-md-4 text-center">Section:</label>
+                <div class="col-md-8">
+                  <app-section-select-list [sectionId]="f['sectionID'].value" (onChange)="f['sectionID'].setValue($event.id)"></app-section-select-list>
+                </div>
+             </div>
+             <div class="col-md-2  row no-gutters">
+              <label class="col-form-label col-md-5 text-center">Bonus Type:</label>
+              <div class="col-md-7">
+                <select formControlName="bonusID" placeholder="Select" class="custom-select">
+                  <option value="0">Select</option>
+                  <option value="1">Eid Ul Fitor</option>
+                  <option value="2">Eid Ul Azha</option>
+                  </select>
+              </div>
+           </div>
+           <div class="col-md-2  row no-gutters">
+            <label class="col-form-label col-md-4 text-center">Date:</label>
+            <div class="col-md-8">
+              <app-date-control [ngClass]="{'is-invalid':( f['entryDate'].touched || f['entryDate'].dirty || isSubmit) && f['entryDate'].invalid}" [setNgbDate]="f['entryDateNgb'].value" (getLocalDate)="f['entryDate'].setValue($event)"></app-date-control>
+            <div *ngIf="f['entryDate'].invalid && ( f['entryDate'].touched || f['entryDate'].dirty || isSubmit)"
+              class="text-danger">
+              <i *ngIf="f['entryDate'].errors.required" class="text-danger">Date is required</i>
+            </div>
+            </div>
+         </div>
+             <div class="col-md-2  row no-gutters">
+              <label class="col-form-label col-md-4 text-center"></label>
+              <div class="col-md-8">
+                <button class="btn btn-group mx-2" (click)="getBonusProcess()" type="button">Load Data</button>
+              </div>
+           </div>
+              </div>
+          </div>
+
+          <div class="card mt-3">
+            <div class="card-body p-0">
+                <div class="data-table m-0 p-0">
+                    <table class="table text-center  mb-0 table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width:5%">SL</th>
+                                <th style="width:10%">Emp Name</th>
+                                <th style="width:10%">Designation</th>
+                                <th style="width:10%">Department</th>
+                                <th style="width:10%">Joing Date</th>
+                                <th style="width:10%">Service Period</th>
+                                <th style="width:10%">Gross Salary</th> 
+                                <th style="width:10%">Percentage</th> 
+                                <th style="width:10%">Bonus Amount</th> 
+                                <th style="width:10%">Stamp</th> 
+                                <th style="width:10%">Net Payment</th> 
+                                <th style="width:10%">Remarks</th> 
+                                <th style="width:5%"></th> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="arrayForm.length==0">
+                            <td colspan="100%" class="text-center"><i>No Data found</i></td>
+                        </tr>
+                            <tr *ngFor="let arry of arrayForm.controls;let i=index" [formGroup]="arry">
+                                <td style="width:5%">{{i+1}}</td>
+                                <td style="width:10%"><ng-select formControlName="empCode" [items]="memberInfo" bindLabel="memberName" bindValue="memberCode"  placeholder="Select"></ng-select></td>
+                                <td style="width:10%"><app-designation-select-list [designationId]="f['designationID'].value" (onChange)="f['designationID'].setValue($event.id)"></app-designation-select-list></td>
+                                <td style="width:10%"><app-department-select-list [setDeptId]="f['departmentID'].value" (onChange)="f['departmentID'].setValue($event.id)"></app-department-select-list></td>
+                                <td style="width:10%"><app-date-control [showCurrentDate]="false" [setNgbDate]="arry.value.joiningDateNgb"  (getLocalDate)="arry.value.joiningDate.setValue($event)"></app-date-control></td>
+                                <td style="width:10% "><input formControlName="servicePeriod" class="form-control" placeholder="service period"> </td>  
+                                <td style="width:10% "><input formControlName="grossSalary" (keyup)="onCalculation(i)" class="form-control" placeholder="0.0" type="number"> </td>  
+                                <td style="width:10% "><input formControlName="percentage" (keyup)="onCalculation(i)"  class="form-control" placeholder="0.0" type="number"> </td>  
+                                <td style="width:10% "><input formControlName="bonusAmount" (keyup)="onCalculation(i)"  class="form-control" placeholder="0.0" type="number"> </td>  
+                                <td style="width:10% "><input formControlName="stampAmount" (keyup)="onCalculation(i)"  class="form-control" placeholder="0.0" type="number"> </td>  
+                                <td style="width:10% "><input formControlName="netPayment" class="form-control" placeholder="0.0" type="number" disabled> </td>  
+                                <td style="width:10% "><input formControlName="remarks" class="form-control" placeholder="remarks"> </td>  
+                                <td style="width:5%">
+                                  <button (click)="addRow()" *ngIf="arrayForm.controls.length==(i+1)" class="btn btn-sm btn-success"><span class="fa fa-plus"></span></button>
+                                  <button (click)="removeRow(i)" class="btn btn-sm btn-danger" tabindex="-1"><span class="fa fa-times"></span></button>
+                              </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="row demo-inline-spacing pull-center mt-2" style="margin: 0 auto;">
+                  <div class="col-md-7  row no-gutters">
+                    <label class="col-form-label col-md-2  text-center">Narration:</label>
+                    <div class="col-md-10">
+                      <input formControlName="narration" class="form-control" type="text">
+                    </div>
+                 </div>
+                 <div class="col-md-5 text-right">
+                  <button (click)="reset()" class="btn btn-primary mx-2" type="button"> Refresh</button>
+                  <button (click)="saveData()" class="btn btn-success mx-2" type="button">{{btnStatus}}</button>
+                </div>
+              </div>
+            </div>
+        </div>
+        
+    </form>
+  </div>
+</div>

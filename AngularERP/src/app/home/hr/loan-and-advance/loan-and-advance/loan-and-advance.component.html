@@ -1,0 +1,135 @@
+<div class="card-body">
+    <div class="card">
+      <h4 class="card-header text-center bg-light">
+        Loan And Advance
+      </h4>
+      <div class="card-body">
+        <div class="col-md-6 center">
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Member Code
+            </label>
+            <div class="col-sm-9">
+              <ng-select placeholder="MemberCode"></ng-select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Member Name
+            </label>
+            <div class="col-sm-9">
+              <input name="Name" type="text" class="form-control" placeholder="Member Name" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Loan Type
+            </label>
+            <div class="col-sm-9">
+              <ng-select placeholder="Loan Type"></ng-select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Amount
+            </label>
+            <div class="col-sm-9">
+              <input name="amount" type="number" class="form-control" placeholder="Amount" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Down Payment
+            </label>
+            <div class="col-sm-9">
+              <input name="downPayment" type="number" class="form-control" placeholder="Down Payment" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Loan Amount
+            </label>
+            <div class="col-sm-9">
+              <input name="loanAmount" type="number" class="form-control" placeholder="Loan Amount" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">No Of Installment
+            </label>
+            <div class="col-sm-9">
+              <input name="noofinstallmet" type="number" class="form-control" placeholder="No Of Installment" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Interest
+            </label>
+            <div class="col-sm-9">
+              <input name="interest" type="number" class="form-control" placeholder="Interest" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Net Loan
+            </label>
+            <div class="col-sm-9">
+              <input name="netLoan" type="number" class="form-control" placeholder="Net Loan" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Installment Size
+            </label>
+            <div class="col-sm-9">
+              <input name="installmentSize" type="number" class="form-control" placeholder="Installment Size" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Installment Start
+            </label>
+            <div class="col-sm-9">
+              <ng-select placeholder="Installment Start"></ng-select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Date
+            </label>
+            <div class="col-sm-9">
+                <app-date-control></app-date-control>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 ">Installment Type
+            </label>
+            <div class="col-sm-9">
+              <ng-select placeholder="Installment Type"></ng-select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+              <button type="clear" class="btn btn-info">
+                <span class="ion ion-ios-refresh"></span> Refresh
+              </button>
+              <button class="btn btn-success"> Save
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Loan_Name</th>
+                <th>Net_Lone</th>
+                <th>Installment</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="demo-inline-spacing">
+                  <button class="btn btn-danger btn-sm"><span class="fas fa-trash"></span></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

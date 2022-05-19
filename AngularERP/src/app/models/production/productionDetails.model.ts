@@ -1,0 +1,19 @@
+export class ProductionDetailsModel{
+  id:number
+  challanId:number
+  deliveryLocation:string
+  note:string
+  billTo:string
+  contactNo:string
+  refNo:string
+  transportName:string
+  salesPersonId:string
+  compId:number
+  brId:number
+  natureId:number
+  driverName:string
+  driverContactNo:string
+  transportId:number
+  unitPrice:number
+  challanType:string
+}

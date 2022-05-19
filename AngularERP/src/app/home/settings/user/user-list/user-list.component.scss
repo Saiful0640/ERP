@@ -1,0 +1,34 @@
+td {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.disabled-row {
+    background: rgb(253, 176, 176);
+    color: rgb(41, 41, 41);
+}
+
+.disabled-row:hover {
+    background: rgb(158, 0, 0);
+    color: rgb(252, 252, 252);
+    .fa-edit {
+        color: #fff;
+    }
+}
+
+.active-row {
+    background: rgb(206, 252, 218);
+    color: rgb(65, 65, 65);
+}
+
+.active-row:hover {
+    background: rgb(0, 126, 34);
+    color: rgb(252, 252, 252);
+    .fa-edit {
+        color: #fff;
+    }
+}
+
+.data-table {
+    overflow-y: auto;
+}

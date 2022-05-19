@@ -1,0 +1,49 @@
+<div class="card " style="height: 500px;background: rgb(195, 214, 250);">
+    <div class="card-header">
+        <h4 style="color: rgb(54, 141, 241)" class="text-center">
+            Dues {{type}} List
+            <span (click)="cancel()" class="text-danger fas fa-window-close float-right"></span>
+        </h4>
+    </div>
+    <div class="card">
+        <table class="table text-center table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 20%;">Due Date</th>
+                    <th style="width: 20%;">Bill Date</th>
+                    <th style="width: 20%;">Bill To</th>
+                    <th style="width: 20%;">Due Ammount</th>
+                    <th style="width: 20%;">Account Name</th>
+                    <th style="width: 20%;">Phone</th>
+                    <th style="width: 20%;">Email</th>
+                    <th style="width: 20%;">Address</th>
+                    <th style="width: 10%;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td *ngIf="duesModal.length==0" colspan="13" class="font-italic text-center">No item available</td>
+                </tr>
+                <tr *ngFor="let pcl of duesModal">
+                    <td style="width: 20%;">{{dateFormat.getYyyymmddToDate( pcl.chequeDate)|date:'dd/MM/yyyy'}}</td>
+                    <td style="width: 20%;">{{dateFormat.getYyyymmddToDate( pcl.voucherDate)|date:'dd/MM/yyyy'}}</td>
+                    <td style="width: 20%;">{{pcl.billTo}}</td>
+                    <td style="width: 20%;">{{pcl.netPayable}}</td>
+                    <td style="width: 20%;">{{pcl.accountName}}</td>
+                    <td style="width: 20%;">{{pcl.mobileNo}}</td>
+                    <td style="width: 20%;">{{pcl.email}}</td>
+                    <td style="width: 20%;">{{pcl.address}}</td>
+                    <td style="width: 10%;"><button class="btn btn-sm btn-success" (click)="onSelect(pcl)">
+              <span class="fas fa-edit"></span>
+            </button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+<!-- <app-dues-monitoring></app-dues-monitoring> -->

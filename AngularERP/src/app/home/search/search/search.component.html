@@ -1,0 +1,63 @@
+<div class="modal-header bg-card-footer py-2">
+    <h4 class="mr-auto mb-0">Search Employee</h4>
+    <span class="btn btn-sm btn-danger ml-auto">X</span>
+</div>
+<div class="modal-body">
+    <div class="Form-group row ">
+        <div class="row">
+            <div class="form-group col">
+                <label for="">Name</label>
+                <input name="empName" type="text" class="form-control" placeholder="EmpName">
+            </div>
+            <div class="form-group col">
+                <label for="">Department</label>
+                <input name="department" type="text" class="form-control" placeholder="Department">
+            </div>
+            <div class="form-group col">
+                <label for="">Designation</label>
+                <input name="designation" type="text" class="form-control" placeholder="Designation">
+            </div>
+        </div>
+        <div class="row">
+            Per page: &nbsp;
+            <select class="custom-select custom-select-md d-inline-block w-auto">
+    <option *ngFor="let limit of [5, 10, 20, 30, 40, 50]"></option>
+  </select>
+        </div>
+        <div class="row">
+            <div class="data-table m-0">
+                <table class="table table-bordered  table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>#S/N</th>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Department</th>
+                            <th>Select</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5" class="text-center"><i>No Data found</i></td>
+                        </tr>
+                        <tr *ngFor="let i=index">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><span class=" btn btn-sm btn-info">Select</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h4 class="text-center mt-3">Loading... Please Wait!</h4>
+        </div>
+
+    </div>
+    <div class="row bg-card-footer py-2 px-3 mx-0 mb-0" style="overflow-x:auto; overflow-y:hidden;">
+        <span class="text-muted mr-auto">Page</span>
+        <!-- <ngb-pagination [collectionSize]="totalItems" [pageSize]="perPage" [(page)]="currentPage" (pageChange)="update()" size="sm" class="d-flex justify-content-center justify-content-sm-end m-0">
+        </ngb-pagination> -->
+    </div>

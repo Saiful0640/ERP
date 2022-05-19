@@ -1,0 +1,142 @@
+<div class="card">
+  <div class="card-header">
+    <h5 class="display-4" style="text-align: center;">Discount Settings</h5>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="discountSettingForm">
+      <div class="container">
+        <div class="row">
+          <label class="col-form-label col-md-2 text-right ">Product Category</label>
+          <div class="col-md-10 row">
+            <div class="col-md-5">
+              <app-category-select-list [categoryId]="formVal.categoryId" (change)=" getProducts($event)"
+                (onChange)="onSelectCategory($event)"></app-category-select-list>
+              <div *ngIf="f['categoryId'].invalid && ( f['categoryId'].touched || f['categoryId'].dirty || isSubmitted)"
+                class="text-danger">
+                <i *ngIf="f['categoryId'].errors.required" class="text-danger">Please Select Product Category</i>
+              </div>
+            </div>
+            <div class="col-md-7 row">
+              <label class="col-md-3 col-form-label text-right">Discount Type</label>
+              <div class="col-md-9">
+                <!-- <app-group-account-select-list  [groupAccountmodel]="groupAccountmodel" [lowerGroupID]="lowerGroupID" [groupAccID]="f['accountGroupTypeID'].value" (onChange)="onSelectAccountGroup($event);f['accountGroupTypeID'].setValue($event.id)" [modalName]="accGroupModal" [ngClass]="{'is-invalid':(f['accountGroupTypeID'].touched || f['accountGroupTypeID'].dirty || isSubmitted) && f['accountGroupTypeID'].invalid}" ></app-group-account-select-list> -->
+                <app-group-account-select-list  [lowerGroupID]="lowerGroupID"
+                  [groupAccID]="f['accountGroupTypeID'].value"
+                  (onChange)="onSelectAccountGroup($event);f['accountGroupTypeID'].setValue($event.id)"
+
+                  [ngClass]="{'is-invalid':(f['accountGroupTypeID'].touched || f['accountGroupTypeID'].dirty || isSubmitted) && f['accountGroupTypeID'].invalid}">
+                </app-group-account-select-list>
+                <div
+                  *ngIf="f['accountGroupTypeID'].invalid && ( f['accountGroupTypeID'].touched || f['accountGroupTypeID'].dirty || isSubmitted)"
+                  class="text-danger">
+                  <i *ngIf="f['accountGroupTypeID'].errors.required" class="text-danger">Please Select Discount Type</i>
+                </div>
+                <ng-template #accGroupModal>
+                  <app-account-group-type [lowerGroupID]="lowerGroupID" (onAdd)="onNewAccGroupAdd($event)">
+                  </app-account-group-type>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <table class="table table-bordered text-center">
+            <thead>
+              <tr>
+                <th style="width: 100px;">#SLNo</th>
+                <th style="width: 400px;">Item Name</th>
+                <th style="width: 100px;">Discount Rate</th>
+                <th *ngIf="companyType==5" style="width: 100px;">Depot Discount </th>
+                <th style="width: 100px;"> <input type="checkbox" name="isAllChecked" [checked]="1"
+                    (change)="oncheckedall($event.target.checked)"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let discountSetForm of discountSettingArrayForm.controls; let i=index"
+                [formGroup]="discountSetForm">
+                <td style="width: 100px;">{{i+1}}</td>
+                <td style="width: 400px;">{{discountSetForm.value.itemName}}</td>
+                <td style="width: 100px;"><input formControlName="discountRate" class="form-control"
+                    placeholder="Enter Discount Rate"></td>
+                <td *ngIf="companyType==5" style="width:100px;">
+                  <input type="number" formControlName="depDiscountRate" class="form-control"
+                    placeholder="Enter Depot Dis.">
+                </td>
+                <td style="width:100px;text-align: center;">
+                  <input type="checkbox" name="isChecked" formControlName="isChecked"
+                    [checked]="discountSetForm.value.isChecked"
+                    (change)="getOnSelectedChecked(discountSetForm.value.productId,$event.target.checked)">
+                  <!-- <button class="text-white bg-danger font-weight-bold" type="button"><span class="fa fa-window-close"></span></button> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-3 center">
+          <button [ladda]="isSaved" (click)="saveDiscount()" class="btn btn-success ">{{btnStatus}}</button>
+          <button (click)="reset()" class="btn btn-primary ">Reset</button>
+          <button (click)="newTemplate(disModal)" class="btn btn-info ">Show</button>
+
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Show Button Modal -->
+
+
+<ng-template #disModal>
+  <div class="card " style="height: 500px;background: rgb(173, 198, 243);">
+    <div class="card-header">
+      <h4 style="color: rgb(54, 141, 241)" class="text-center">
+        List
+        <span (click)="cancel()" class="text-danger fas fa-window-close float-right"></span>
+      </h4>
+    </div>
+    <div class="card-body p-0">
+      <div class="input-group row">
+        <label for="itemName" class="col-md-4 text-right font-weight-bold">Search By </label>
+        <div class="col-md-6">
+          <input [(ngModel)]="discountSearch.itemName" (keyup)="filterCommercialBasicEntryList(discountSearch.itemName)"
+            name="itemName" type="text" class="form-control" placeholder=" Search By Product Name  ">
+        </div>
+      </div>
+      <div class="card">
+        <table class="table table-bordered text-center">
+          <thead>
+            <tr>
+              <th style="width: 5%;">SL</th>
+              <th style="width: 20%;">Category Name</th>
+              <th style="width: 30%;">Product Name</th>
+              <th style="width: 30%;">Discount Type</th>
+              <th style="width: 30%;">Discount Rate</th>
+              <th style="width: 30%;">Discount Depo</th>
+              <th style="width: 5%;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let disSet of filterDiscountSettingList;let i=index">
+              <td style="width: 5%;">{{i+1}}</td>
+              <td style="width: 20%;">{{disSet.categoryName}}</td>
+              <td style="width: 30%;">{{disSet.itemName}}</td>
+              <td style="width: 30%;">{{disSet.discountTypeName}}</td>
+              <td style="width: 30%;">{{disSet.discountRate}}</td>
+              <td style="width: 30%;">{{disSet.depDiscountRate}}</td>
+
+              <td style="width: 5%;">
+                <button (click)="onSelect(disSet.id)" class="btn btn-sm btn-success" tabindex="-1"><span
+                    class="fas fa-edit"></span></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</ng-template>
+
+
+
+
+<!-- <app-discount-sattings></app-discount-sattings> -->

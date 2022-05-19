@@ -1,0 +1,176 @@
+<div class="card">
+    <div class="card-header text-center ">
+        <h4 class="text-center">Pending Order</h4>
+    </div>
+    <div class="card-body ">
+        <form [formGroup]="orderForm">
+            <div class="card ">
+                <div class="card-body p-1 row no-gutters">
+
+                    <div class="col-md-3  row no-gutters">
+                        <div class="col-md-12">
+                            <app-customer-select-list [elementId]="'ngSelectParty'" [IsDisabled]="restrictForEdit || isLoadFromOrder" [IsInvalid]="orderForm.invalid && !isSubmit" [customerId]="formVal.partyId" (onChange)="onSelectCustomer($event)">
+                            </app-customer-select-list>
+                            <div *ngIf="orderForm.invalid && isSubmit" class="text-danger">
+                                <i>Customer is required</i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3  row no-gutters">
+                        <label class="col-form-label col-md-5 text-center">Start Date:</label>
+                        <div class="col-md-7">
+                            <app-date-control [setNgbDate]="f['startDateNgb'].value" (getYyyymmdd)="f['startDate'].patchValue($event)" [showCurrentDate]="false" (getNgbDate)="f['startDateNgb'].setValue($event)">
+                            </app-date-control>
+                            <!--  <app-date-control [ngClass]="{'is-invalid':( f['startDate'].touched || f['startDate'].dirty || isSubmit) && f['startDate'].invalid}" [setNgbDate]="f['startDateNgb'].value" (getYyyymmdd)="f['startDate'].setValue($event)"
+                    [showCurrentDate]="false"></app-date-control> -->
+                            <!--  <div *ngIf="f['startDate'].invalid && ( f['startDate'].touched || f['startDate'].dirty || isSubmit)"
+                    class="text-danger">
+                    <i *ngIf="f['startDate'].errors.required" class="text-danger">Date is required</i>
+                  </div> -->
+                        </div>
+                    </div>
+
+                    <div class="col-md-3  row no-gutters">
+                        <label class="col-form-label col-md-5 text-center">End Date:</label>
+                        <div class="col-md-7">
+                            <app-date-control [setNgbDate]="f['endDateNgb'].value" (getYyyymmdd)="f['endDate'].patchValue($event)" [showCurrentDate]="false" (getNgbDate)="f['endDateNgb'].setValue($event)">
+                            </app-date-control>
+                            <!-- <app-date-control [ngClass]="{'is-invalid':( f['endDate'].touched || f['endDate'].dirty || isSubmit) && f['endDate'].invalid}" [setNgbDate]="f['endDateNgb'].value" (getYyyymmdd)="f['endDate'].setValue($event)"  [showCurrentDate]="false"></app-date-control> -->
+                            <!-- <div *ngIf="f['endDate'].invalid && ( f['endDate'].touched || f['endDate'].dirty || isSubmit)"
+                  class="text-danger">
+                  <i *ngIf="f['endDate'].errors.required" class="text-danger">Date is required</i>
+                </div> -->
+                        </div>
+                    </div>
+
+                    <div class="col-md-3  row no-gutters">
+                        <label class="col-form-label col-md-5 text-center">Branch:</label>
+                        <div class="col-md-7">
+                            <ng-select formControlName="branchId" [items]="branch" bindValue="id" bindLabel="name" placeholder="Select"></ng-select>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="card-body p-1 row no-gutters">
+
+                    <div class="col-md-3  row no-gutters">
+                        <label class="col-form-label col-md-2 text-left">Type:</label>
+                        <div class="col-md-8 text-left">
+                            <select formControlName="orderType" class="custom-select" placeholder="Select">
+                      <option value="0">Select</option>
+                     <option value="7">Order</option>
+                    </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-3 ">
+                        <div class="form-group row">
+                            <label for="additional" class=" col-md-5"></label>
+                            <div class="col-md-7">
+                                <div class="custom-control custom-checkbox custom-control-inline ">
+                                    <input formControlName="isActive" type="checkbox" (change)="onSelectCheckBox($event.target.checked)" class="custom-control-input" id="isActive" [checked]="f['isActive'].value"><br/>
+                                    <label class="custom-control-label text-right" for="isActive">All/Pending Order</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3  row no-gutters">
+                        <label class="col-form-label col-md-5 text-center"></label>
+                        <div class="col-md-7">
+                            <button class="btn btn-group mx-0 btn-success" (click)="getPendingOrder()" type="button">Preview</button>
+                            <button class="btn btn-group mx-0 btn-info" (click)="reset()" type="button">Refresh</button>
+                        </div>
+                    </div>
+
+                    <div class="row mx- mb-1 col-md-3 ml-auto">
+                        <div class="input-group">
+                            <input (keyup)="onSearch($event.target.value)" class="form-control" placeholder="Search by party name/order no.">
+                            <div class="input-group-append">
+                                <button class="btn btn-sm btn-primary"><span class="fa fa-search"></span></button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card mt-3">
+                <div class="card-body p-0">
+                    <div class="data-table m-0 p-0">
+                        <table class="table text-center  mb-0 table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width:3%">SL</th>
+                                    <th style="width:12%">Party_Name</th>
+                                    <th style="width:8%">Order_No</th>
+                                    <th style="width:10%">Order_Date</th>
+                                    <th style="width:10%">Total_Amount</th>
+                                    <th style="width:15%">Bill_To</th>
+                                    <th style="width:5%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="filterPendingOrder.length==0">
+                                    <td colspan="7" class="font-italic text-center">No Item available</td>
+                                </tr>
+                                <tr *ngFor="let item of filterPendingOrder; let i=index">
+                                    <td style="width:3%">{{i+1}}</td>
+                                    <td style="width:12% ">{{item.aliasName}}</td>
+                                    <td style="width:8% ">{{item.orderNo}}</td>
+                                    <td style="width:10% ">{{dateformat.getYyyymmddToDate(item.orderDate) | date:'dd/MM/yyyy'}}</td>
+                                    <td style="width:10% ">{{item.netAmount}}</td>
+                                    <td style="width:15% ">{{item.billTo}}</td>
+                                    <td style="width:5%">
+                                        <button (click)="getChallanByOrderId(item)" class="btn btn-sm btn-success">Challan</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-3">
+                <div class="card-body p-0">
+                    <div class="data-table m-0 p-0">
+                        <table class="table text-center  mb-0 table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width:3%">SL</th>
+                                    <th style="width:12%">Challan No</th>
+                                    <th style="width:8%">Challan Date</th>
+                                    <th style="width:10%">Order No</th>
+                                    <th style="width:10%">Unit Qty</th>
+                                    <th style="width:15%">Pcs Qty</th>
+                                    <th style="width:15%">Box Conv</th>
+                                    <th style="width:15%">Factor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="pendingChallan.length==0">
+                                    <td colspan="8" class="font-italic text-center">No Item available</td>
+                                </tr>
+                                <tr *ngFor="let item of pendingChallan; let i=index">
+                                    <td style="width:3%">{{i+1}}</td>
+                                    <td style="width:12% ">{{item.challanNo}}</td>
+                                    <td style="width:10% ">{{dateformat.getYyyymmddToDate(item.challanDate) | date:'dd/MM/yyyy'}}</td>
+                                    <td style="width:15% ">{{item.orderId}}</td>
+                                    <td style="width:10% ">{{item.unitQty}}</td>
+                                    <td style="width:15% ">{{item.pcsQty}}</td>
+                                    <td style="width:15% ">{{item.boxConv}}</td>
+                                    <td style="width:15% ">{{item.factor}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

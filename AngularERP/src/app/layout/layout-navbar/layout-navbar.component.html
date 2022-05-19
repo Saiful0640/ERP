@@ -1,0 +1,26 @@
+<div class="row p-0 m-0">
+    <div class="col-12">
+        <a routerLink="/" class="float-left navbar-brand app-brand demo d-lg-none py-0 mr-4">
+            <span class="app-brand-logo">
+        <img height="50" width="50" src="../../../assets/img/logo.png" alt="logo">
+      </span>
+            <span class="app-brand-text demo font-weight-normal ml-2" (click)="onCompanySelect($event)">{{companyName}}</span>
+        </a>
+        <div class="float-left layout-sidenav-toggle navbar-nav d-lg-none align-items-lg-center mr-auto" *ngIf="sidenavToggle">
+            <a class="nav-item nav-link px-0 mr-lg-4" href="javascript:void(0)" (click)="toggleSidenav()">
+                <i class="ion ion-md-menu text-large align-middle"></i>
+            </a>
+        </div>
+        <div ngbDropdown [placement]="isRTL ? 'bottom-left' : 'bottom-right'" class="demo-navbar-user nav-item float-right">
+            <a class="" href="javascript:void(0)">
+                <span class="d-inline-flex flex-lg-row-reverse align-items-center align-middle">
+          <span>{{userName}}</span>
+                <!-- <img src="assets/img/avatars/1.png" alt class="d-block ui-w-30 rounded-circle"> -->
+                <a class="font-weight-bold p-1 logout" ref="javascript:void(0)" (click)="logout()">
+                    <!-- <i class="ion ion-ios-log-out text-danger font-weight-bold"></i>  -->
+                    &nbsp; Logout &nbsp;</a>
+                </span>
+            </a>
+        </div>
+    </div>
+</div>

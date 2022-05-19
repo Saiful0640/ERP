@@ -1,0 +1,189 @@
+<div class="card" >
+    <div >
+        <h4 class="card-header text-center">Supplier Information </h4>
+    </div>
+    <div class="card-body pt-1 py-0" >
+        <div class="row">
+            <div class="col-md-7 center">
+                <form [formGroup]="supplierForm">
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2 ">Supplier Name</label>
+                        <div class="col-md-9">
+                            <input formControlName="accountName" [ngClass]="{'is-invalid':( f['accountName'].touched || f['accountName'].dirty || isSubmit) && f['accountName'].invalid}" type="text" placeholder="Enter Supplier Name " class="form-control">
+                            <div *ngIf="f['accountName'].invalid && ( f['accountName'].touched || f['accountName'].dirty || isSubmit)" class="text-danger">
+                                <i *ngIf="f['accountName'].errors.required" class="text-danger">Supplier Name is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2 ">Alias Name</label>
+                        <div class="col-md-9">
+                            <input formControlName="aliasName" placeholder="Enter Supplier Alias Name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2">Proprietor Name</label>
+                        <div class="col-md-9">
+                            <input formControlName="proprietorName" placeholder="Enter Proprietor Name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2 ">Contact No</label>
+                        <div class="col-md-9">
+                            <input formControlName="mobileNo" placeholder="Enter Contact No" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2 ">Email</label>
+                        <div class="col-md-9">
+                            <input formControlName="email" type="text" [ngClass]="{ 'is-invalid': ( f['email'].touched || f['email'].dirty || isSubmit) && f['email'].errors }" placeholder="Enter Supplier Email" class="form-control">
+                            <div *ngIf="( f['email'].touched || f['email'].dirty || isSubmit) && f['email'].errors" class="invalid-feedback">
+                                <!-- <div *ngIf="f['email'].errors.required">Email is required</div> -->
+                                <div *ngIf="f['email'].errors.email">Email must be a valid email address</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2 ">Address</label>
+                        <div class="col-md-9">
+                            <textarea formControlName="address" placeholder="Enter Supplier Address" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2 ">Supplier Group</label>
+                        <div class="row col-md-10 ">
+                            <div class="col-md-6">
+                                <app-group-account-select-list  [lowerGroupID]="f['lowerGroupId'].value" [groupAccID]="f['groupAccountID'].value" (onChange)="f['groupAccountID'].setValue($event.id)" ></app-group-account-select-list>
+                                <!-- <ng-template #accGroupModal>
+                                    <app-account-group-type [lowerGroupID]="f['lowerGroupId'].value" (onAdd)="onNewAccGroupAdd($event)"></app-account-group-type>
+                                </ng-template> -->
+                            </div>
+                            <div class="col-md-6 row">
+                              <label class="col-form-label col-md-4">Opening Balance</label>
+                              <div class="col-md-7">
+                                  <input formControlName="openningBalance" class="form-control " placeholder="0.00  " type="number">
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="currencyType" class="col-form-label col-md-2 ">Currency Type </label>
+                        <div class="col-md-10 row">
+                            <div class="col-md-6 ">
+                                <app-currency-type-select-list [currencyId]="f['currencyId'].value" (onChange)="f['currencyId'].setValue($event.idenNo)"></app-currency-type-select-list>
+                            </div>
+                            <div class="col-md-6 row">
+                              <label for="currencyRate" class="col-form-label col-md-4">Currency Rate</label>
+                              <div class="col-md-7">
+                                  <input formControlName="currencyRate" type="number" id="currencyRate" class="form-control" placeholder="0.00">
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-form-label col-md-2">Credit Limit</label>
+                      <div class="row col-md-10">
+                          <div class="col-md-4">
+                              <input formControlName="creditLimit" placeholder="0.00" class="form-control" type="number">
+                          </div>
+                          <label class="col-md-2"></label>
+                          <div class="form-group row col-md-6">
+                              <label class="col-form-label col-md-4">Credit Days</label>
+                              <div class="col-md-7">
+                                  <input formControlName="creditDays" placeholder="0.00" class="form-control" type="number">
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-2">TIN/NID</label>
+                    <div class="row col-md-10">
+                        <div class="col-md-4">
+                            <input formControlName="tIN" placeholder="TIN/NID" class="form-control" type="text">
+                        </div>
+                        <label class="col-md-2"></label>
+                        <div class="form-group row col-md-6">
+                            <label class="col-form-label col-md-4">BIN</label>
+                            <div class="col-md-7">
+                                <input formControlName="bIN" placeholder="BIN" class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="form-group row">
+                        <label for="additional" class="col-form-label col-md-2 ">Additional</label>
+                        <div class="col-md-9">
+
+                            <div class="custom-control custom-checkbox custom-control-inline ">
+                                <input formControlName="isBillbyBill" type="checkbox" class="custom-control-input" id="bilByBill">
+                                <label class="custom-control-label" for="bilByBill">Bill by Bill</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="status" class="col-form-label col-md-2 ">Status</label>
+                        <div class="col-md-9">
+                            <div class="custom-control custom-radio custom-control-inline ">
+                                <input formControlName="isActive" name="isActive" [value]="1" tabindex="-1" type="radio" class="custom-control-input row" id="active" checked>
+                                <label class="custom-control-label" for="active">Active</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline ">
+                                <input formControlName="isActive" name="isActive" [value]="0" tabindex="-1" type="radio" class="custom-control-input" id="inactive">
+                                <label class="custom-control-label" for="inactive">Inactive</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="row demo-inline-spacing center" style="margin: 0 auto;">
+              <button [ladda]="isSave" (click)="onSubmit()" class="btn btn-success float-right mx-1">{{btnStatus}}</button>
+              <button (click)="reset()" class="btn btn-primary float-right mx-1">Reset</button>
+                <button (click)="modalServOpen(accChartListModal)" class="btn btn-info float-right mx-1">Show</button>
+                <button (click)="onPrint()" class="btn btn-success float-right mx-1"><span class="fa fa-print">Print</span></button>
+            </div>
+            <ng-template #saveModal tabindex="-1">
+                <app-conformation-messages [saveOrUpdate]="btnStatus" (onConfirmation)="saveSupplier($event)"></app-conformation-messages>
+            </ng-template>
+            <ng-template #accChartListModal tabindex="-1">
+                <app-account-chart-basic-entry-show-data-temp [lowerGroupId]="f['lowerGroupId'].value" (selectEvent)="getSupplierByID($event)"></app-account-chart-basic-entry-show-data-temp>
+            </ng-template>
+        </div>
+
+        <!-- <div class="card-body scrollmenu ">
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Supplier Name</th>
+                        <th>Alias Name</th>
+                        <th>Contact No</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th class="edTh">Opening Balance</th>
+                        <th class="edTh">Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let sup of supplierModel">
+                        <td>{{sup.accountName}}</td>
+                        <td>{{sup.aliasName}}</td>
+                        <td>{{sup.mobileNo}}</td>
+                        <td>{{sup.email}}</td>
+                        <td>{{sup.address}}</td>
+                        <td class="edTh">{{sup.openningBalance}}</td>
+                        <td class="edTh">
+                            <button class="btn btn-primary" (click)="getSupplierByID(sup.id)">
+              <span class="fas fa-edit">
+                Edit
+              </span>
+            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> -->
+    </div>
+</div>

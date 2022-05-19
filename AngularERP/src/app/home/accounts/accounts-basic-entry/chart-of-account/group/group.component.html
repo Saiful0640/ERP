@@ -1,0 +1,112 @@
+<div class="card">
+  <div class="card-header bg-ligth text-center">
+    <h4>Account Group Creation </h4>
+  </div>
+  <div class="card-body">
+    <div class="container">
+      <div  class="col-md-7 center">
+        <form [formGroup]="groupForm">
+          <div class="form-group row">
+            <label class="col-form-label col-md-3 "><i class="text-danger" >*</i>Under Group</label>
+            <div class="col-md-8">
+              <!-- <app-account-mid-group-select-list [IsInvalid]="groupForm.invalid && !isSubmit" [accountMidGroupID]="f['midGroupId'].value" (onChange)="f['midGroupId'].setValue($event.midGroupId)"
+              (onClicGrpName)="onSelectGrpName($event)"></app-account-mid-group-select-list> -->
+              <ng-select formControlName="midGroupId"
+                          [items]="accountMidGroupModel"
+                          bindLabel="groupName"
+                          bindValue="groupId"
+                          [ngClass]="{'is-invalid':( f['midGroupId'].touched || f['midGroupId'].dirty || isSubmit) && f['midGroupId'].invalid}"
+                          placeholder="Select Under Group">
+                          </ng-select>
+
+              <div *ngIf="f['midGroupId'].invalid && ( f['midGroupId'].touched || f['midGroupId'].dirty || isSubmit)" class="text-danger">
+                <i *ngIf="f['midGroupId'].errors.required" class="text-danger"> Under Group is required</i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+              <label class=" col-form-label col-md-3 "><i class="text-danger" >*</i>  Group Name/Code</label>
+              <div class="col-md-8">
+                <input formControlName="groupName" [ngClass]="{'is-invalid':( f['groupName'].touched || f['groupName'].dirty || isSubmit) && f['groupName'].invalid}" class="form-control" placeholder="Enter Group Name" >
+
+                <div *ngIf="f['groupName'].invalid && ( f['groupName'].touched || f['groupName'].dirty || isSubmit)" class="text-danger">
+                  <i *ngIf="f['groupName'].errors.required" class="text-danger">Group Name or Code is required</i>
+                </div>
+              </div>
+          </div>
+          <div class="form-group row">
+            <label class=" col-form-label col-md-3 "> Group Alias</label>
+            <div class="col-md-8">
+              <input  formControlName="groupNameAlias" class="form-control" placeholder="Sub Group Alias">
+            </div>
+        </div>
+        <div class="form-group row">
+          <label class=" col-form-label col-md-3 ">Bal. Sheet Caption</label>
+          <div class="col-md-8">
+            <input  formControlName="balancesheetCaption" class="form-control" placeholder="Bal. Sheet Caption">
+          </div>
+      </div>
+      <div class="form-group row">
+        <label class=" col-form-label col-md-3 ">Profit/Loss Caption</label>
+        <div class="col-md-8">
+          <input  formControlName="profitLossCaption" class="form-control" placeholder="Profit/Loss Caption">
+        </div>
+    </div>
+    <div class="form-group row">
+      <label class=" col-form-label col-md-3 ">Fundflow Caption</label>
+      <div class="col-md-8">
+        <input  formControlName="fundFlowCaption" class="form-control" placeholder="Fundflow Caption">
+      </div>
+  </div>
+        </form>
+      </div>
+    </div>
+</div>
+     <div class="card-footer ">
+       <div class="col-md-3 row demo-inline-spacing" style="margin: 0 auto;" >
+       <button [ladda]="isSaving" (click)="onSubmit()" class="btn btn-success float-right mx-1"><span class="fas fa-save"></span>{{btnStatus}}</button>
+       <button (click)="reset()" class="btn btn-primary float-right mx-1"><span class="fas fa-remove"></span> Reset</button>
+       <!-- <button (click)="modalServOpen(accGroupListModal)" class="btn btn-info float-right mx-1"><span></span> Show</button> -->
+     </div>
+     <!-- <ng-template #accGroupListModal tabindex="-1" >
+       <app-group-list-temp [midGroupId]="f['midGroupId'].value" (selectEvent)="getAccountGroupByID($event)"></app-group-list-temp>
+     </ng-template> -->
+     </div>
+     <div class="card-body px-2 py-0" >
+      <div class="input-group row">
+        <label for="groupName" class="col-md-4 text-right">Search</label>
+        <div class="col-md-8 ">
+          <input
+          [(ngModel)]="accGrouptSearch.groupName"
+          (keyup)="filterAccountGroup(accGrouptSearch.groupName)"
+          name="groupName"
+          type="text"
+          class="form-control"
+        placeholder=" Search BY Group ">
+        </div>
+      </div>
+    <div class="card" >
+        <table class="table text-center table-bordered" >
+          <thead>
+            <tr>
+              <th style="width: 50%;" >Lower Group</th>
+              <th style="width: 40%;" >Group Alias</th>
+              <th style="width: 10%;" >Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr >
+              <td *ngIf="filteredAccGroup.length==0" colspan="13" class="font-italic text-center">No item available</td>
+            </tr>
+            <tr *ngFor="let ag of filteredAccGroup">
+              <td style="width: 50%;" >{{ag.groupName}}</td>
+              <td style="width: 40%;" >{{ag.groupNameAlias}}</td>
+              <td style="width: 10%;" ><button class="btn btn-sm btn-success" (click)="getAccountGroupByID(ag)">
+                <span class="fas fa-edit"></span>
+              </button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </div>
+</div>

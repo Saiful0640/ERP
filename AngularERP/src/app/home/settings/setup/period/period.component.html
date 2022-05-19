@@ -1,0 +1,95 @@
+<div class="card">
+    <div class="card-header text-center p-1 bg-light">
+        <h4>Period Setup</h4>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="periodForm">
+            <div class="row">
+                <div class="col-md-6 center">
+                    <div class="form">
+                        <div class="form-group row">
+                            <label for="startDate" class="col-md-4">Start Date</label>
+                            <div class="col-md-8">
+                                <app-date-control [ngClass]="{'is-invalid': (isSubmitted || f['startDate'].touched || f['startDate'].dirty) && f['startDate'].invalid}" [showCurrentDate]="false"  [setNgbDate]="f['startDateNgb'].value" (getYyyymmdd)="f['startDate'].setValue($event)" ></app-date-control>
+                                <div *ngIf="f['startDate'].invalid && (isSubmitted || f['startDate'].touched || f['startDate'].dirty)" class="text-danger">
+                                    <i *ngIf="f['startDate'].errors.required">Insert Date</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="endDate" class="col-md-4">End Date</label>
+                            <div class="col-md-8">
+                                <app-date-control [ngClass]="{'is-invalid': (isSubmitted || f['endDate'].touched || f['endDate'].dirty) && f['endDate'].invalid}" [showCurrentDate]="false" [setNgbDate]="f['endDateNgb'].value" (getYyyymmdd)="f['endDate'].setValue($event)"></app-date-control>
+                                <div *ngIf="f['endDate'].invalid && (isSubmitted || f['endDate'].touched || f['endDate'].dirty)" class="text-danger">
+                                    <i *ngIf="f['endDate'].errors.required">Insert Date</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="yearName" class="col-md-4">Year Name</label>
+                            <div class="col-md-8">
+                                <app-year-select-calender-list [ngClass]="{'is-invalid': (isSubmitted || f['yearId'].touched || f['yearId'].dirty) && f['yearId'].invalid}" (onChange)="onSelectYear($event)" [setYearId]="f['yearId'].value"></app-year-select-calender-list>
+                                <div *ngIf="f['yearId'].invalid && (isSubmitted || f['yearId'].touched || f['yearId'].dirty)" class="text-danger">
+                                    <i *ngIf="f['yearId'].errors.required">Select Year</i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="month" class="col-md-4">Month</label>
+                            <div class="col-md-8">
+                                <ng-select formControlName="monthId" [items]="months" bindValue="id" bindLabel="monthName" (change)="onSelectMonth($event)" placeholder="Select Month" >
+                                    
+                                </ng-select>
+                                <div *ngIf="f['monthId'].invalid && (isSubmitted || f['monthId'].touched || f['monthId'].dirty)" class="text-danger">
+                                    <i *ngIf="f['monthId'].errors.required">Select Month</i>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class="col-md-4">Name</label>
+                            <div class="col-md-8">
+                                <input formControlName="periodName" readonly type="text" class="form-control" placeholder="Period Name">
+                            </div>
+                        </div>
+                        <div class="row ml-5 mt-2">
+                            <label for="" class="col-form-label col-sm-2 "></label>
+                            <div class="demo-inline-spacing mt-3">
+                                <button (click)="reset()" class="btn btn-info"><span class="ion ion-ios-refresh"></span> Reset</button>
+                                <button (click)="onSubmit()" class="btn btn-success">{{btnStatus}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered mt-3">
+                    <thead>
+                        <tr>
+                            <th>#SN</th>
+                            <th>Name</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="periodItem.length==0">
+                            <td colspan="5" class="font-italic text-center">No Item available</td>
+                        </tr>
+                        <tr *ngFor="let item of periodItem; let i=index">
+                            <td>{{i+1}}</td>
+                            <td>{{item.periodName}}</td>
+                            <!-- <td>{{item.startDate|date:'dd/MM/yyyy'}}</td>
+                            <td>{{item.endDate|date:'dd/MM/yyyy'}}</td> -->
+                            <td>{{dateformat.getYyyymmddToDate(item.startDate) | date:'dd/MM/yyyy'}}</td>
+                          <td>{{dateformat.getYyyymmddToDate(item.endDate) | date:'dd/MM/yyyy'}}</td>
+                            <td class="demo-inline-spacing">
+                                <button (click)="getPeriodById(item.id,item.moduleId)" class="btn btn-info py-1 px-2 rounded-0"><span
+                              class="fas fa-edit"></span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>

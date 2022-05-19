@@ -1,0 +1,130 @@
+<div class="card">
+    <div class="card-header  text-center">
+        <h4>Bank Information</h4>
+    </div>
+    <div class="card-body">
+        <div class="col-md-7 center">
+            <form [formGroup]="bankForm">
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3 text-right"><i class="text-danger" >*</i> Bank Name</label>
+                    <div class="col-md-9">
+                        <input formControlName="accountName" [ngClass]="{'is-invalid':( f['accountName'].touched || f['accountName'].dirty || isSubmit) && f['accountName'].invalid}" placeholder="Enter Bank Name" type="text" class="form-control">
+                        <div *ngIf="f['accountName'].invalid && ( f['accountName'].touched || f['accountName'].dirty || isSubmit)" class="text-danger">
+                            <i *ngIf="f['accountName'].errors.required" class="text-danger">Bank Name is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3 text-right">Alias Name</label>
+                    <div class="col-md-9">
+                        <input formControlName="aliasName" placeholder="Enter Bank Alias Name" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3 text-right">Bank Account No</label>
+                    <div class="col-md-9">
+                        <input formControlName="accountNo" [ngClass]="{'is-invalid':( f['accountNo'].touched || f['accountNo'].dirty || isSubmit) && f['accountNo'].invalid}" placeholder="Enter Bank Account No" type="text" class="form-control">
+                        <div *ngIf="f['accountNo'].invalid && ( f['accountNo'].touched || f['accountNo'].dirty || isSubmit)" class="text-danger">
+                            <i *ngIf="f['accountNo'].errors.required" class="text-danger">Bank Account No is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3 text-right">Contact No</label>
+                    <div class="col-md-9">
+                        <input formControlName="mobileNo" placeholder="Enter Contact No" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3 text-right">Email</label>
+                    <div class="col-md-9">
+                        <input formControlName="email" type="text" [ngClass]="{ 'is-invalid': ( f['email'].touched || f['email'].dirty || isSubmit) && f['email'].errors }" placeholder="Enter Bank Email" class="form-control">
+                        <div *ngIf="( f['email'].touched || f['email'].dirty || isSubmit) && f['email'].errors" class="invalid-feedback">
+                            <!-- <div *ngIf="f['email'].errors.required">Email is required</div> -->
+                            <div *ngIf="f['email'].errors.email">Email must be a valid email address</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3 text-right">Address</label>
+                    <div class="col-md-9">
+                        <textarea formControlName="address" placeholder="Enter Bank Address" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3 text-right">Branch Name</label>
+                  <div class="col-md-9">
+                    <ng-select   [items]="lstBranchName" bindLabel="name" bindValue="id" (change)="branchIdChange($event)" placeholder="Select Branch Name">
+                    </ng-select>
+                  </div>
+              </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-md-3 text-right">Bank Group</label>
+                    <div class="row col-md-9 ">
+                        <div class="col-md-6">
+                           <app-group-account-select-list [lowerGroupID]="f['lowerGroupId'].value" [groupAccID]="f['groupAccountID'].value" (onChange)="f['groupAccountID'].setValue($event.id)" ></app-group-account-select-list>
+                            <!-- <ng-template #accGroupModal>
+                                <app-account-group-type [lowerGroupID]="f['lowerGroupId'].value" (onAdd)="onNewAccGroupAdd($event)"></app-account-group-type>
+                            </ng-template> -->
+                        </div>
+                        <div class="col-md-6 row">
+                            <label class="col-form-label col-md-4 text-right">Opening Balance</label>
+                            <div class="col-md-8">
+                                <input formControlName="openningBalance" class="form-control " placeholder="0.00  " type="number">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="currencyType" class="col-md-3 text-right">Currency Type </label>
+                    <div class="col-md-9 row">
+                        <div class="col-md-6 ">
+                            <app-currency-type-select-list [currencyId]="f['currencyId'].value" (onChange)="onCurrencySelect($event)"></app-currency-type-select-list>
+                        </div>
+                        <div class="col-md-6 row">
+                            <label for="currencyRate" class="col-form-label col-md-4 text-right">Currency Rate</label>
+                            <div class="col-md-8">
+                                <input formControlName="currencyRate" type="number" id="currencyRate" class="form-control" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="additional" class=" col-md-3 text-right">Additional</label>
+                    <div class="col-md-9 ">
+                        <div class="custom-control custom-checkbox custom-control-inline ">
+                            <input formControlName="isSubledger" type="checkbox" class="custom-control-input" id="subLedger">
+                            <label class="custom-control-label" for="subLedger">Sub Ledger</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="status" class=" col-md-3 text-right">Status</label>
+                    <div class="col-md-9">
+                        <div class="custom-control custom-radio custom-control-inline ">
+                            <input formControlName="isActive" name="isActive" tabindex="-1" [value]="1" type="radio" class="custom-control-input row" id="active" checked>
+                            <label class="custom-control-label" for="active">Active</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline ">
+                            <input formControlName="isActive" name="isActive" tabindex="-1" [value]="0" type="radio" class="custom-control-input" id="inactive">
+                            <label class="custom-control-label" for="inactive">Inactive</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="row demo-inline-spacing center" style="margin: 0 auto;">
+                <button [ladda]="isSave" (click)="confirmSave(saveModal)" class="btn btn-success float-right mx-1">{{btnStatus}}</button>
+                <button (click)="reset()" class="btn btn-primary float-right mx-1">Reset</button>
+                <button (click)="modalServOpen(accChartListModal)" class="btn btn-info float-right mx-1">Show</button>
+            </div>
+            <ng-template #saveModal tabindex="-1">
+                <app-conformation-messages [saveOrUpdate]="btnStatus" (onConfirmation)="saveBank($event)"></app-conformation-messages>
+            </ng-template>
+            <ng-template #accChartListModal tabindex="-1">
+                <app-account-chart-basic-entry-show-data-temp [lowerGroupId]="f['lowerGroupId'].value" (selectEvent)="getBankByID($event)"></app-account-chart-basic-entry-show-data-temp>
+            </ng-template>
+        </div>
+    </div>
+</div>

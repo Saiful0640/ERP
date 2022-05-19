@@ -1,0 +1,77 @@
+<nav class="navbar navbar-expand-lg align-items-lg-center container-p-x" [ngClass]="currentBg()">
+
+  <!-- Brand demo (see demo.css) -->
+  <a routerLink="/" class="navbar-brand app-brand demo d-lg-none py-0 mr-4">
+    <span class="app-brand-logo">
+      <img height="50" width="50" src="../../../assets/img/logo.png" alt="logo">
+    </span>
+    <span class="app-brand-text demo font-weight-normal ml-2">Software Arena Ltd</span>
+  </a>
+
+  <!-- Sidenav toggle (see demo.css) -->
+  <div class="layout-sidenav-toggle navbar-nav d-lg-none align-items-lg-center mr-auto" *ngIf="sidenavToggle">
+    <a class="nav-item nav-link px-0 mr-lg-4" href="javascript:void(0)" (click)="toggleSidenav()">
+      <i class="ion ion-md-menu text-large align-middle"></i>
+    </a>
+  </div>
+
+  <button class="navbar-toggler" type="button" (click)="isExpanded = !isExpanded">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="navbar-collapse collapse" [ngbCollapse]="!isExpanded">
+    <!-- Divider -->
+    <hr class="d-lg-none w-100 my-2">
+
+    
+      <div class="navbar-nav align-items-lg-center flex-row top-nav">
+        <marquee onmouseover="this.stop();" onmouseout="this.start();" scrollamount="5" direction="right">
+        <!-- Search -->
+        <span routerLink='/' class="modules fa fa-home"></span>
+        <span routerLink='/accounts/index' class="modules fa fa-calculator"></span>
+        <span class="modules fa fa-laptop-code"></span>
+        <span class="modules fa fa-laptop-code"></span>
+        <span class="modules fa fa-laptop-code"></span>
+        <span class="modules fa fa-laptop-code"></span>
+        <span class="modules fa fa-laptop-code"></span>
+        <span class="modules fa fa-laptop-code"></span>
+        <span class="modules fa fa-laptop-code"></span>
+        <span class="modules fa fa-laptop-code"></span>
+        <span class="modules fa fa-laptop-code"></span>
+        <span class="modules fa fa-laptop-code"></span>
+        <span class="modules fa fa-laptop-code"></span>
+        <span class="modules fa fa-laptop-code"></span>
+        <span class="modules fa fa-laptop-code"></span>
+        <span class="modules fa fa-laptop-code"></span>
+        <span class="modules fa fa-laptop-code"></span>
+        <span class="modules fa fa-laptop-code"></span>
+        <span routerLink="/settings/index" class="modules fa fa-users-cog"></span>
+        <span class="modules fa fa-question"></span>
+      </marquee>
+      </div>
+
+    <div class="navbar-nav align-items-lg-center">
+     
+      <!-- Divider -->
+      <div class="nav-item d-none d-lg-block text-big font-weight-light line-height-1 opacity-25 mr-3 ml-1">|</div>
+
+      <div ngbDropdown [placement]="isRTL ? 'bottom-left' : 'bottom-right'" class="demo-navbar-user nav-item">
+        <a ngbDropdownToggle class="nav-link" href="javascript:void(0)">
+          <span class="d-inline-flex flex-lg-row-reverse align-items-center align-middle">
+            <img src="assets/img/avatars/1.png" alt class="d-block ui-w-30 rounded-circle">
+            <span class="px-1 mr-lg-2 ml-2 ml-lg-0">admin</span>
+          </span>
+        </a>
+        <div ngbDropdownMenu [class.dropdown-menu-right]="!isRTL">
+          <a href="javascript:void(0)" class="dropdown-item"><i class="ion ion-ios-person text-lightest"></i> &nbsp; My profile</a>
+          <a href="javascript:void(0)" class="dropdown-item"><i class="ion ion-ios-mail text-lightest"></i> &nbsp; Messages</a>
+          <a href="javascript:void(0)" class="dropdown-item"><i class="ion ion-md-settings text-lightest"></i> &nbsp; settings</a>
+          <div class="dropdown-divider"></div>
+          <a href="javascript:void(0)" (click) = "locked()" class="dropdown-item"><i class="ion ion-md-desktop text-lightest"></i> &nbsp; Lock</a>
+          <div class="dropdown-divider"></div>
+          <a href="javascript:void(0)" (click) = "logout()" class="dropdown-item"><i class="ion ion-ios-log-out text-danger"></i> &nbsp; Log Out</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

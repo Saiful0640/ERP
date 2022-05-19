@@ -1,0 +1,49 @@
+.section-1,
+.section-2,
+.section-3,
+.section-4,
+.section-5,
+.section-6 {
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+.content {
+    //box-shadow: 0px 0px 1px 0px rgb(75, 75, 75);
+    background: rgba(229, 251, 253, 0.439);
+}
+
+.hr-line {
+    background: rgb(93, 209, 252);
+    height: 1px;
+    opacity: .5;
+}
+
+.section-title {
+    z-index: 1;
+    width: 100%;
+    top: -8px;
+}
+
+.custom-border {
+    border: 1px solid #bbbaba !important
+}
+
+.additional-title,
+.payment-title {
+    top: -8px;
+    left: 10px;
+}
+
+.additional-title div,
+.payment-title div {
+    background: #d7f1fb;
+}
+
+td {
+    height: inherit;
+}
+
+.table td {
+    padding: 0%;
+}

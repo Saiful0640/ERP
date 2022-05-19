@@ -1,0 +1,40 @@
+<div class="card " style="height: 500px;background: rgb(195, 214, 250);">
+    <div class="card-header">
+        <h4 style="color: rgb(54, 141, 241)" class="text-center">
+            Employee Information List
+            <span (click)="cancel()" class="text-danger fas fa-window-close float-right"></span>
+        </h4>
+    </div>
+    <!-- <div class="modal-body"> -->
+    <div class="card-body px-2 py-0">
+        <div class="input-group row">
+            <label for="memberName" class="col-md-4 text-right">Search</label>
+            <div class="col-md-8 ">
+                <input [(ngModel)]="memSearch.memberName" (keyup)="filterAssMemberInfo(memSearch.memberName)" name="memberName" type="text" class="form-control" placeholder=" Search BY Member ">
+            </div>
+        </div>
+        <div class="card" style="height: 380px;overflow: auto;background: rgb(238, 255, 238);">
+            <table class="table text-center table-bordered">
+                <thead>
+                    <tr>
+                        <th>Member Name</th>
+                        <th>Member Code</th>
+                        <th width="80px">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td *ngIf="filteredMember.length==0" colspan="13" class="font-italic text-center">No item available</td>
+                    </tr>
+                    <tr *ngFor="let mf of filteredMember">
+                        <td>{{mf.memberName}}</td>
+                        <td>{{mf.memberCode}}</td>
+                        <td width="80px">
+                            <button class="btn btn-primary" (click)="onSelect(mf)"><span class="fas fa-edit">Select</span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

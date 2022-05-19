@@ -1,0 +1,17 @@
+<div class="layout-wrapper layout-1" [ngClass]="{'layout-loading': !initialized}">
+  <div class="layout-inner">
+    <div class="layout-container">
+
+      <div class="layout-content">
+        <app-sidenav [moduleId]="moduleId" [orientation]="'horizontal'" ></app-sidenav>
+        <div class="router-transitions flex-grow-1">
+          <router-outlet></router-outlet>
+        </div>
+
+        <app-layout-footer></app-layout-footer>
+      </div>
+    </div>
+  </div>
+</div>
+
+

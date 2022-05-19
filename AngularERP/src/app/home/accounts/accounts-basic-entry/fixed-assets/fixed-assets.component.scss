@@ -1,0 +1,53 @@
+tbody {
+    display:block;
+    height:200px;
+    overflow:scroll;
+  }
+  thead, tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;/* even columns width , fix width of table too*/
+  }
+  thead {
+    width: calc( 100% )/* scrollbar is average 1em/16px width, remove it from thead width */
+  }
+  table {
+    widows: 100%;
+  }
+  th.edTh,td.edTh{
+    width: 100px;
+  }
+  table th,td{
+    vertical-align: middle;
+  }
+  .btn:disabled{
+    cursor: not-allowed;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 5px;
+  }
+  ::-webkit-scrollbar:hover {
+    width: 15px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #eee;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #bbb;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #666;
+  }
+  /* Remove Scoll from input Tag */
+  input[type=number]::-webkit-inner-spin-button, 
+  input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+  }

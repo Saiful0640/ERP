@@ -1,0 +1,167 @@
+<div class="card" >
+  <div class="card-header py-2">
+    <h4 class="text-center mb-0">{{title}} Bill Receipt Entry</h4>
+  </div>
+  <div class="card-body p-4">
+    <form [formGroup]="receiptEntryForm">
+      <div class="card ">
+        <div class="card-body p-1 row">
+            <div class="col-md-4 ">
+                <div class=" row ">
+                    <label class="col-form-label col-md-3 text-right">{{lblname}}</label>
+                    <div class="col-md-9">
+                        <ng-select formControlName="buildingId" [items]="criterias" bindLabel="detailsCaption" bindValue="detailsID" (change)="getSubCriteria(f['buildingId'].value)" placeholder="Select "></ng-select>
+                    </div>
+                </div>
+                <div class="row " *ngIf="lblname2 !=null">
+                    <label class="col-form-label col-md-3 text-right">{{lblname2}}</label>
+                    <div class="col-md-9">
+                        <ng-select formControlName="costCenterId" [items]="subCriterias" bindLabel="detailsCaption" bindValue="detailsID"  placeholder="Select "></ng-select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-4">
+              <div class=" row ">
+                <label class="col-form-label col-md-3 text-right">Period</label>
+                <div class="col-md-9">
+                    <app-period-select-list [periodId]="f['periodID'].value" [moduleID]="moduleId" (onChange)="onSelectPeriod($event)"></app-period-select-list>
+                </div>
+            </div>
+                <div class="row">
+                    <label class="col-form-label col-md-3 text-right">Location</label>
+                    <div class="col-md-9">
+                      <app-location-select-list [setLocationId]="f['locationId'].value" (onChange)="onSelectLocation($event)" ></app-location-select-list>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <label class="col-form-label col-md-3 text-right">Member</label>
+                    <div class="col-md-9">
+                        <app-personal-info-select-list [memberId]="f['memberID'].value"    (onChange)="onSelectMemberInfo($event)"></app-personal-info-select-list>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-form-label col-md-3 text-right">Service</label>
+                    <div class="col-md-9">
+                        <ng-select formControlName="accountId" [items]="servicesByType" bindLabel="serviceName" bindValue="id"  placeholder="Select "></ng-select>
+                    </div>
+                </div> -->
+            </div>
+
+            <div class="col-md-4">
+              <button (click)="createNewView(PreBillModal)" class="btn btn-success mx-2" type="button">Show</button>
+             <!-- <div class="form-group row">
+                <label class="col-form-label col-md-5 ">Pay Type</label>
+                <div class="col-md-7">
+                    <ng-select [items]="moneyReceipts" formControlName="payMode" bindLabel="receivedType" bindValue="id" placeholder="Money Receipts" [id]="'ngSelectPayType'"></ng-select>
+                </div>
+
+            </div>
+            ///For Cheque payment start
+            <div *ngIf="this.f.payMode.value==6" class="card payment-info">
+                <div class="card-body py-1">
+                    <div class="form-group row">
+                        <label class=" col-form-label col-md-5 ">Bank</label>
+                        <div class="col-md-7">
+                          <input formControlName="bankBranch" type="text" class="form-control" placeholder="Bank">
+                        </div>
+                      </div>
+                    <div class="form-group row">
+                        <label class=" col-form-label col-md-5 ">Cheque No</label>
+                        <div class="col-md-7">
+                            <input formControlName="chequeNo" type="number" class="form-control" placeholder="XXX XXXXX XXXXX">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class=" col-form-label col-md-5 ">Cheque Date</label>
+                        <div class="col-md-7">
+                            <app-date-control (getYyyymmdd)="receiptEntryForm.patchValue({chequeDate:$event})"></app-date-control>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           ///  For Cheque payment end
+           /// For mobile banking payment start
+            <div *ngIf="this.f.payMode.value==4" class="card payment-info">
+                <div class="card-body py-1">
+                    <div class="form-group row mb-2">
+                        <label class=" col-form-label col-md-5 ">Type</label>
+                        <div class="col-md-7">
+                            <ng-select formControlName="bankBranch" [items]="mobileBankTypes" bindLabel="name" bindValue="name" type="text" placeholder="Select Type">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class=" col-form-label col-md-5 ">Mobile No</label>
+                        <div class="col-md-7">
+                            <input formControlName="chequeNo" type="number" class="form-control" placeholder="+880 1XXXXXXXXX">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            /// For mobile banking payment end
+          //// For Due payment start
+            <div *ngIf="this.f.payMode.value==0" class="card payment-info">
+                <div class="card-body py-1">
+                    <div class="form-group row">
+                        <label class=" col-form-label col-md-5 ">Payment Date</label>
+                        <div class="col-md-7">
+                            <app-date-control (getYyyymmdd)="receiptEntryForm.patchValue({chequeDate:$event})"></app-date-control>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-body p-0">
+            <div class="data-table m-0 p-0">
+                <table class="table text-center  mb-0 table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width:5%">SL</th>
+                            <th style="width:10%">Code</th>
+                            <th style="width:10%">Name</th>
+                            <th style="width: 100px;" >{{lblname}}</th>
+                             <th style="width: 100px;" *ngIf="lblname2!=null">{{lblname2}}</th>
+                             <th style="width: 100px;" *ngIf="lblname3!=null">{{lblname3}}</th>
+                            <th style="width:10%">Amount</th>
+                            <th style="width:5%"><input type="checkbox" name="isAllChecked" (change)="oncheckedall($event.target.checked)"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <tr>
+                        <td colspan="7" class="text-center"><i>No Data found</i></td>
+                    </tr> -->
+                          <tr *ngFor="let billArr of billCollectionArray.controls;let i=index" [formGroup]="billArr">
+                            <td style="width:5%">{{i+1}}</td>
+                            <td style="width:10% ">{{billArr.value.memberCode}}</td>
+                            <td style="width:10% "> {{billArr.value.memberName}}</td>
+                            <td style="width: 100px;" *ngIf="lblname2!=null"> {{billArr.value.superDetailsCaption}}</td>
+                            <td style="width: 100px;" *ngIf="lblname3!=null"> {{billArr.value.underDetailsCaption}}</td>
+                            <td style="width: 100px;"> {{billArr.value.detailsCaption}}</td>
+                            <td style="width:10% "><input formControlName="amount" class="form-control" placeholder="0.00"> </td>
+                            <td style="width:5%">
+                                <input type="checkbox" name="isChecked" formControlName="isChecked" [checked]="billArr.value.isChecked" (change)="getOnSelectedChecked($event.target.checked,i)">
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row demo-inline-spacing pull-right mt-2" style="margin: 0 auto;">
+                <button (click)="reset()" class="btn btn-primary mx-2" type="button"> Refresh</button>
+                <button (click)="saveBillPre()" class="btn btn-success mx-2" type="button">{{btnStatus}}</button>
+            </div>
+        </div>
+    </div>
+
+    </form>
+  </div>
+</div>
+<ng-template #PreBillModal>
+   <!-- <app-center-prepared-bill-list [type]="f['typeID'].value" [periodId]="f['periodID'].value" (selectEvent)="getListForEditBill($event)"></app-center-prepared-bill-list> -->
+   <app-center-prepared-bill-list [type]="f['typeID'].value" [periodId]="f['periodID'].value" ></app-center-prepared-bill-list>
+</ng-template>

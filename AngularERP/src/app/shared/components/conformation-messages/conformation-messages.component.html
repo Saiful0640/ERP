@@ -1,0 +1,21 @@
+<div class="card">
+    <div class="card-body" *ngIf="compType!=3">
+        <h4 class="card-header" >Are you sure to {{saveOrUpdate}} ?
+        </h4>
+
+    </div>
+    <div class="card-body" *ngIf="compType==3">
+      <h4 class="card-header" >Do you want to {{saveOrUpdate}}<br>
+        <span>{{registrationNo}}</span>
+         <br> Statement No :<span>{{statementNo}}</span>
+         <br>Total Sales Amount :<span>{{totalSalesAmount}}</span>?
+      </h4>
+
+    </div>
+    <div class="card-footer">
+        <div class="pull-right demo-inline-spacing">
+            <button [ladda]="isSaving"  (click)="confirmation()" class="btn btn-success">Confirm</button>
+            <button (click)="close()" class="btn btn-danger">Cancel</button>
+        </div>
+    </div>
+</div>

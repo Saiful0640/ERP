@@ -1,0 +1,615 @@
+<div class="card">
+  <div class="card-header text-center py-1">
+    <h4 class="mb-0">Purchase Return Invoice</h4>
+  </div>
+  <div class="card-body pb-0">
+    <form [formGroup]="invoiceForm">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group row">
+            <div class="row col-md-12">
+              <div class="col-sm-11">
+                <app-customer-select-list
+                  [CustomerType]="CustomerType"
+                  [IsDisabled]="restrictForEdit"
+                  [customerId]="formVal.partyId"
+                  (onChange)="onSelectCustomer($event)"
+                >
+                </app-customer-select-list>
+              </div>
+              <div class="col-sm-2">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    (change)="onSelectAllCustomer($event.target.checked)"
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="all"
+                  />
+                  <label class="custom-control-label" for="all">All</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <input
+                formControlName="voucherNoView"
+                type="text"
+                readonly
+                class="form-control"
+                id="voucherNo"
+                placeholder="Voucher No.."
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group row">
+            <div class="col-md-12">
+              <!-- <app-date-control [disabled]="restrictForEdit" (getYyyymmdd)="invoiceForm.patchValue({voucherDate:$event})"></app-date-control> -->
+              <app-date-control
+                [tabIndexIs]="false"
+                [setNgbDate]="f['voucherDateNgb'].value"
+                (getLocalDate)="changeVoucherNoByDate($event)"
+                (getYyyymmdd)="onSelectVoucherDate($event)"
+                [focusId]="'vtdate'"
+                (getNgbDate)="f['voucherDateNgb'].setValue($event)"
+                [showCurrentDate]="true"
+              ></app-date-control>
+            </div>
+          </div>
+          <br />
+        </div>
+        <div class="col-md-2">
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <input
+                type="text"
+                formControlName="refNo"
+                class="form-control"
+                id="refNo"
+                placeholder="Refarence No..."
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-9">
+          <div class="row data-table bg-white border">
+            <table class="table table-bordered mb-0" style="max-height: 250px">
+              <thead>
+                <tr>
+                  <th style="width: 1%">SN</th>
+                  <th style="width: 30%" class="text-center">Product Name</th>
+                  <th style="width: 5%" class="text-center">Unit</th>
+                  <th style="width: 5%" class="text-center">Return_Qty</th>
+                  <th style="width: 5%" class="text-center">Remain_Qty</th>
+                  <th style="width: 5%" class="text-center">Rate</th>
+                  <th style="width: 5%" class="text-center">Disc(%)</th>
+                  <th style="width: 5%" class="text-center">Vat(%)</th>
+                  <th style="width: 10%" class="text-center">Total</th>
+                  <th style="width: 12%" class="text-center">Net_Amount</th>
+                  <th style="width: 5%" class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let product of ProductForm.controls; let i = index"
+                  [formGroup]="product"
+                  [id]="'tr' + i"
+                >
+                  <td class="text-center">{{ i + 1 }}</td>
+                  <td>
+                    <app-product-select-list
+                      [IsDisabled]="restrictForEdit"
+                      [productId]="getProductVal(i, 'productId')"
+                      (onChange)="getProductInfo($event, i)"
+                      [showSearchBtn]="false"
+                    ></app-product-select-list>
+                  </td>
+                  <td>
+                    <app-unit-select-list
+                      [disabled]="true"
+                      [tabindex]="2"
+                      [unitId]="getProductVal(i, 'unitId')"
+                      (onChange)="
+                        ProductForm.controls[i]
+                          .get('unitId')
+                          .patchValue($event.id)
+                      "
+                    ></app-unit-select-list>
+                  </td>
+                  <td>
+                    <input
+                      (keyup)="
+                        onChangeQty(i);
+                        onChangeProductQty(i);
+                        onChangeReturnQty(i, 'r' + i + 'c' + 4)
+                      "
+                      [id]="'r' + i + 'c' + 4"
+                      type="number"
+                      formControlName="unitQty"
+                      class="form-control text-right"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      [readOnly]="restrictForEdit"
+                      type="number"
+                      formControlName="purchaseQty"
+                      class="form-control text-right"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      [readOnly]="restrictForEdit"
+                      tabindex="{{ i + 1 }}"
+                      (keyup)="onChangeQty(i)"
+                      type="number"
+                      formControlName="unitPrice"
+                      class="form-control text-right"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      (keyup)="onChangeQty(i); onChangeDiscRate(i)"
+                      type="number"
+                      formControlName="discount"
+                      class="form-control text-right"
+                      [min]="0"
+                      [max]="100"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      [readOnly]="restrictForEdit"
+                      (keyup)="onChangeQty(i); onChangeVatRate(i)"
+                      type="number"
+                      formControlName="vat"
+                      class="form-control text-right"
+                      (keydown)="onBlurVatField(i, $event)"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      tabindex="{{ i + 1 }}"
+                      readonly
+                      type="number"
+                      formControlName="total"
+                      [value]="
+                        getProductVal(i, 'total') | number: '1.2-2' | noComma
+                      "
+                      class="form-control text-right"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      tabindex="{{ i + 1 }}"
+                      readonly
+                      type="number"
+                      [value]="
+                        getProductVal(i, 'netAmount')
+                          | number: '1.2-2'
+                          | noComma
+                      "
+                      class="form-control text-right"
+                    />
+                  </td>
+                  <td class="font-weight-bold text-center">
+                    <button
+                      tabindex="{{ i + 1 }}"
+                      (click)="removeRow(i)"
+                      class="py-0 px-2 btn btn-sm btn-danger"
+                    >
+                      <span class="py-0 px-auto fa fa-times"></span>
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="ProductForm.controls.length > 0" class="last-tr">
+                  <td colspan="3" class="text-right">Total</td>
+                  <td class="text-right"></td>
+                  <td class="text-right"></td>
+                  <td class="text-right"></td>
+                  <td class="text-right">
+                    {{ formVal.discountAmount | number: "1.2-2" | noComma }}
+                  </td>
+                  <td class="text-right">
+                    {{ formVal.vatAmount | number: "1.2-2" | noComma }}
+                  </td>
+                  <td class="text-right">
+                    {{ formVal.totalAmount | number: "1.2-2" | noComma }}
+                  </td>
+                  <td class="text-right">
+                    {{ totalNetAmount | number: "1.2-2" | noComma }}
+                  </td>
+                  <td>
+                    <span
+                      *ngIf="!restrictForEdit"
+                      (click)="addRow()"
+                      class="btn btn-sm btn-primary py-0 px-2"
+                      >+</span
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <input
+                    formControlName="billTo"
+                    type="text"
+                    (keydown)="onEnterOrTabKeyDown($event, 'billAddress')"
+                    class="form-control"
+                    placeholder="Bill To"
+                    [id]="'txtBillTo'"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <input
+                    formControlName="billAddress"
+                    (keydown)="onEnterOrTabKeyDown($event, 'billConNo')"
+                    [id]="'billAddress'"
+                    type="text"
+                    class="form-control"
+                    placeholder="Bill Address"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <input
+                    formControlName="billContactNo"
+                    (keydown)="onEnterOrTabKeyDown($event, 'narration')"
+                    type="number"
+                    class="form-control"
+                    [id]="'billConNo'"
+                    placeholder="Bill Contact No"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <textarea
+                    formControlName="narration"
+                    type="text"
+                    class="form-control"
+                    id="narration"
+                    placeholder="Narration"
+                    (keydown)="onBlurNarration($event)"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 bg-white shadow py-2">
+          <div class="form-group row">
+            <label for="transportCost" class="col-form-label col-md-5"
+              >Transport Cost</label
+            >
+            <div class="col-md-5">
+              <input
+                formControlName="transportCost"
+                (keyup)="updateNetPayable()"
+                (keydown)="onEnterOrTabKeyDown($event, 'lobourCost')"
+                type="number"
+                [id]="'txtTransportCost'"
+                class="form-control"
+                id="transportCost"
+                placeholder="0.00"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="lobourCost" class="col-form-label col-md-5"
+              >Labour Cost</label
+            >
+            <div class="col-md-5">
+              <input
+                formControlName="labourCost"
+                (keyup)="updateNetPayable()"
+                (keydown)="onEnterOrTabKeyDown($event, 'miscAdd')"
+                type="number"
+                class="form-control"
+                id="lobourCost"
+                placeholder="0.00"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="miscAdd" class="col-form-label col-md-5"
+              >Misc. Add</label
+            >
+            <div class="col-md-5">
+              <input
+                formControlName="otherAddition"
+                (keyup)="updateNetPayable()"
+                (keydown)="onEnterOrTabKeyDown($event, 'miscDeduct')"
+                type="number"
+                class="form-control"
+                id="miscAdd"
+                placeholder="0.00"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="miscDeduct" class="col-form-label col-md-5"
+              >Misc. deduct</label
+            >
+            <div class="col-md-5">
+              <input
+                formControlName="otherDeduction"
+                (keyup)="updateNetPayable()"
+                (keydown)="onEnterOrTabKeyDown($event, 'paidAmount')"
+                type="number"
+                class="form-control"
+                id="miscDeduct"
+                placeholder="0.00"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="paidAmount" class="col-form-label col-md-5"
+              >Paid Amount</label
+            >
+            <div class="col-md-5">
+              <input
+                formControlName="paidAmount"
+                (keyup)="updateNetPayable()"
+                (keydown)="
+                  onEnterOrTabKeyDownForNgSelect($event, 'salesPersonEmpCode')
+                "
+                type="number"
+                class="form-control"
+                id="paidAmount"
+                placeholder="0.00"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="netPayable" class="col-form-label col-md-5"
+              >Net Payable</label
+            >
+            <div class="col-md-5">
+              <input
+                [readOnly]="restrictForEdit"
+                readonly
+                [value]="formVal.netPayable | number: '1.2-2' | noComma"
+                type="number"
+                class="form-control"
+                id="netPayable"
+                placeholder="0.00"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="netPayable" class="col-form-label col-md-5"
+              >Return By</label
+            >
+            <div class="col-md-7">
+              <app-sales-person-select-list
+                [salesPersonId]="formVal.salesPersonEmpCode"
+                [tabIndexId]="'salesPersonEmpCode'"
+                (onChange)="onSelectSalesman($event)"
+                [width]="'280'"
+              ></app-sales-person-select-list>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-md-5">Payment Type</label>
+            <div class="col-md-7">
+              <ng-select
+                [items]="moneyReceipts"
+                formControlName="payMode"
+                bindLabel="receivedType"
+                bindValue="id"
+                [id]="'ngSelectPayType'"
+                (change)="onChangePaytype($event)"
+                (blur)="onBlurPaytype($event)"
+                placeholder="Money Receipts"
+              ></ng-select>
+            </div>
+          </div>
+          <!-- For Cheque payment start-->
+          <div *ngIf="this.f.payMode.value == 6" class="card payment-info">
+            <div class="card-body py-1">
+              <div class="form-group row">
+                <label class="col-form-label col-md-5">Bank</label>
+                <div class="col-md-7">
+                  <input
+                    formControlName="bankBranch"
+                    [id]="'banks'"
+                    (keydown)="onEnterOrTabKeyDown($event, 'chkNo')"
+                    type="text"
+                    class="form-control"
+                    placeholder="Bank"
+                  />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-form-label col-md-5">Cheque No</label>
+                <div class="col-md-7">
+                  <input
+                    formControlName="chequeNo"
+                    (keydown)="onEnterOrTabKeyDown($event, 'chekDate')"
+                    [id]="'chkNo'"
+                    type="number"
+                    class="form-control"
+                    placeholder="XXX XXXXX XXXXX"
+                  />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-form-label col-md-5">Cheque Date</label>
+                <div class="col-md-7">
+                  <app-date-control
+                    [focusTextFieldName]="'txtBillTo'"
+                    (getYyyymmdd)="onSelectPaymentDateByPAyMode($event)"
+                    [focusId]="'chekDate'"
+                  ></app-date-control>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- For Cheque payment end-->
+          <!-- For mobile banking payment start-->
+          <div *ngIf="this.f.payMode.value == 4" class="card payment-info">
+            <div class="card-body py-1">
+              <div class="form-group row mb-2">
+                <label class="col-form-label col-md-5">Type</label>
+                <div class="col-md-7">
+                  <ng-select
+                    formControlName="bankBranch"
+                    [items]="mobileBankTypes"
+                    bindLabel="name"
+                    bindValue="name"
+                    [id]="'bkType'"
+                    (change)="onSelectBakingType()"
+                    type="text"
+                    placeholder="Select Type"
+                  >
+                  </ng-select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-form-label col-md-5">Mobile No</label>
+                <div class="col-md-7">
+                  <input
+                    formControlName="chequeNo"
+                    (keydown)="onEnterOrTabKeyDown($event, 'txtBillTo')"
+                    type="number"
+                    id="mobile"
+                    class="form-control"
+                    placeholder="+880 1XXXXXXXXX"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- For mobile banking payment end-->
+          <!-- For Due payment start-->
+          <div *ngIf="this.f.payMode.value == 0" class="card payment-info">
+            <div class="card-body py-1">
+              <div class="form-group row">
+                <label class="col-form-label col-md-5">Payment Date</label>
+                <div class="col-md-7">
+                  <app-date-control
+                    [focusTextFieldName]="'txtBillTo'"
+                    (getYyyymmdd)="onSelectPaymentDateByPAyMode($event)"
+                    [focusId]="'pDate'"
+                  ></app-date-control>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- For Due payment end-->
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="card-footer p-0">
+    <div class="row mx-3 pb-2">
+      <div class="mr-auto ml-3">
+        <button
+          type="clear"
+          class="btn btn-sm btn-info"
+          (click)="
+            modalService.open(searchModal, {
+              size: 'lg',
+              windowClass: 'my-class'
+            })
+          "
+          [id]="'btnSearchInvoice'"
+        >
+          Search
+        </button>
+
+        <button
+          type="clear"
+          class="btn btn-sm btn-info"
+          (click)="
+            modalService.open(searchInvoiceModal, {
+              size: 'lg',
+              windowClass: 'my-class'
+            })
+          "
+          [id]="'btnSearchInvoice'"
+        >
+          Search Invoice
+        </button>
+        <button
+          class="btn btn-sm btn-info"
+          (click)="loadChallan(searchChallan)"
+        >
+          Load Challan
+        </button>
+      </div>
+      <div class="m-auto">
+        <button (click)="reset()" class="btn btn-sm btn-info">Reset</button>
+        <button
+          [ladda]="isSaved"
+          (click)="saveInvoice()"
+          class="btn btn-sm btn-success ml-2"
+          (blur)="onBlurPurchaseReturnBtn()"
+          [id]="'btnPurchaseReturn'"
+        >
+          Return Purchase
+        </button>
+        <button
+          routerLink="/inventory/challan/return-receive-challan"
+          class="btn btn-sm btn-primary ml-5"
+        >
+          Go To Challan
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #searchModal>
+  <app-search-invoice
+    [invoiceType]="'PR'"
+    [moduleId]="moduleId"
+    [searchText]="formVal.partyName"
+    [searchLevel]="searchLevelForPR"
+    (onSelect)="edit($event)"
+  >
+  </app-search-invoice>
+</ng-template>
+<ng-template #searchInvoiceModal>
+  <app-search-invoice
+    [invoiceType]="'PU'"
+    [moduleId]="moduleId"
+    [searchText]="formVal.partyName"
+    [searchLevel]="searchLevelForPU"
+    (onSelect)="edit($event)"
+  >
+  </app-search-invoice>
+</ng-template>
+<ng-template #searchChallan>
+  <app-challan-modal
+    [title]="'Receive Return Challan'"
+    [natureId]="formVal.transType"
+    [challanType]="challanType"
+    [searchtext]="formVal.partyName"
+    (onSelectMultiple)="onSelectChallan($event)"
+    [isChallanForBill]="true"
+  >
+  </app-challan-modal>
+</ng-template>

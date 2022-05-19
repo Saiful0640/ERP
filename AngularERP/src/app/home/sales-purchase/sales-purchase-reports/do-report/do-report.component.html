@@ -1,0 +1,137 @@
+<div class="card">
+    <div class="card-header py-2">
+        <h4 class="text-center mb-0">{{title}}</h4>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="rptDOForm">
+            <div *ngIf="pageId==66" class="row">
+                <div class="form-group col-md-2">
+                    <app-date-control [setNgbDate]="f['fromDateNgb'].value" (getLocalDate)="f['startDate'].setValue($event);" (getYyyymmdd)="f['between'].patchValue($event)" [showCurrentDate]="true" (getNgbDate)="f['fromDateNgb'].setValue($event)">
+                    </app-date-control>
+                </div>
+                <div class="form-group col-md-2">
+                    <div class="row p-0 m-0">
+                        <label class="col-3">To</label>
+                        <div class="col-9">
+                            <app-date-control [setNgbDate]="f['todateNgb'].value" (getLocalDate)="f['endDate'].setValue($event);" (getYyyymmdd)="f['and'].patchValue($event)" [showCurrentDate]="true" (getNgbDate)="f['todateNgb'].setValue($event)">
+                            </app-date-control>
+                        </div>
+                    </div>
+                </div>
+                <!--  <div class="col-md-3">
+                <app-customer-select-list-for-order  [CustomerType]="1" [elementId]="'ngSelectParty'"  [customerId]="" (onChange)="formVal.partyId=$event.accountId;">
+                </app-customer-select-list-for-order>
+              </div> -->
+
+                <div class="col-md-8 mr-0 p-0">
+                    <div class="row p-0">
+                       <div class="custom-control  custom-checkbox">
+                            <input (change)="onSelectAllChallan($event.target.checked)" type="checkbox" class="custom-control-input" id="isOrder">
+                         <label class="custom-control-label" for="isOrder"></label>
+                        </div>
+
+
+                        <div>
+                            <span [ladda]="isLoading" (click)="getAllDoForReport()" class="btn py-1 btn-success">View</span>
+                            <span (click)="reset()" class="btn py-1 btn-info">Reset</span>
+                        </div>
+                        <div class="row ml-2">
+                            <div class="ml-auto mr-3">
+                                <input style="width: 300px;" (keyup)="DOReportsfilter($event.target.value)" class="form-control" placeholder="Search by DO No/Party Name">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Start  Slaes Report -->
+            <div *ngIf="pageId==69" class="row no-gutters">
+                <div class="col-md-2">
+                    <app-date-control [setNgbDate]="f['fromDateNgb'].value" (getLocalDate)="f['startDate'].setValue($event);" (getYyyymmdd)="f['between'].patchValue($event)" [showCurrentDate]="false" (getNgbDate)="f['fromDateNgb'].setValue($event)">
+                    </app-date-control>
+                </div>
+                <div class="form-group col-md-3 row">
+                    <label class="col-form-label col-md-2 text-right ">To</label>
+                    <div class="col-md-8">
+                        <app-date-control [setNgbDate]="f['todateNgb'].value" (getLocalDate)="f['endDate'].setValue($event);" (getYyyymmdd)="f['and'].patchValue($event)" [showCurrentDate]="false" (getNgbDate)="f['todateNgb'].setValue($event)">
+                        </app-date-control>
+                    </div>
+                </div>
+                <div class="col-md-4 row no-gutters">
+                    <div class=" col-md-6 ">
+
+                        <app-customer-select-list-for-order [CustomerType]="1" [elementId]="'ngSelectParty'" [customerId]="" (onChange)="formVal.partyId=$event.accountId;">
+                        </app-customer-select-list-for-order>
+                    </div>
+                    <div class="col-md-6">
+                        <app-product-select-list [width]="'150px'" [productTabId]="'product'" (onChange)="$event.productId"></app-product-select-list>
+
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="row p-0 m-0">
+                        <div class="col-7">
+                            <span [ladda]="isLoading" (click)="getAllDoForReport()" class="btn py-1 btn-success">View</span>
+                            <span (click)="reset()" class="btn py-1 btn-info">Reset</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--   End Sales Report -->
+
+            <div class="card mt-3">
+                <div class="card-body p-0">
+                    <div *ngIf="pageId==69" class="row">
+                        <div class="ml-auto mr-3">
+                            <app-report-select-list [moduleId]="subModuleId" [pageId]="pageId" [isExporting]="isExporting" (onChangeExportType)="exportType=$event.exportType" (onChangeReportType)="reportId=$event.reportId" (onClick)="onExportSalesReport($event)"></app-report-select-list>
+                        </div>
+                    </div>
+                    <div *ngIf="pageId==69" class="row">
+                        <div class="ml-auto mr-3">
+                            <input (keyup)="DOReportsfilter($event.target.value)" class="form-control" placeholder="Search by DO No/Account ID">
+                        </div>
+                    </div>
+                    <div class="data-table m-0">
+                        <table class="table mb-0 table-bordered" style="height:auto;">
+                            <thead>
+                                <tr>
+                                    <th class="tc-80">SL</th>
+                                    <th class="tc-100">Order No</th>
+                                    <th class="tc-100">Order Date</th>
+                                    <th  class="tc-100">Challan No</th>
+                                    <th  class="tc-100">Challan Date</th>
+                                    <th class="tc-200">Customer Name</th>
+                                    <th class="tc-100">Order Amount</th>
+                                    <th class="tc-100">Order Qty</th>
+                                    <th class="tc-100">Delivery Qty</th>
+                                    <th class="tc-80">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="filterDOModel.length==0">
+                                    <td colspan="8" class="text-center"><i>No Data found</i></td>
+                                </tr>
+                                <tr *ngFor="let rptdo of filterDOModel; let i=index">
+                                    <td class="tc-80">{{i+1}}</td>
+                                    <td class="tc-100">{{rptdo.orderNo}}</td>
+                                    <td class="tc-100">{{rptdo.orderDate}}</td>
+                                    <td class="tc-100">{{rptdo.challanNo}}</td>
+                                    <td class="tc-100">{{rptdo.challanDate}}</td>
+                                    <td class="tc-200">{{rptdo.customerName}}</td>
+                                    <td class="tc-100">{{rptdo.orderAmount}}</td>
+                                    <td class="tc-100 text-left">{{rptdo.orderQty}}</td>
+                                    <td class="tc-100">{{rptdo.delivaryQty}}</td>
+                                   
+                                    <td class="tc-80">
+                                        <button [ladda]="isPrinting" (click)="onPrint(rptdo.orderId)" class="btn btn-sm btn-success"><span class="fa fa-eye"></span> View</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

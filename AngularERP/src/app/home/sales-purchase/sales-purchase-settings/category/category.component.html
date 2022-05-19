@@ -1,0 +1,93 @@
+<div class="card">
+    <h4 class="card-header text-center p-1">Product Category</h4>
+    <div class="card-body">
+        <div class="row px-2">
+            <div *ngIf="pageAuthInfo.createable" class="col-md-5">
+                <form [formGroup]="categoryForm">
+                    <div class="form-group row">
+                        <label for="underGroup" class=" col-form-label col-md-4">Under Group</label>
+                        <div class="col-md-8">
+                            <ng-select formControlName="parentId" [items]="parentCategory" bindLabel="categoryName" bindValue="categoryId" placeholder="Seelct Under Group"></ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="category" class=" col-form-label col-md-4"> <i class="text-danger">*</i>Category</label>
+                        <div class="col-md-8">
+                            <input formControlName="categoryName" id="category" class="form-control" [ngClass]="{'is-invalid':(f['categoryName'].touched || f['categoryName'].dirty || isSubmit) && f['categoryName'].invalid}" placeholder="Enter Category">
+                            <div *ngIf="f['categoryName'].invalid && (f['categoryName'].touched || f['categoryName'].dirty || isSubmit)">
+                                <i *ngIf="f['categoryName'].errors.required" class="text-danger">Category Name is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="description" class=" col-form-label col-md-4">Description</label>
+                        <div class="col-md-8">
+                            <input formControlName="categoryDescription" id="description" class="form-control" placeholder="Enter Description">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="type" class=" col-form-label col-md-4"><i class="text-danger">*</i>Type</label>
+                        <div class="col-md-8">
+                            <ng-select formControlName="productType" [items]="productType" bindLabel="name" bindValue="id" [ngClass]="{'is-invalid':( f['productType'].touched || f['productType'].dirty || isSubmit) && f['productType'].invalid}" placeholder="Seelct Product Type"></ng-select>
+                            <div *ngIf="f['productType'].invalid && ( f['productType'].touched || f['productType'].dirty || isSubmit)" class="text-danger">
+                                <i *ngIf="f['productType'].errors.required" class="text-danger">Type is required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-md-4"></label>
+                        <div class="col-md-8">
+                            <div class="custom-control custom-checkbox  row ">
+                                <input formControlName="isParent" type="checkbox" class="custom-control-input row" id="isParent" checked>
+                                <label class="custom-control-label" for="isParent">Is Parent</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button [ladda]="isSaved" (click)="saveCategory()" class="btn btn-success pull-right mr-2">{{btnStatus}}</button>
+                            <button (click)="reset()" class="btn btn-secondary pull-right mr-2">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-7 mx-auto">
+                <div class="row mr-2">
+                    <div class="input-group col-md-8 ml-auto pr-0">
+                        <input (keyup)="onSearch($event.target.value)" type="text" class="form-control" placeholder="Search by name or description" style="border-radius: 0;">
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-sm btn-primary border-0 ml-0" style="border-radius: 0;">
+                     <span class="fa fa-search"></span>
+                   </button>
+                    </div>
+                </div>
+                <div class="data-table">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>#SL</th>
+                                <th>Category Name</th>
+                                <th>Description</th>
+                                <th>Parent</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let cat of filteredcategories; let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{cat.categoryName}}</td>
+                                <td>{{cat.categoryDescription}}</td>
+                                <td>{{cat.parentName}}</td>
+                                <td>
+                                    <button *ngIf="pageAuthInfo.editable" (click)="edit(cat.categoryId)" class="btn btn-primary px-1 py-0"><span
+                      class="fa fa-edit"></span></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

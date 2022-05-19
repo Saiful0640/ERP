@@ -1,0 +1,13 @@
+<div class="input-group">
+  <ng-select [(ngModel)]="selectedReport.reportId" name="reportId" [items]="reports"
+    bindLabel="reportName" bindValue="reportId" (change)="onChangeRptType()" [ngStyle]="{width:reportTypeWidth}" placeholder="Report Type"></ng-select>
+  <div class="input-group=append">
+    <ng-select [(ngModel)]="selectedReport.exportType" name="exportTypes" [items]="exportTypes"
+    bindLabel="typeName" bindValue="type" (change)="onChangeExport()" [ngStyle]="{width:exportTypeWidth}" placeholder="Export Type" >
+    </ng-select>
+  </div>
+  <div class="input-group-append">
+    <button [ladda]="isExporting" (click)="onExport()" class="btn btn-sm btn-primary"><span
+        class="fa fa-download"></span></button>
+  </div>
+</div>

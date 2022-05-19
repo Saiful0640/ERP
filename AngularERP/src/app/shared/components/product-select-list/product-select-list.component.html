@@ -1,0 +1,142 @@
+<div class="input-group">
+    <ng-select [(ngModel)]="productId" [ngStyle]="{'width': width}" name="productId" (change)="onSelect($event)" [items]="products" bindLabel="name" bindValue="id" [disabled]="IsDisabled" placeholder="Select Product" [id]="productTabId">
+    </ng-select>
+    <div *ngIf="showSearchBtn" class="input-group-append">
+        <button type="button" (click)="openSearchModal(searchModal)" class="btn btn-sm btn-primary" [id]="productSearchBtnId"><span
+        class="fa fa-search"></span></button>
+    </div>
+</div>
+
+<ng-template #searchModal>
+    <div class="card" (keydown)="onEnterOrTabKeyDown($event,'productTabId')">
+        <div class="card-header py-1">
+            <h4 class="mb-0 text-center">
+                Search Product
+                <div (click)="closeModal()" class="btn btn-sm btn-danger float-right"><span class="fa fa-times"></span></div>
+            </h4>
+
+        </div>
+        <div class="card-body p-1 m-1">
+            <div class="row mx-3 mb-1">
+                <div class="input-group">
+                    <input type="text" autocomplete="off" (keydown)="search($event);" class="form-control" placeholder="Search by Name" [id]="'txtSearch'">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-sm btn-primary"><span class="fa fa-search" [tabindex]="-1"></span></button>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="filtered.length>0" class="data-table m-0">
+                <table class="table table-bordered mb-0">
+                    <thead>
+                        <tr>
+                            <th class="tc-80">#SN</th>
+                            <th class="tc-250">Name</th>
+                            <th *ngIf="companyId!=92" class="tc-80">Factor</th>
+                            <th *ngIf="companyId==92" class="tc-80">Length</th>
+                            <th *ngIf="companyId!=92" class="tc-80">BoxConv</th>
+                            <th *ngIf="companyId==92" class="tc-80">Kg/Ft</th>
+                            <th class="tc-80">StockQty</th>
+                            <th class="tc-100">Price</th>
+                            <th class="tc-80"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of filtered; let i=index" (click)="onSelect(product)" [id]="'row'+i">
+                            <td class="tc-80">{{i+1}}</td>
+                            <td class="tc-250">{{product.name}}</td>
+                            <td class="tc-80">{{product.billUnitFactor}}</td>
+                            <td class="tc-80">{{product.boxConv}}</td>
+                            <td class="tc-80 text-right">{{product.stockQty | number:'2.2-2'}}</td>
+                            <td class="tc-100 text-right">{{product.salePrice | number:'2.2-2'}}</td>
+                            <td class="tc-80">
+                                <button (click)="onSelect(product)" (keyup)="search($event)" [id]="'btnSelectProduct'+i" class="btn btn-sm btn-primary">Select</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div *ngIf="filtered.length==0" class="row px-3 py-1">
+                <div class="col-12">
+                    <h5 class="text-center text-danger">No product found. Add new product.</h5>
+                </div>
+            </div>
+            <div *ngIf="filtered.length==0" class="row px-3 py-1">
+                <div class="col-12">
+                    <form>
+                        <div class="form-group row">
+                            <label for="catagory" class="col-md-4 ">Catagory <span class="text-danger">*</span></label>
+                            <div class="col-md-8">
+                                <app-category-select-list [isRequired]="true" [categoryId]="productModel.categoryId" [isParent]="-1" (onChange)="productModel.categoryId=$event.categoryId"></app-category-select-list>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name" class=" col-md-4 ">Product Name <span class="text-danger">*</span></label>
+                            <div class="col-md-8">
+                                <input [(ngModel)]="productModel.name" name="name" #name="ngModel" type="text" class="form-control" required placeholder="Enter Product Name">
+                                <div *ngIf="name.invalid && (name.touched || name.dirty)">
+                                    <span *ngIf="name.errors && name.errors.required" class="text-danger">Name is required</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="unitOfMeasure" class="col-md-4 ">Unit Of Measure <span class="text-danger">*</span></label>
+                            <div class="col-md-8">
+                                <app-unit-select-list [unitId]="productModel.unitId" (onChange)="onChangeDefaultUnit($event)">
+                                </app-unit-select-list>
+                            </div>
+                        </div>
+                        <div class="form-group row ">
+                            <label for="territory" class="col-md-4 ">Unit Conversion</label>
+                            <div class="col-md-8">
+                                <div class="row data-table" style="max-height: 200px;">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>UOM</th>
+                                                <th>Factor</th>
+                                                <th>Bill</th>
+                                                <th>Challan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let puForm of productUnitFormArray.controls;let i=index" [formGroup]="puForm">
+                                                <td>{{puForm.value.unitName}}</td>
+                                                <td class="factor">
+                                                    <input formControlName="factor" type="number" class="form-control" placeholder="0.00" />
+                                                </td>
+                                                <td>
+                                                    <input (change)="onCheck(i,'isDefaultBillUnit')" formControlName="isDefaultBillUnit" type="checkbox" />
+                                                </td>
+                                                <td>
+                                                    <input (change)="onCheck(i,'isDefaultChallanUnit')" formControlName="isDefaultChallanUnit" type="checkbox" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="costPrice" class=" col-md-4 ">Cost Price</label>
+                            <div class="col-md-8">
+                                <input [(ngModel)]="productModel.costPrice" name="costPrice" type="number" class="form-control" placeholder="00.00">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="salesPrice" class=" col-md-4 ">Sales Price</label>
+                            <div class="col-md-8">
+                                <input [(ngModel)]="productModel.salePrice" name="salesPrice" type="number" class="form-control" placeholder="00.00">
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <div class="row ml-auto mr-3 mt-2">
+                                <button type="reset" (click)="reset()" class="btn btn-info">Reset</button>
+                                <button (click)="onSubmit()" class="btn btn-success ml-2">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

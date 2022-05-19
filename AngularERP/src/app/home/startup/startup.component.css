@@ -1,0 +1,45 @@
+.module{
+    background-color: #fff;
+    padding: auto;
+    text-align: center;
+    min-height: 6rem;
+    cursor: pointer;
+    box-shadow: 0px 0px 5px 0px #333;
+    color:rgb(56, 141, 56)
+}
+.module:hover{
+    box-shadow: 0px 0px 10px 0px #333;
+    border-radius: 5px;
+    transition: .3s;
+}
+span{
+    font-size: 2rem;
+}
+.disabled{
+   cursor: no-drop;
+   box-shadow: 0px 0px 0px 0px;
+}
+.disabled:hover{
+   box-shadow: 0px 0px 0px 0px;
+}
+
+#toast-container > div {
+    opacity: 1;
+  }
+  .toast {
+    font-size: initial !important;
+    border: initial !important;
+    backdrop-filter: blur(0) !important;
+  }
+  .toast-success {
+    background-color: #51A351 !important;
+  }
+  .toast-error {
+    background-color: #BD362F !important;
+  }
+  .toast-info {
+    background-color: #2F96B4 !important;
+  }
+  .toast-warning {
+    background-color: #F89406 !important;
+  }

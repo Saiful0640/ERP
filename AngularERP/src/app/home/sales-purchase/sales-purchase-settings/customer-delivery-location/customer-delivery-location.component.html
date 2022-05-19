@@ -1,0 +1,109 @@
+<div class="card">
+    <h4 class="card-header text-center p-1">Customer Delivery Information</h4>
+    <div class="card-body">
+        <div class="row px-2">
+            <div class="col-md-5">
+                <form [formGroup]="locationForm">
+
+                    <div class="form-group row">
+                        <label class=" col-form-label col-md-4">Customer<i class="text-danger">*</i></label>
+                        <div class="col-md-8 input-group">
+                            <ng-select formControlName="accountId" [items]="customers" bindLabel="formattedName" bindValue="accountId" [ngClass]="{'is-invalid':(f['accountId'].touched || f['accountId'].dirty || isSubmitted) && f['accountId'].invalid}" (change)="getAllLocation();"
+                                (change)="onSelectCustomer($event)" placeholder="Select Customer" style="width: 305px;">
+                            </ng-select>
+                            <!--                             <app-customer-select-list  (change)="getAllLocationList(f.accountId.value);" (onChange)="onSelectCustomer($event)"></app-customer-select-list>
+ -->
+                            <!--  For creating Search Modal -->
+                            <div class="input-group-append">
+                                <button (click)="newTemplate(Searchmodal)" class="btn btn-sm btn-primary py-1"><span
+                                        class="fa fa-search"></span>
+                                </button>
+                                <div *ngIf="f['accountId'].invalid && ( f['accountId'].touched || f['accountId'].dirty || isSubmitted)" class="text-danger">
+                                    <i *ngIf="f['accountId'].errors.required" class="text-danger">Account Name is
+                                        required</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="location" class=" col-form-label col-md-4">Location<i
+                                class="text-danger">*</i></label>
+                        <div class="col-md-8">
+                            <input formControlName="location" [ngClass]="{'is-invalid':(f['location'].touched || f['location'].dirty || isSubmitted) && f['location'].invalid}" id="location" class="form-control" placeholder="Location">
+                            <div *ngIf="f['location'].invalid && ( f['location'].touched || f['location'].dirty || isSubmitted)" class="text-danger">
+                                <i *ngIf="f['location'].errors.required" class="text-danger">Location Name is
+                                    required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="customerAddress" class=" col-form-label col-md-4">Address<i
+                                class="text-danger">*</i></label>
+                        <div class="col-md-8">
+                            <input formControlName="customerAddress" [ngClass]="{'is-invalid':(f['customerAddress'].touched || f['customerAddress'].dirty || isSubmitted) && f['customerAddress'].invalid}" id="customerAddress" class="form-control" placeholder="Enter Address">
+                            <div *ngIf="f['customerAddress'].invalid && (f['customerAddress'].touched || f['customerAddress'].dirty || isSubmitted)" class="text-danger">
+                                <i *ngIf="f['customerAddress'].errors.required" class="text-danger">Address is
+                                    required</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="mobileNo" class=" col-form-label col-md-4">MobileNo<i
+                              class="text-danger">*</i></label>
+                        <div class="col-md-8">
+                            <input formControlName="mobileNo" [ngClass]="{'is-invalid':(f['mobileNo'].touched || f['mobileNo'].dirty || isSubmitted) && f['mobileNo'].invalid}" id="mobileNo" class="form-control" placeholder="Enter MobileNo">
+                            <div *ngIf="f['mobileNo'].invalid && (f['mobileNo'].touched || f['mobileNo'].dirty || isSubmitted)" class="text-danger">
+                                <i *ngIf="f['mobileNo'].errors.required" class="text-danger">Mobile is
+                                  required</i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <!-- <button [ladda]="isSave" (click)="confirmSave(saveModal)" class="btn btn-success pull-right mr-2"><span class="fas fa-save"></span>{{btnStatus}}</button> -->
+                            <button [ladda]="isSave" (click)="saveLocation()" class="btn btn-success pull-right mr-2"><span
+                                    class="fas fa-save"></span>{{btnStatus}}</button>
+                            <button (click)="reset()" class="btn btn-secondary pull-right mr-2">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-7">
+                <div class="data-table">
+                    <table class="table table-bordered text-center">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">#SL</th>
+                                <th style="width: 200px;">Customer</th>
+                                <th style="width: 70px;">Location</th>
+                                <th style="width: 200px;">Address</th>
+                                <th style="width: 60px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let loc of locations; let i=index">
+                                <td style="width: 50px;">{{i+1}}</td>
+                                <td style="width: 200px;">{{loc.formatedName}}</td>
+                                <td style="width: 70px;">{{loc.location}}</td>
+                                <td style="width: 200px;">{{loc.customerAddress}}</td>
+                                <td style="width: 60px;">
+                                    <button (click)="edit(loc.locationID)" class="btn btn-primary px-1 py-0"><span
+                                            class="fa fa-edit"></span></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #Searchmodal>
+    <app-customer-location-search [accountId]="this.f.accountId.value"></app-customer-location-search>
+</ng-template>
+<ng-template #saveModal>
+    <app-conformation-messages (onConfirmation)="saveLocation($event)" [saveOrUpdate]="btnStatus">
+    </app-conformation-messages>
+</ng-template>

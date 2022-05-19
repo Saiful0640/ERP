@@ -1,0 +1,128 @@
+<div class="card">
+  <div class="card-header py-0">
+      <h4 class="text-center">{{rptName}} Report
+          <span *ngIf="accountId !=null" (click)="cancel()" class="text-danger fas fa-window-close float-right"></span>
+      </h4>
+  </div>
+  <div class="card-body p-2 mt-0">
+      <form [formGroup]="rptLedgerForm">
+          <div class="row no-gutters">
+              <div class="col-md-2">
+                  <app-date-control [setNgbDate]="f['fromDateNgb'].value" (getLocalDate)="f['fromDate'].setValue($event);" (getYyyymmdd)="f['between'].patchValue($event)" (getNgbDate)="f['fromDateNgb'].setValue($event)">
+                  </app-date-control>
+              </div>
+              <div class="form-group col-md-3 row">
+                  <label class="col-form-label col-md-2 text-right ">To</label>
+                  <div class="col-md-10">
+                      <app-date-control [setNgbDate]="f['todateNgb'].value" (getLocalDate)="f['todate'].setValue($event);" (getYyyymmdd)="f['and'].patchValue($event)" (getNgbDate)="f['todateNgb'].setValue($event)">
+                      </app-date-control>
+                  </div>
+              </div>
+              <div class="col-md-4 row no-gutters">
+
+                 <!--  <div class=" col-md-6 " *ngIf="compId!=92">
+                   
+                      <app-account-group-select-list [accountGroupID]="f['lowerGroupId'].value" (onChange)="getAllAccountGroup($event)"></app-account-group-select-list>
+                  </div>
+                  <div class="col-md-6" *ngIf="compId!=92">
+   
+                      <ng-select formControlName="ledgerId" (change)="onSelectAcc($event)" [items]="ledgerModel" bindLabel="accountName" bindValue="accountId" placeholder="Select Account Name" style="text-align: left;"></ng-select>
+                  </div> -->
+                  <div class="col-md-6 " *ngIf="compId!=92">
+                    <ng-select formControlName="accountId" (change)="onSelectAcc($event)" [items]="ledgerModel" bindLabel="accountName" bindValue="accountId" placeholder="Select Account Name" style="text-align: left;"></ng-select>
+                 </div>
+                <div class="col-md-6 ">
+                <app-customer-select-list-for-order (onChange)="onSelectCustomer($event)"></app-customer-select-list-for-order>
+          </div>
+                  <div class="col-md-6 " *ngIf="rptName=='Subledger'">
+                      <ng-select formControlName="ledgerId" [items]="subledgers" bindLabel="subledgerName" bindValue="subledgerId" placeholder="Select Subledger"></ng-select>
+
+                  </div>
+                  <div class="col-md-6" *ngIf="rptName=='CostCenter'">
+                      <app-trans-cost-cenetr-select-list [isCostCenter]="isCostCenter" [moduleId]="parentModuleID" [transCostCenterID]="f['ledgerId'].value" (onChange)="onSelctCostCenter($event)"></app-trans-cost-cenetr-select-list>
+
+                  </div>
+              </div>
+
+              <div class="col-md-3">
+                  <div class="row p-0 m-0">
+                      <div class="col-8">
+                          <span [ladda]="isLoading" (click)="getAllLedgerForReport()" class="btn py-1 btn-success">View</span>
+                          <span (click)="reset()" class="btn py-1 btn-info">Reset</span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-10">
+
+              </div>
+          </div>
+          <div class="card mt-1">
+              <div class="card-body p-0">
+                  <div class="row">
+                      <div class="ml-auto mr-3">
+                          <app-report-select-list [moduleId]="subModuleId" [pageId]="pageId" [isExporting]="isExporting" (onChangeExportType)="exportType=$event.exportType" (onChangeReportType)="reportId=$event.reportId" (onClick)="onExportLedger($event)"></app-report-select-list>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="ml-auto mr-3">
+                          <input (keyup)="filterLedgerDayBookReport($event.target.value)" class="form-control" placeholder="Search by Account Head/Voucher No/ Ref No">
+                      </div>
+                  </div>
+                  <div class="data-table m-0 ">
+                      <table class="table mb-0 table-bordered">
+                          <thead>
+                              <tr>
+                                  <th class="tc-80">SL</th>
+                                  <th class="tc-100">Voucher_Date</th>
+                                  <th class="tc-100">Voucher_No</th>
+                                  <th class="tc-100">Ref No</th>
+                                  <th class="tc-200">Account_Head</th>
+                                  <th class="tc-100">Dr.Amount</th>
+                                  <th class="tc-100">Cr.Amount</th>
+                                  <th class="tc-100">Balance</th>
+                                  <th class="tc-80" class="font-weight-normal">
+                                  </th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr *ngIf="filterLedgerDaybookModel.length==0">
+                                  <td colspan="9" class="text-center"><i>No Data found</i></td>
+                              </tr>
+                              <tr *ngFor="let rptlg of filterLedgerDaybookModel;let i=index">
+                                  <td class="tc-80">{{i+1}}</td>
+                                  <td class="tc-100">
+                                      <!-- {{dateFormatter.getYyyymmddToNgbDate(rptlg.vdate).day +'/'+dateFormatter.getYyyymmddToNgbDate(rptlg.vdate).month +'/'+dateFormatter.getYyyymmddToNgbDate(rptlg.vdate).year }} -->
+                                      {{dateFormatter.getYyyymmddToNgbDate(rptlg.vdate).day.toString().padStart(2,'0')+'/'+dateFormatter.getYyyymmddToNgbDate(rptlg.vdate).month.toString().padStart(2,'0') +'/'+dateFormatter.getYyyymmddToNgbDate(rptlg.vdate).year.toString().padStart(4,'0') }}
+
+                                    </td>
+                                  <td class="tc-100">{{rptlg.vno}}</td>
+                                  <td class="tc-100">{{rptlg.refNo}}</td>
+                                  <td class="tc-200">{{rptlg.accountName}}</td>
+                                  <td class="tc-100">{{rptlg.drAmount | number:'2.2-2'}}</td>
+                                  <td class="tc-100">{{rptlg.crAmount | number:'2.2-2'}}</td>
+                                  <td class="tc-100">{{rptlg.amount | number:'2.2-2'}}</td>
+                                  <td class="tc-80"><button (click)="onSelect(rptlg)" class="btn btn-sm btn-success"><span
+                      class="fa fa-eye"></span></button>
+                                  </td>
+                              </tr>
+                              <tr *ngIf="filterLedgerDaybookModel.length>0" class="badge-secondary">
+                                  <td class="tc-80"></td>
+                                  <td class="tc-100"></td>
+                                  <td class="tc-100"></td>
+                                  <td class="tc-100"></td>
+                                  <td class="tc-200 text-right font-weight-bold">Total</td>
+                                  <td class="tc-100 text-right font-weight-bold">{{totalDebit | number:'2.2-2'}}</td>
+                                  <td class="tc-100 text-right font-weight-bold">{{totalCredit | number:'2.2-2'}}</td>
+                                  <td style="width:100px" class="text-right font-weight-bold">{{totalDebit-totalCredit | number:'2.2-2'}}</td>
+                                  <td class="tc-80"></td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </form>
+  </div>
+</div>

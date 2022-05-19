@@ -1,0 +1,45 @@
+.hide {
+    display: none;
+    transition: .3s;
+}
+
+.show {
+    display: inline;
+    transition: .5s;
+}
+
+.data-table {
+    min-width: 100%;
+    max-width: 100%;
+}
+
+::-webkit-scrollbar {
+    height: 5px;
+}
+
+.card,
+.card-body {
+    min-height: 100%;
+}
+
+.advance-search {
+    background-color: rgb(202, 230, 247);
+    z-index: 1;
+    overflow: scroll;
+    max-height: 250px;
+    position: absolute;
+}
+
+.column-list {
+    background-color: rgb(255, 255, 255);
+    z-index: 1;
+    overflow: scroll;
+    max-height: 250px;
+    position: absolute;
+    width: 100%;
+}
+
+table th,
+table td {
+    padding: 3px;
+}

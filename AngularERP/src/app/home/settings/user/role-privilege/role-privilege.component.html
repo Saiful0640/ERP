@@ -1,0 +1,65 @@
+<div class="card">
+  <div class="card-header bg-light text-center"><h4>Role Privilege</h4></div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-7">
+       <form [formGroup]="rolePreviliegeForm" >
+          <div class="form-group row">
+            <label class="col-form-label col-md-4 ">Company</label>
+            <div class="col-md-8">
+             <app-company-select-list></app-company-select-list>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="shortName" class="col-form-label col-sm-4 ">User Role</label>
+            <div class="input-group col-sm-8">
+               <!-- <app-role-select-list [roleID]="f['userRoleID'].value" (onChange)="f['userRoleID'].patchValue($event.roleId)" [modalName]="roleModal" ></app-role-select-list> -->
+            <ng-template #roleModal>
+                <app-role></app-role>
+              </ng-template>
+
+          </div>
+          </div>
+         </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card ">
+  <div class="card-body">
+      <div class="form-group">
+        <div class="table-responsive mb-4">
+          <table class="table table-hover table-striped mb-0">
+            <thead>
+              <tr>
+                <th>Manu Group</th>
+                <th>Manu Name</th>
+                <th>Access</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <!-- <tr >
+                <td colspan="13" class="font-italic text-center">No item available</td>
+              </tr> -->
+              <tr >
+                <td ></td>
+                <td></td>
+                <td><input type="checkbox"></td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  </div>
+  <div class="form-group row text-right">
+    <div class="demo-inline-spacing mt-3 " style="margin:0 auto">
+      <button  type="submit" class="btn btn-success">
+        <span class="fas fa-save"></span> Save</button>
+      <button  type="clear" class="btn btn-info">
+        <span class="fas fa-close"></span> Cancel</button>
+    </div>
+  </div>
+</div>
+

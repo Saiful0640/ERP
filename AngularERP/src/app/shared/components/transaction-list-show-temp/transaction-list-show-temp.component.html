@@ -1,0 +1,76 @@
+<div class="card " style="height: 500px; background: rgb(195, 214, 250);">
+    <div class="card-header">
+        <h4 style="color: rgb(54, 141, 241)" class="text-center">
+           Transaction
+            <span (click)="cancel()" class="text-danger fas fa-window-close float-right"></span>
+        </h4>
+
+    </div>
+
+    <div class="card-body px-2 py-0">
+        <div class="card-body">           
+                <!-- <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-4 text-right">Period</label>
+                            <div class="col-md-8">
+                                <app-date-control [setNgbDate]="fromDate" [showCurrentDate]="false" (getLocalDate)="fromDate.setValue($event);" ></app-date-control>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-3 ">To</label>
+                                    <div class="col-md-9">
+                                        <app-date-control [setNgbDate]="toDate" [showCurrentDate]="false" (getLocalDate)="toDate.setValue($event);" ></app-date-control>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row">
+                                    <div class="col-md-8">
+                                        <button (click)="getTransactionList()" class="btn btn-primary" tabindex="-1">Load</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="input-group row">
+                    <label for="rlno" class="col-md-4 text-right">Search By  Account </label>
+                    <div class="col-md-6">
+                        <input (keyup)="filterAccountChartBasicEntry($event.target.value)" name="accountName" type="text" class="form-control" placeholder=" Search BY  Account">
+                    </div>
+                </div>
+            <div class="card" style="height: 300px;overflow: auto;background: rgb(238, 255, 238);">
+                <table class="table text-center table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Voucher Date</th>
+                            <th>Account Name</th>
+                            <th>Voucher No</th>
+                            <th>Amount</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="filtertransactionListModel.length==0">
+                            <td colspan="6">No Item Available</td>
+                        </tr>
+                        <tr *ngFor="let transList of filtertransactionListModel">
+                            <td>{{this.dateFormatter.getYyyymmddToDate(transList.voucherDate) | date:"dd/MM/yyyy"}}</td>
+                            <td>{{transList.accountName}}</td>
+                            <td>{{transList.formateVoucherNo}}</td>
+                            <td>{{transList.totalAmount | number:'2.2-2'}}</td>
+                            <td>
+                             <button (click)="onSelect(transList)" class="text-white bg-info font-weight-bold">Edit</button>
+                               
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

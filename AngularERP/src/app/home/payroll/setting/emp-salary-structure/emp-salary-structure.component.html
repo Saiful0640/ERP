@@ -1,0 +1,102 @@
+<div class="card md-4">
+    <div class="card-header py-2">
+        <h4 class="text-center mb-0">Salary Structure</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form [formGroup]="formGroup">
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-5 text-right">{{fstlabelName}}</label>
+                        <div class="col-md-3">
+                            <ng-select formControlName="parentID" [items]="parentDetailsItems" bindLabel="detailsCaption" bindValue="id" (change)="onSelectCriteria(f['parentID'].value)" placeholder="--Select--"></ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row" *ngIf="sndlableName!=null">
+                        <label class="col-form-label col-md-5 text-right">{{sndlableName}}</label>
+                        <div class="col-md-3">
+                            <ng-select formControlName="underCriteriaID" [items]="subDetailsItems" bindLabel="detailsCaption" bindValue="id" (change)="onSelectSubCriteria(f['underCriteriaID'].value)" placeholder="--Select--"></ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row" *ngIf="thrdlableName!=null">
+                        <label class="col-form-label col-md-5 text-right">{{thrdlableName}}</label>
+                        <div class="col-md-3">
+                            <ng-select formControlName="detailsID" [items]="superSubDetailsItems" bindLabel="detailsCaption" bindValue="id" placeholder="--Select--"></ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-5 text-right">Gross Salary<i class="text-danger"></i></label>
+                        <div class="col-md-3">
+                            <input formControlName="grossSalary" [ngClass]="{'is-invalid':( f['grossSalary'].touched || f['grossSalary'].dirty || isSubmit) && f['grossSalary'].invalid}" type="text" class="form-control" placeholder="Enter gross salary" (blur)="getAllServiceName()">
+                            <div *ngIf="f['grossSalary'].invalid && ( f['grossSalary'].touched || f['grossSalary'].dirty || isSubmit)" class="text-danger">
+                                <i *ngIf="f['grossSalary'].errors.required" class="text-danger">gross salary is required</i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="ml-auto mr-2">
+                                    <button (click)="reset()" class="btn btn-info">Reset</button>
+                                    <button (click)="saveData()" class="btn btn-success">{{btnStatus}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+                <br>
+
+
+            </div>
+
+            <br>
+            <div class="col-md-6">
+                <div>
+                    <h4 class="text-center mb-0">Add Amount</h4>
+                </div>
+                <div class="data-table mb-0">
+                    <table class="table table-hover table-striped mb-0 table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="tc-100">Salary Head</th>
+                                <th class="tc-100">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let adn of additionArForm.controls;let i=index" [formGroup]="adn">
+                                <td class="tc-100">{{adn.value.serviceName}}</td>
+                                <td class="tc-100">{{adn.value.amount}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div>
+                    <h4 class="text-center mb-0">Deduct Amount</h4>
+                </div>
+                <div class="data-table mb-0">
+                    <table class="table table-hover table-striped mb-0 table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="tc-100">Salary Head</th>
+                                <th class="tc-100">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let dtn of detuctionArForm.controls;let i=index" [formGroup]="dtn">
+                                <td class="tc-100">{{dtn.value.serviceName}}</td>
+                                <td class="tc-100">{{dtn.value.amount}}</td>
+                                <!-- <td><button (click)="getEmpSalaryById(emp.id)" class="btn btn-sm btn-primary"><span class="fas fa-edit"></span></button></td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

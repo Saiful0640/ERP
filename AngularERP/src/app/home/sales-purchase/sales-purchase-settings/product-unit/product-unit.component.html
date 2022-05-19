@@ -1,0 +1,88 @@
+<div class="row">
+    <div *ngIf="pageAuthInfo.createable" class="card col-md-6">
+        <div class=" card-header bg-light text-center py-3">
+            <h4>Add Product Unit</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="unitForm">
+                <div class="form-group row">
+                    <label for="unitId" class=" col-form-label col-md-4 text-right"> <i class="text-danger">*</i>Unit SL#</label>
+                    <div class="col-md-8">
+                        <input formControlName="unitId" id="unitId" class="form-control" [ngClass]="{'is-invalid':(f['unitId'].touched || f['unitId'].dirty || isSubmit) && f['unitId'].invalid}" placeholder="Enter Unit SL No">
+                        <div *ngIf="f['unitId'].invalid && (f['unitId'].touched || f['unitId'].dirty || isSubmit)">
+                            <i *ngIf="f['unitId'].errors.required" class="text-danger">Unit SL# is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="name" class=" col-form-label col-md-4 text-right"> <i class="text-danger">*</i>Unit Name</label>
+                    <div class="col-md-8">
+                        <input formControlName="unitName" id="name" [ngClass]="{'is-invalid':(f['unitName'].touched || f['unitName'].dirty || isSubmit) && f['unitName'].invalid}" class="form-control" placeholder="Enter Unit Name">
+                        <div *ngIf="f['unitName'].invalid && (f['unitName'].touched || f['unitName'].dirty || isSubmit)">
+                            <i *ngIf="f['unitName'].errors.required" class="text-danger">Unit Name is required</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="description" class=" col-form-label col-md-4 text-right">Description</label>
+                    <div class="col-md-8">
+                        <input formControlName="unitDescription" id="description" class="form-control" placeholder="Enter Description">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="status" class=" col-md-4 text-right"></label>
+                    <div class="row col-md-8">
+                        <div class="col-md-8">
+                            <div class="custom-control custom-checkbox  row ">
+                                <input formControlName="isBox" type="checkbox" class="custom-control-input row" id="active" checked>
+                                <label class="custom-control-label" for="active">Is Box</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="demo-inline-spacing center" style="margin: 0 auto;">
+                        <button [ladda]="isSaved" (click)="saveUnit()" class="btn btn-success">{{btnStatus}}</button>
+                        <button (click)="reset()" class="btn btn-secondary">Reset</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card col-md-6">
+    <div class="card-header bg-light text-center py-2">
+        <h4>Product Units</h4>
+    </div>
+<div class="card-body">
+
+        <div class="data-table">
+         <table class="table table-striped table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>#SN</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr >
+              <td colspan="13" class="font-italic text-center">No item available</td>
+            </tr> -->
+                <tr *ngFor="let unit of allUnit; let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{unit.unitName}}</td>
+                    <td>{{unit.unitDescription}}</td>
+                    <td>
+                        <button *ngIf="pageAuthInfo.editable" class="btn btn-primary" (click)="edit(unit)">
+              <span class="fa fa-edit"></span>
+            </button>
+                    </td>
+                </tr>
+            </tbody>
+          </table>
+
+     </div>
+   </div>
+  </div>
+</div>

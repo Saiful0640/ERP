@@ -1,0 +1,123 @@
+<div class="row">
+    <div class="card">
+        <div class=" card-header bg-light text-center">
+            <h4>Leave Entry</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="lventryForm">
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-3 ">Emp Name</label>
+                            <div class="col-md-9">
+                                <app-member-select-list [moduleId]="moduleID" (onChange)="getAllLeaveEntry($event.memberCode);getleaveTypeByMemberCode($event.memberCode);" [memberCode]="formVal.memberCode"></app-member-select-list>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-3 ">Year</label>
+                            <div class="col-md-9">
+                                <ng-select formControlName="yearId" [items]="years" bindLabel="yearName" bindValue="id" (change)="onSelectYear($event)" placeholder="Select Year"></ng-select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-3 ">Application Date</label>
+                            <div class="col-md-9">
+                                <app-date-control [showCurrentDate]="false" [setNgbDate]="f['aDateNgb'].value" (getYyyymmdd)="f['aDate'].setValue($event)"></app-date-control>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-3 ">Leave Catagory</label>
+                            <div class="col-md-9">
+                                <ng-select formControlName="categoryId" [items]="leaveCategories" bindLabel="typeName" bindValue="id" placeholder="Select Leave Catagory"></ng-select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-form-label col-md-3 ">Leave Duration</label>
+                            <div class="col-md-9 row">
+                                <div class="col-md-4">
+                                    <app-date-control [showCurrentDate]="false" [setNgbDate]="f['sDateNgb'].value" (getYyyymmdd)="f['sDate'].setValue($event);dateDiff()"></app-date-control>
+                                </div>
+                                <div class="col-md-4">
+                                    <app-date-control [showCurrentDate]="false" [setNgbDate]="f['eDateNgb'].value" (getYyyymmdd)="f['eDate'].setValue($event);dateDiff()"></app-date-control>
+                                </div>
+                                <div class="col-md-3">
+                                    <input disabled formControlName="duration" type="number" class=" form-control">
+
+                                </div>
+                                <div class=" col-md-1">
+                                    <button *ngIf="enableMinus" (click)="minusDate()"> <span class="fas fa-minus"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-3 ">Leave Description</label>
+                            <div class="col-md-9">
+                                <textarea formControlName="reason" type="text" class=" form-control"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-5 ">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>SN</th>
+                                    <th>Leave Type</th>
+                                    <th>Total Leave</th>
+                                    <th>Enjoy Leave</th>
+                                    <th>Remaining Leave</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of leaveBalence; let i = index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{item.typeName}}</td>
+                                    <td>{{item.days}}</td>
+                                    <td>{{item.enjoy}}</td>
+                                    <td>{{item.leaveBalance}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                        <button (click)="onSubmit()" type="submit" class="btn btn-success">
+              <span class="ion ion-ios-refresh"></span> {{btnStatus}}
+            </button>
+                        <button (click)="reset()" class="btn btn-primary">Reset</button>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>SN</th>
+                                    <th>Leave Catagory</th>
+                                    <th>From Date</th>
+                                    <th>To Date</th>
+                                    <th>Duration</th>
+                                    <th>Leave Reason</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of leaveEntries; let i = index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{item.leaveCategory}}</td>
+                                    <td>{{dateformat.getYyyymmddToDate(item.sDate)| date:'dd MMM yyyy'}}</td>
+                                    <td>{{dateformat.getYyyymmddToDate(item.eDate) | date:'dd MMM yyyy'}}</td>
+                                    <td>{{item.duration}}</td>
+                                    <td>{{item.reason}}</td>
+                                    <td><button (click)="getById(item.id)" class="btn btn-primary"><span class="fas fa-edit"></span></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br />
+            </form>
+        </div>
+    </div>
+</div>

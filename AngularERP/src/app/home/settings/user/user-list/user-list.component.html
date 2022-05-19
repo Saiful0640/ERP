@@ -1,0 +1,67 @@
+<div class="card mb-4">
+  <div class="card-header py-2">
+    <h4 class="text-center mb-0">User List</h4>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6 ml-auto mr-2">
+        <div class="input-group">
+          <input type="text" (keyup)="onSearch($event.target.value)" class="form-control" placeholder="Search by username,branch name, company name,user type">
+          <div class="input-group-append">
+            <button class="btn btn-sm btn-primary"><span class="fa fa-search"></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="data-table">
+      <table class="table table-bordered mb-0">
+        <thead>
+          <tr>
+            <th>#SN</th>
+            <th>User_Name</th>
+            <th *ngIf="isSuperAdmin">Password</th>
+            <th>ClientName</th>
+            <th>Company</th>
+            <th>Branch</th>
+            <th>User_Type</th>
+            <th>CreatedBy</th>
+            <th>Created_Date</th>
+            <th>Last_Modified</th>
+            <th>Modified_By</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="filteredUsers.length==0 && !isLoading">
+            <td colspan="12" class="font-italic text-center">No item available</td>
+          </tr>
+          <tr *ngIf="filteredUsers.length==0 && isLoading">
+            <td colspan="12" class="font-italic text-center">
+              <img src="../../../../../assets//img/loading.gif" width="30px" height="30px"/> Loading...
+            </td>
+          </tr>
+          <tr *ngFor="let user of filteredUsers; let i=index;"  [ngClass]="{'active-row':user.isActive,'disabled-row':!user.isActive, 'font-weight-bold':user.userTypeId==1}">
+            <td>{{i+1}}</td>
+            <td>{{user.userName}}</td>
+            <td *ngIf="isSuperAdmin">{{user.password}}</td>
+            <td>{{user.clientName}}</td>
+            <td>{{user.companyName}}</td>
+            <td>{{user.branchName}}</td>
+            <td>{{user.userTypeName}}</td>
+            <td>{{user.creatorName}}</td>
+            <td>{{user.createdDate | date:'dd/MM/yyyy'}}</td>
+            <td>{{user.modifiedDate | date:'dd/MM/yyyy'}}</td>
+            <td>{{user.modifierName}}</td>
+            <td>
+              <span *ngIf="user.isActive" class="badge badge-success badge-pill">active</span>
+              <span *ngIf="!user.isActive" class="badge badge-danger badge-pill">inactive</span>
+            </td>
+            <td><a [routerLink]="['/settings/user/new-user',user.userId]"><span
+                  class="fa fa-edit"></span></a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

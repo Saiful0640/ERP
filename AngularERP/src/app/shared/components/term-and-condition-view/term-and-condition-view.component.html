@@ -1,0 +1,29 @@
+<div class="card" style="height: 300px;overflow: auto;background: rgb(238, 255, 238);">
+  <table class="table text-center table-bordered">
+      <thead>
+          <tr>
+              <th>#SL.</th>
+              <th>Warranty</th>
+              <th>Description</th>
+              <th><input type="checkbox" name="isAllChecked" [checked]="1" (change)="oncheckedall($event.target.checked)"></th>
+
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let term of termsNDConditionArray.controls; let i=index" [formGroup]="term">
+              <td>{{i+1}}</td>
+              <td>{{term.value.warranty}}</td>
+              <td>{{term.value.description}}</td>
+
+              <td>
+                <input type="checkbox" name="isChecked" formControlName="isChecked" [checked]="term.value.isChecked" (change)="getOnSelectedChecked($event.target.checked,i)">
+
+              </td>
+          </tr>
+      </tbody>
+  </table>
+  <div class="row demo-inline-spacing pull-right mt-2" style="margin: 0 auto;">
+    <button (click)="onSelect($event)" class="btn btn-success mx-2" type="button">Save</button>
+</div>
+</div>
+

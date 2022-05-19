@@ -1,0 +1,572 @@
+<form [formGroup]="invoiceForm">
+  <div class="card">
+    <div class="card-header py-1 row mt-2">
+      <div class="col-md-2 col-sm-12">
+        <h3 class="mb-0">Invoice</h3>
+      </div>
+      <div class="col-md-2 col-sm-6 mt-2 ml-2">
+        <div class="form-group row">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-5 row">
+                <input formControlName="invoiceType" (change)="onSaleInvoiceTypeChange()" type="radio"
+                  class="custom-control mx-2" [value]="7" id="sale" /><label for="sale">
+                  <h5>Sale</h5>
+                </label>
+              </div>
+              <div class="col-7 row">
+                <input formControlName="invoiceType" (change)="onPurchaseInvoiceTypeChange()" type="radio"
+                  class="custom-control mx-2" [value]="10" id="purchase" /><label for="purchase">
+                  <h5>Purchase</h5>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6 form-group row">
+        <label class="col-5 text-right">Invoice No.</label>
+        <div class="col-7">
+          <input formControlName="voucherNoView" type="text" placeholder="Invoice No" min="0" name="invoice_number"
+            class="form-control" />
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-12 form-group row">
+        <label class="col-5 text-right">Invoice Date</label>
+        <div class="col-7">
+          <app-date-control [setNgbDate]="formVal.invoiceDateNgb"
+            (getYyyymmdd)="invoiceForm.patchValue({ invoiceDate: $event })"></app-date-control>
+        </div>
+      </div>
+      <div class="col-md-2 col-sm-12 form-group row">
+        <label class="col-5 text-right">Ref. No</label>
+        <div class="col-7">
+          <input formControlName="refNo" type="text" placeholder="Ref. No" class="form-control" />
+        </div>
+      </div>
+    </div>
+    <div class="card-body row py-0">
+      <div class="col-lg-11 m-auto border border-2 content">
+        <div class="row section-1 py-0 pt-3">
+          <div class="col-12 position-relative mb-3 px-0">
+            <hr class="py-0 my-0 hr-line" />
+            <h5 class="
+                font-weight-bold
+                section-title
+                text-center
+                position-absolute
+                mb-0
+              ">
+              <span class="badge badge-pill badge-primary px-3"> Bill To</span>
+            </h5>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label for="billerName" class="col-3">Party Name</label>
+              <div class="col-9">
+                <app-invoice-customer-select-list [elementId]="'ngSelectParty'"
+                  [IsDisabled]="restrictForEdit || isLoadFromOrder" [IsInvalid]="invoiceForm.invalid && !isSubmitted"
+                  [customerId]="formVal.partyId" (onChange)="onSelectCustomer($event)"
+                  (onSelectAddress)="selectAddress($event)">
+                </app-invoice-customer-select-list>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="billAddress" class="col-3">Bill To</label>
+              <div class="col-6">
+                <input type="text" formControlName="billerName" class="form-control" placeholder="Bill To"
+                  id="billTo" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="billAddress" class="col-3">Address</label>
+              <div class="col-9">
+                <textarea formControlName="billerAddress" class="form-control" rows="1"
+                  placeholder="Enter Biller Address" id="billAddress"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label for="country" class="col-3">Country</label>
+              <div class="col-9">
+                <input formControlName="billerCountry" type="text" class="form-control" placeholder="Contry Name"
+                  id="country" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="email" class="col-3">Email</label>
+              <div class="col-9">
+                <input formControlName="billerEmail" type="text" class="form-control" placeholder="Enter Email Address"
+                  id="email" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="billContactNo" class="col-3">Contact No.</label>
+              <div class="col-9">
+                <input formControlName="billerContactNo" type="text" class="form-control" placeholder="Contact Number"
+                  id="billContactNo" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 position-relative mb-3 px-0">
+          <hr class="py-0 my-0 hr-line" />
+          <h5 class="
+              font-weight-bold
+              section-title
+              text-center
+              position-absolute
+              mb-0
+            ">
+            <span class="badge badge-pill badge-primary px-3"></span>
+          </h5>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label for="narration" class="col-3">Narration</label>
+              <div class="col-9">
+                <textarea formControlName="narration" type="text" rows="1" placeholder="Narration" class="form-control"
+                  id="narration"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label for="currencyType" class="col-4">Currency</label>
+                  <div class="col-8">
+                    <ng-select [items]="currencyList" formControlName="currencyType" bindLabel="currencySign"
+                      bindValue="idenNo" placeholder="select Currency"></ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label for="currencyType" class="col-4">Job No</label>
+                  <div class="col-8">
+                    <input formControlName="jobNo" type="number" class="form-control" placeholder="Job No" id="jobNo" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row section-3">
+          <div class="col-12 position-relative mb-3 mt-2 px-0">
+            <hr class="py-0 my-0 hr-line" />
+            <h5 class="
+                font-weight-bold
+                section-title
+                text-center
+                position-absolute
+                mb-0
+              ">
+              <span class="badge badge-pill badge-primary px-3">Product</span>
+            </h5>
+          </div>
+        </div>
+        <div class="row section-3 py-0">
+          <div class="col-12 col-md-4">
+            <div class="form-group row">
+              <label for="product" class="col-md-3">Product</label>
+              <div class="col-md-9">
+                <app-invoice-product-select-list [billNatureId]="billNatureId" [productId]="product.productId"
+                  (onChange)="onChangeProduct($event)" [width]="'240px'" [productTabId]="'product'">
+                </app-invoice-product-select-list>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-group row">
+              <label for="productDesc" class="col-md-2">Description</label>
+              <div class="col-md-10">
+                <textarea formControlName="description" class="form-control" placeholder="Product Description" rows="1"
+                  id="productDesc" disabled></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-2">
+            <div class="form-group row">
+              <label for="expiredDate" class="col-12 col-md-4 pr-0">Exp</label>
+              <div class="col-8">
+                <app-date-control [setNgbDate]="formVal.expDateNgb"
+                  (getYyyymmdd)="invoiceForm.patchValue({ expDate: $event })"></app-date-control>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row section-3 py-0">
+          <div class="col-4 col-md-2">
+            <div class="form-group row">
+              <label for="qty" class="col-4 col-md-6">Qty</label>
+              <div class="col-md-6">
+                <input (keyup)="calculation()" formControlName="qty" type="number" placeholder="Qty"
+                  class="form-control" id="qty" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4 col-md-2">
+            <div class="form-group row">
+              <label for="price" class="col-md-4">Price</label>
+              <div class="col-md-8">
+                <input formControlName="costPrice" (keyup)="calculation()" type="number" placeholder="Price"
+                  class="form-control" id="price" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4 col-md-2">
+            <div class="form-group row">
+              <label for="discount" class="col-md-6">Discount(%)</label>
+              <div class="col-md-6">
+                <input (keyup)="calculation()" formControlName="discountRate" type="number" placeholder="Discount Rate"
+                  class="form-control" id="discount" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4 col-md-2">
+            <div class="form-group row">
+              <label for="vat" class="col-12 col-md-4">Vat(%)</label>
+              <div class="col-12 col-md-8">
+                <input (keyup)="calculation()" formControlName="vatRate" type="number" class="form-control"
+                  placeholder="Vat" id="vat" />
+              </div>
+            </div>
+          </div>
+          <div class="col-4 col-md-2">
+            <div class="form-group row">
+              <label for="tax" class="col-12 col-md-4">Tax(%)</label>
+              <div class="col-12 col-md-8">
+                <input (keyup)="calculation()" formControlName="taxRate" type="number" class="form-control"
+                  placeholder="Tax" />
+              </div>
+            </div>
+          </div>
+          <div class="col-4 col-md-2">
+            <div class="form-group row">
+              <label for="purchaseSLNO" class="col-12 col-md-4">SL No.</label>
+              <div class="col-12 col-md-8">
+                <input formControlName="purchaseSLNO" type="number" placeholder="Serial No." class="form-control" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="mt-0 mb-1" />
+        <div class="row section-4 py-0">
+          <div class="col-6 col-md-4">
+            <div class="form-group row">
+              <label for="total" class="col-5 col-md-3">Total Amt</label>
+              <div class="col-7 col-md-9">
+                <input formControlName="totalAmount" type="number" placeholder="Total Amt" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4">
+            <div class="form-group row">
+              <label for="netamt" class="col-6 col-md-3">Net Amt</label>
+              <div class="col-6 col-md-9">
+                <input formControlName="netAmount" type="number" placeholder="Net Amt" class="form-control" />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-3 row">
+            <div class="ml-auto">
+              <button type="button" class="btn btn-success">+</button>
+              <button type="button" (click)="addProduct()" class="btn btn-primary">
+                Add Product
+              </button>
+              <button type="button" (click)="clear()" class="btn btn-info">
+                Clear
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row section-5">
+          <div class="col-12 position-relative mb-4 mt-2 px-0">
+            <hr class="py-0 my-0 hr-line" />
+            <h5 class="
+                font-weight-bold
+                section-title
+                text-center
+                position-absolute
+                mb-0
+              ">
+              <span class="badge badge-pill badge-primary px-3">Accounts & Payment</span>
+            </h5>
+          </div>
+          <div class="col-md col-12">
+            <div *ngIf="productsFormArr.length > 0" class="data-table" style="max-height: 150px">
+              <table class="table table-bordered mb-0">
+                <thead>
+                  <tr>
+                    <th>#SN</th>
+                    <th>Product</th>
+                    <th class="text-right">Qty</th>
+                    <th class="text-right">TotalAmount</th>
+                    <th class="text-right">NetAmount</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="
+                      let addedProduct of productsFormArr.controls;
+                      let i = index
+                    " [formGroup]="addedProduct">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ addedProduct.value.productDescription }}</td>
+                    <td class="text-right">
+                      {{ addedProduct.value.uniqueQty }}
+                    </td>
+                    <td class="text-right">
+                      {{ addedProduct.value.total | number: "1.2-2" }}
+                    </td>
+                    <td class="text-right">
+                      {{ addedProduct.value.netAmount | number: "1.2-2" }}
+                    </td>
+                    <td>
+                      <span (click)="editProduct(addedProduct.value.productId, i)"
+                        class="fa fa-edit text-success"></span>
+                      <span (click)="remove(i)" class="fa fa-times text-danger"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-right"></td>
+                    <td class="text-right">Total</td>
+                    <td class="text-right">{{ finalTotalQty }}</td>
+                    <td class="text-right">{{ finalTotalAmount }}</td>
+                    <td class="text-right">{{ finalNetAmount }}</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="row">
+              <div class="
+                  col-md col-10
+                  additional-cost
+                  custom-border
+                  ml-3
+                  position-relative
+                  pt-2
+                  mt-2
+                ">
+                <h5 class="text-center additional-title position-absolute">
+                  <div class="px-2">Additional Cost</div>
+                </h5>
+
+                <div class="bg-white border" style="max-height: 300px">
+                  <table class="table table-bordered mb-0" style="height: 100px">
+                    <tbody>
+                      <tr *ngFor="
+                          let billing of BillingAccountsForm.controls;
+                          let i = index
+                        " [formGroup]="billing" [id]="'tr' + i">
+                        <td style="width: 10%" class="text-center">
+                          {{ i + 1 }}
+                        </td>
+                        <td style="width: 50%">
+                          <!-- <app-billing-account-select-list [billType]=1 (onChange)="getBillingAccounts($event,i)"></app-billing-account-select-list> -->
+                          {{ billing.value.accountName }}
+                        </td>
+                        <td style="width: 10%; text-align: center">
+                          <!-- <input type="text" formControlName="addDeduct" class=" form-control"> -->
+                          {{ billing.value.addDeduct }}
+                        </td>
+                        <td style="width: 30%">
+                          <input (keyup)="costAddDeduct()" type="number" formControlName="amount"
+                            class="form-control text-right" [id]="'amount' + i" />
+                        </td>
+                        <!-- <td>
+                                                    <button style="margin-top: 5px;" tabindex="{{i+1}}" (click)="addRow()" class="py-0 px-2 btn btn-sm btn-success">
+                                                    <span class="py-0 px-auto fa fa-plus"></span>
+                                                  </button>
+                                                </td> -->
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="form-group row">
+                  <label class="col-form-label col-md-4">Terms And Condition</label>
+                  <div class="col-md-8">
+                    <button (click)="termAndConditionLoad(termNCondition)" class="btn btn-success">
+                      <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                    <!-- <input  type="number" class="form-control" placeholder="Terms And Condition"> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="
+              col-md col-10
+              custom-border
+              ml-3
+              pt-2
+              mx-1
+              py-3
+              position-relative
+            ">
+            <h5 class="text-center position-absolute payment-title">
+              <div class="px-2">Payment</div>
+            </h5>
+            <div class="form-group row">
+              <label class="col-form-label col-md-4">Cost</label>
+              <div class="col-md-8">
+                <input disabled formControlName="netPayable" type="number" class="form-control" placeholder="0.00" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-form-label col-md-4">Net Payable</label>
+              <div class="col-md-8">
+                <input disabled formControlName="totalCost" type="number" class="form-control" placeholder="0.00" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-form-label col-md-4">Paid Amount</label>
+              <div class="col-md-8">
+                <input formControlName="paidAmount" (keyup)="onDue()" (change)="payModeStatus()" type="number"
+                  class="form-control" placeholder="0.00" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-form-label col-md-4">Sale By</label>
+              <div class="col-md-8">
+                <app-sales-person-select-list [salesPersonId]="f['salesBy'].value" (onChange)="
+                    invoiceForm.patchValue({ salesBy: $event.empCode }); onDue()
+                  "></app-sales-person-select-list>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-form-label col-md-4">Pay Type</label>
+              <div class="col-md-8">
+                <ng-select [items]="moneyReceipts" formControlName="paymentType" bindLabel="receivedType" bindValue="id"
+                  placeholder="Money Receipts" [id]="'ngSelectPayType'"></ng-select>
+              </div>
+            </div>
+            <!-- For Cheque payment start-->
+            <div *ngIf="this.f.paymentType.value == 6" class="card payment-info">
+              <div class="card-body py-1">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-5">Bank</label>
+                  <div class="col-md-7">
+                    <input formControlName="bankBranch" type="text" class="form-control" placeholder="Bank" />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-form-label col-md-5">Cheque No</label>
+                  <div class="col-md-7">
+                    <input formControlName="chequeNo" type="number" class="form-control"
+                      placeholder="XXX XXXXX XXXXX" />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-form-label col-md-5">Cheque Date</label>
+                  <div class="col-md-7">
+                    <app-date-control [setNgbDate]="formVal.chequeDateNgb" (getYyyymmdd)="
+                        invoiceForm.patchValue({ chequeDate: $event })
+                      "></app-date-control>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- For Cheque payment end-->
+            <!-- For Card payment start-->
+            <div *ngIf="this.f.paymentType.value == 27" class="card payment-info">
+              <div class="card-body py-1">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-5">Bank</label>
+                  <div class="col-md-7">
+                    <input formControlName="bankBranch" type="text" class="form-control" placeholder="Bank" />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-form-label col-md-5">Card No</label>
+                  <div class="col-md-7">
+                    <input formControlName="chequeNo" type="number" class="form-control"
+                      placeholder="XXX XXXXX XXXXX" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- For Card payment end-->
+            <!-- For mobile banking payment start-->
+            <div *ngIf="this.f.paymentType.value == 4" class="card payment-info">
+              <div class="card-body py-1">
+                <div class="form-group row mb-2">
+                  <label class="col-form-label col-md-5">Type</label>
+                  <div class="col-md-7">
+                    <ng-select formControlName="bankBranch" [items]="mobileBankTypes" bindLabel="name" bindValue="name"
+                      type="text" placeholder="Select Type">
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-form-label col-md-5">Mobile No</label>
+                  <div class="col-md-7">
+                    <input formControlName="chequeNo" type="number" class="form-control"
+                      placeholder="+880 1XXXXXXXXX" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- For mobile banking payment end-->
+            <!-- For Due payment start-->
+            <div *ngIf="this.f.paymentType.value == 0" class="card payment-info">
+              <div class="card-body py-1">
+                <div class="form-group row">
+                  <label class="col-form-label col-md-5">Payment Date</label>
+                  <div class="col-md-7">
+                    <app-date-control [setNgbDate]="formVal.chequeDateNgb" (getYyyymmdd)="
+                        invoiceForm.patchValue({ chequeDate: $event })
+                      "></app-date-control>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row section-6">
+          <div class="col-md-10 m-auto row">
+            <!-- <div class="col-md-3 text-success text-big">
+                            <label>Net Payable: </label> &#2547; {{invoiceForm.value.totalCost | number:'2.2-2' }}
+                        </div> -->
+            <div class="col-md-3 text-danger text-big">
+              <label>Due: </label> &#2547; {{ this.formVal.due }}
+            </div>
+            <div class="col-md-3">
+              <button (click)="saveInvoice()" class="btn btn-success">
+                Save
+              </button>
+              <button (click)="reset()" class="btn btn-info">Reset</button>
+              <button (click)="
+                  modalService.open(searchInvoice, {
+                    size: 'lg',
+                    windowClass: 'modal-xl'
+                  })
+                " class="btn btn-primary">
+                Show
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<ng-template #termNCondition>
+  <app-term-and-condition-view (selectEvent)="getTermAndCondition($event)"></app-term-and-condition-view>
+</ng-template>
+<ng-template #searchInvoice>
+  <app-search-invoice [invoiceType]="invoiceTypeKey" [searchText]="formVal.partyName" (onSelect)="edit($event)"
+    [childModuleId]="childModuleId">
+  </app-search-invoice>
+</ng-template>

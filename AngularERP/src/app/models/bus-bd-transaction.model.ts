@@ -1,0 +1,42 @@
+import { TransDetailsModel } from "./accounting/transaction/trans-details-model";
+import { TransMasterModel } from "./accounting/transaction/trans-master-model";
+
+export class BusBdTransaction {
+    id  : number;
+	transId  : number;
+	partyId : number;
+	voucherNo  : number;
+	voucherDate   : string;
+	voucherType   : string;
+	refAccountId  : number;
+	transType  : number;
+	totalAmount  : number;
+	refNo  : string;
+	narration  : string;
+	bankBranch  : string;
+	chequeNo  : string;
+	chequeDate  : string;
+	userId  : number;
+	netPayable  : number;
+	branchId  : number;
+	compId  : number;
+	conRate  : number;
+	yearID : number;
+    lcType:number;
+	transDetails:TransDetailsModel[];
+	transMaster:TransMasterModel[];
+    regAndSchedules :any[];
+	accountName:string;
+	formatVoucherNo:string;
+	financialYearID:number;
+	debit: number;
+	credit: number;
+	balance:number;
+	moduleID:number;
+	isFc:number;
+	isCostCenter:number; 
+    isSubledger:number;
+    isBillByBill:number;
+    isCostCeneter:number;
+   approveStatus:number;
+}

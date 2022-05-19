@@ -1,0 +1,61 @@
+<div class="card-body">
+  <div class="card">
+    <h4 class="card-header text-center bg-light">
+    {{title}} Individual Bill Process
+    </h4>
+    <div class="card-body">
+      <div class="col-md-6 center">
+        <form [formGroup]="individualBillProcForm">
+       <!-- <div class="form-group row" *ngIf="processType==2">
+          <label class="col-form-label col-sm-3 ">Service Head
+          </label>
+          <div class="col-sm-9">
+            <ng-select formControlName="serviceHead" [items]="servicesByType" bindLabel="serviceName" bindValue="id" placeholder="Select "></ng-select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-sm-3 ">Period Name
+          </label>
+          <div class="col-sm-9">
+            <app-period-select-list [periodId]="f['periodID'].value" [moduleID]="moduleID" (onChange)="onSelectPeriod($event)"></app-period-select-list>
+          </div>
+        </div> -->
+        <div class="form-group row" >
+          <label class="col-form-label col-sm-3 ">Start Date
+          </label>
+          <div class="col-sm-9">
+           <app-date-control></app-date-control>
+          </div>
+        </div>
+        <div class="form-group row" >
+          <label class="col-form-label col-sm-3 ">End Date
+          </label>
+          <div class="col-sm-9">
+            <app-date-control></app-date-control>
+          </div>
+        </div>
+        <div class="form-group row" >
+          <label class="col-form-label col-sm-3 ">Member
+          </label>
+          <div class="col-sm-9">
+          <app-member-select-list></app-member-select-list>
+          </div>
+        </div>
+        <div class="row">
+          <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+            <button (click)="reset()" type="clear" class="btn btn-info">
+              <span class="ion ion-ios-refresh"></span> Referesh
+            </button>
+            <button (click)="processBill()" class="btn btn-success"> Process
+            </button>
+            <!-- <button (click)="createNewItem(billList)" class="btn btn-info float-right mx-1">View</button> -->
+          </div>
+        </div>
+      </form>
+        </div>
+    </div>
+  </div>
+</div>
+<ng-template #billList tabindex="-1">
+  <app-bill-process-view></app-bill-process-view>
+  </ng-template>

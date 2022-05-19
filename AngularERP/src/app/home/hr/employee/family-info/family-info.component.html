@@ -1,0 +1,190 @@
+<div class="card">
+    <h4 class="card-header text-center bg-light">
+        Employee Family Info
+    </h4>
+    <div class="card-body">
+        <form [formGroup]="familyInfoForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 text-sm-right">Employee Id</label>
+                        <div class="col-sm-8">
+                            <app-member-select-list [moduleId]="moduleId" (onChange)="getFamilyMemberByMemberCode($event)" [memberCode]="formVal.memberCode"></app-member-select-list>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 text-sm-right">Member's Name </label>
+                        <div class="col-sm-6">
+                            <input formControlName="fMemberName" type="text" class="form-control" placeholder="Member's Name" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 text-sm-right">Relationship </label>
+                        <div class="col-sm-6">
+                            <!-- <app-basic-item-select-list [tableName]="relationshipTable" [basicItemId]="f['relationship'].value" (onChange)="f['relationship'].setValue($event.id)"></app-basic-item-select-list> -->
+                            <ng-select formControlName="relationship" [items]="relationships" bindLabel="description" bindValue="id"  placeholder="Select Relationship"></ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 text-sm-right">Date Of Birth </label>
+                        <div class="col-sm-6">
+                            <app-date-control [showCurrentDate]="false" [setNgbDate]="f['ngbDateOfBirth'].value" (getYyyymmdd)="f['dateOfBirth'].setValue($event)"></app-date-control>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 text-sm-right">Place Of Birth </label>
+                        <div class="col-sm-6">
+                            <input formControlName="placeOfBirth" type="text" class="form-control" placeholder="Place Of Birth">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 text-sm-right">Gender</label>
+                        <div class="col-sm-6">
+                            <ng-select formControlName="genderId" [items]="genders" bindLabel="name" bindValue="id" placeholder="Select Gender">
+
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 text-sm-right">Blood Group </label>
+                        <div class="col-sm-6">
+                            <ng-select formControlName="bloodGroupId" [items]="bloodGroups" bindLabel="name" bindValue="id" placeholder="Select Blood Group">
+
+                            </ng-select>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 text-sm-right">Marital Status</label>
+                        <div class="col-sm-6">
+                            <!-- <app-basic-item-select-list [tableName]="maritialStatusTable" [basicItemId]="f['maritialStatusID'].value" (onChange)="f['maritialStatusID'].setValue($event.id)"></app-basic-item-select-list> -->
+                            <ng-select formControlName="maritialStatusId" [items]="maritialStatuses" bindLabel="name" bindValue="id" placeholder="Select Maritial Status">
+
+                            </ng-select>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 text-sm-right">Occupation</label>
+                        <div class="col-sm-6">
+                            <ng-select formControlName="occupationId" [items]="occupations" bindLabel="description" bindValue="id" placeholder="Select Occupation"></ng-select>
+                        </div>
+
+                    </div>
+                    <!-- <div class="form-group row">
+                        <label class="col-form-label col-sm-3 text-sm-right">Nationality</label>
+                        <div class="col-sm-6">
+                            <ng-select formControlName="nationalityId" [items]="nationalities" bindLabel="description" bindValue="id" placeholder="Select Nationality">
+
+                            </ng-select>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 text-sm-right">National Id </label>
+                        <div class="col-sm-6">
+                            <input formControlName="nationalityId" id="" type="text" class="form-control" placeholder="National Id">
+                        </div>
+                    </div> 
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 text-sm-right">Passport No
+        </label>
+                        <div class="col-sm-6">
+                            <input formControlName="passportNo" type="text" class="form-control" placeholder="Passport No">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-3 text-sm-right">Picture
+            </label>
+                        <div class="col-sm-6">
+                            <app-image-control [fieldId]="'pictureFileName'" (selectedFile)="f['picture'].setValue($event)" [previewImg]="formVal.picture"></app-image-control>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 text-sm-right">Contact No
+            </label>
+                        <div class="col-sm-6">
+                            <input formControlName="mobileNo" type="text" class="form-control" placeholder="Contact No">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 text-sm-right">Email Address</label>
+                        <div class="col-sm-6">
+                            <input formControlName="email" type="text" class="form-control" placeholder="Email Address">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 text-sm-right">Is Nominee
+
+            </label>
+                        <div class="col-sm-6">
+                            <select formControlName="isNominee" placeholder="Select Nominee" class="custom-select ">
+                              <option value=-1>---Select---</option>
+                              <option value=0>No</option>
+                              <option value=1>Yes</option>
+              </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-3 text-sm-right">Percent(%)
+
+            </label>
+                        <div class="col-sm-4">
+                            <input formControlName="percentage" type="number" class="form-control" min="0" placeholder="0.00%" required>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="demo-inline-spacing mt-3" style="margin:0 auto">
+                <button (click)="reset()" type="clear" class="btn btn-info">
+            <span class="ion ion-ios-refresh"></span> Reset
+          </button>
+                <button (click)="onSubmit()" class="btn btn-success">{{btnStatus}}
+          </button>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Member's Name</th>
+                        <th>Percentage</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let member of familyMembers; let i=index">
+                        <td>{{i+1}}</td>
+                        <td>{{member.fMemberName}}</td>
+                        <td>{{member.percentage}}</td>
+                        <td class="demo-inline-spacing">
+                            <button (click)="getById(member.id)" class="btn btn-info btn-sm"><span class="fas fa-edit"></span></button>
+                            <!-- <button (click)="delete(member.id, deleteModal)" class="btn btn-danger btn-sm"><span class="fas fa-trash"></span></button> -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Delete Confirmation Modal -->
+<ng-template #deleteModal>
+    <div class="modal-header bg-warning">
+        <h4>Confirmation</h4>
+    </div>
+    <div class="modal-body">
+        <p class="text-danger">Are you sure want to remove this member?</p>
+    </div>
+    <div class="modal-footer">
+        <button (click)="cancel()" class="btn btn-secondary">Cancel</button>
+        <button (click)="confirmRemoveFamilyMember()" class="btn btn-danger">Confirm</button>
+    </div>
+</ng-template>

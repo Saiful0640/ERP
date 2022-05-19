@@ -1,0 +1,57 @@
+<div class="card " style="height: 500px;background: rgb(173, 198, 243);">
+  <div class="card-header">
+    <h4 style="color: rgb(54, 141, 241)" class="text-center">
+       List
+      <span (click)="cancel()" class="text-danger fas fa-window-close float-right"></span>
+    </h4>
+  </div>
+  <div class="card-body p-0" >  
+    <div class="input-group row">
+      <label for="itemName" class="col-md-4 text-right font-weight-bold">Search By  </label>
+      <div class="col-md-6">
+      <input
+      [(ngModel)]="discountSearch.itemName"
+      (keyup)="filterCommercialBasicEntryList(discountSearch.itemName)"
+      name="itemName"
+      type="text"
+      class="form-control"
+    placeholder=" Search   ">
+  </div>
+    </div>
+    <div class="card">
+  <!-- <div class="card-body p-0">
+    <div class="data-table m-0" style="min-height: 250px; background: #efe;"> -->
+      <table class="table table-bordered text-center">
+        <thead>
+          <tr >
+            <th style="width: 5%;">SL</th>
+            <th style="width: 20%;">Category Name</th>
+            <th style="width: 30%;">Product Name</th> 
+            <th style="width: 30%;">Discount Type</th>   
+            <th style="width: 30%;">Discount Rate</th>   
+            <th style="width: 30%;">Depo Discount </th>   
+            <th style="width: 5%;"></th>                  
+          </tr>
+        </thead>
+        <tbody>
+          <tr  *ngFor="let disSet of filterDiscountSettingList;let i=index"> 
+              <td style="width: 5%;">{{i+1}}</td>
+              <td style="width: 20%;">{{disSet.categoryName}}</td>  
+              <td style="width: 30%;" >{{disSet.itemName}}</td> 
+              <td style="width: 30%;">{{disSet.discountTypeName}}</td>  
+             <td style="width: 30%;">{{disSet.discountRate}}</td>   
+             <td style="width: 30%;">{{disSet.discountRate}}</td>   
+            
+             <td style="width: 5%;">
+              <button (click)="onSelect(disSet)" class="btn btn-sm btn-success" tabindex="-1"><span class="fas fa-edit"></span></button>
+            </td>
+          </tr>
+        </tbody>                     
+      </table>
+</div>
+</div>
+</div>
+
+
+
+
