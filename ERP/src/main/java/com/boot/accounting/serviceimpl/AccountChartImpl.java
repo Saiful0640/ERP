@@ -16,52 +16,49 @@ import com.boot.accounting.repo.CurrencyInfoRepo;
 import com.boot.accounting.service.AccountChartService;
 @Service
 public class AccountChartImpl implements AccountChartService {
+
 	@Autowired
-	AccountChartRepo accountchartrepo;
+	private AccountChartRepo accountChartRepo;
 	@Autowired
-	BranchRepo branchrepo;
+	private BranchRepo branchRepo;
 	@Autowired
-	AccountGroupTypeRepo accountgrouptyperepo;
+	private AccountGroupTypeRepo accountGroupTypeRepo;
 	@Autowired
-	CurrencyInfoRepo currencyinforepo;
-	
-	public boolean saveAccountChart(AccountChart accountchart) {
-		 accountchart = accountchartrepo.save(accountchart);
-		boolean isSuccess= accountchart.getId()>1;
-		 return isSuccess;
+	private CurrencyInfoRepo currencyInfoRepo;
+
+	@Override
+	public AccountChart saveAccountChart(AccountChart accountChart) {
+		return accountChartRepo.save(accountChart);
 	}
 
-	
-	public boolean updateAccountChart(AccountChart accountchart) {
-		accountchartrepo.save(accountchart);
-		return true;
+	@Override
+	public AccountChart updateAccountChart(AccountChart accountChart) {
+		return accountChartRepo.save(accountChart);
 	}
 
-	
+	@Override
 	public boolean deleteByIdAccountChart(Long id) {
-		accountchartrepo.deleteById(id);
+		accountChartRepo.deleteById(id);
 		return true;
 	}
 
-	
+	@Override
 	public List<AccountChart> getAllAccountChart() {
-		
-		return accountchartrepo.findAll();
+		return accountChartRepo.findAll();
 	}
 
-	
+	@Override
 	public List<Branch> getAllBranch() {
-		return branchrepo.findAll();
+		return branchRepo.findAll();
 	}
 
-	
+	@Override
 	public List<AccountGroupType> getAllAccountGroupType() {
-		return accountgrouptyperepo.findAll();
+		return accountGroupTypeRepo.findAll();
 	}
 
+	@Override
 	public List<CurrencyInfo> getAllCurrency() {
-		
-		return currencyinforepo.findAll();
+		return currencyInfoRepo.findAll();
 	}
-
 }
