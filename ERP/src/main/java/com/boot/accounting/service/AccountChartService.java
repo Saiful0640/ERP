@@ -8,8 +8,8 @@ import com.boot.accounting.model.Branch;
 import com.boot.accounting.model.CurrencyInfo;
 
 public interface AccountChartService {
-	boolean saveAccountChart(AccountChart accountchart);
-	boolean updateAccountChart(AccountChart accountchart);
+	AccountChart saveAccountChart(AccountChart accountChart);
+	AccountChart updateAccountChart(AccountChart accountChart);
 	boolean deleteByIdAccountChart(Long id);
 	List<AccountChart> getAllAccountChart();
 	List<Branch> getAllBranch();
